@@ -1,12 +1,12 @@
 import { createContext } from "react";
 
 
-export type RevalidationContext = {
+export type IRevalidationContext = {
     revalidated: number,
     revalidate: () => any
 };
 
-export const revalidationContext = createContext<RevalidationContext>({
+export const RevalidationContext = createContext<IRevalidationContext>({
     revalidated: 0,
     revalidate: () => {}
 });

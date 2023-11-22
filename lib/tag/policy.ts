@@ -1,4 +1,5 @@
-import { ResourceActions, ResourcePolicy } from "../resource/policy";
+import { ResourcePolicy } from "../resource/policy";
+import { ResourceActions } from "../resource/types";
 import { Tag } from "./types";
 
 

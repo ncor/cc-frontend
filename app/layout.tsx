@@ -1,5 +1,9 @@
 import './globals.css'
+import './gradient.css'
 import { Toaster } from '../components/ui/toaster';
+import Script from 'next/script';
+import Providers from './components/Providers';
+import { getServerSession } from 'next-auth';
 
 
 export const metadata = {
@@ -7,13 +11,18 @@ export const metadata = {
     description: '',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
     children
 }: { children: React.ReactNode }) {
+    const session = await getServerSession();
+
     return (
         <html lang="en" className="dark" style={{colorScheme: "dark"}}>
+            <Script type="text/javascript" src="gradient.js"/>
             <body className="antialiased">
-                { children }
+                <Providers session={ session }>
+                    { children }
+                </Providers>
             </body>
             <Toaster/>
         </html>

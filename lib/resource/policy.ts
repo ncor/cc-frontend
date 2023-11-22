@@ -1,21 +1,10 @@
 import { ERRORS } from "../error/constants";
 import { isAdmin } from "../user/service";
 import { User } from "../user/types";
-import { PrivateResource } from "./types";
+import { ProtectedResource, ResourcePolicyRules } from "./types";
 
 
-export type ResourcePolicyFilter<T> = (resource: T, user: User) => boolean;
-export type ResourcePolicyRules<T> = {
-    [action: string]: ResourcePolicyFilter<T>
-};
-
-export enum ResourceActions {
-    GET='get',
-    UPDATE='update',
-    DELETE='delete'
-}
-
-export class ResourcePolicy<T extends PrivateResource> {
+export class ResourcePolicy<T extends ProtectedResource> {
     constructor(
         public rules: ResourcePolicyRules<T>
     ) {}

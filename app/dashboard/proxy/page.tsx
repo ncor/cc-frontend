@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import ProxyModal from "../components/proxy/ProxyModal";
-import { Plus, RefreshCcw } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProxyTable from "../components/proxy/table/ProxyTable";
 import RevalidationButton from "../components/RevalidationButton";

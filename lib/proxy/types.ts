@@ -1,12 +1,6 @@
-import { MarkedResourse, PrivateResource } from "../resource/types";
-import { User } from "../user/types";
+import { Prisma } from "@prisma/client";
 
 
-export type Proxy =
-    PrivateResource &
-    MarkedResourse &
-    {
-        id: number,
-        url: string,
-        user?: User
-    };
+export type Proxy = Prisma.proxyGetPayload<{}>;
+export type ProxyExtended =
+    Prisma.proxyGetPayload<{ include: { user: true } }>;

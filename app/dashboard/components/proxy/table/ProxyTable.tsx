@@ -16,15 +16,15 @@ import UserAvatar from "../../UserAvatar";
 import useSuspense from "@/app/hooks/suspense";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import useProxies from "../../../hooks/data/proxy";
-import { userContext } from "../../../contexts/user";
+import useProxies from "../../../../hooks/data/proxy";
 import { MAX_ROWS_IN_PAGE } from "./constants";
-import { revalidationContext } from "../../../contexts/revalidation";
 import ProxyDropDownMenu from "../ProxyDropdownMenu";
-import { createTagsSearchBody } from "@/app/dashboard/hooks/helpers";
-import { ResourceActions } from "@/lib/resource/policy";
+import { createTagsSearchBody } from "@/app/hooks/helpers";
 import ScopeBadge from "../../resource/ScopeBadge";
 import { TagSelector } from "../../tag/TagSelector";
+import useUser from "@/app/hooks/user";
+import { RevalidationContext } from "@/app/contexts/revalidation";
+import { ResourceActions } from "@/lib/resource/types";
 
 export type ProxyTableRow = Proxy & { user: User };
 
@@ -33,8 +33,8 @@ export type ProxyTableProps = {
 };
 
 export default function ProxyTable({ selectPublic }: ProxyTableProps) {
-    const user = useContext(userContext);
-    const { revalidated } = useContext(revalidationContext);
+    const user = useUser();
+    const { revalidated } = useContext(RevalidationContext);
     const { findOwn, findPublic, can } = useProxies();
     const { isLoading, suspenseFor } = useSuspense();
 

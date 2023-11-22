@@ -1,7 +1,7 @@
-import { Session } from "@supabase/supabase-js";
+import verifyToken from "./auth/verify";
 import { CustomError } from "./error";
 import { ArgsType } from "./types";
-import { verifySession } from "./supabase/filters";
+import { UserAuth } from "./user/types";
 
 
 export type EndpointResponse<T> = {
@@ -13,14 +13,16 @@ export type EndpointResponse<T> = {
 }
 
 export const endpoint = <A extends Array<any>, R>(
-    callback: (session: Session, ...args: A) => R
+    callback: (user: UserAuth, ...args: A) => R
 ) => {
     return async (
         ...args: ArgsType<typeof callback>
     ): Promise<EndpointResponse<Awaited<R>>> => {
         try {
-            await verifySession(args[0]);
+            // verifyToken(args[0].token);
+
             const response = await callback(...args);
+            
             return { data: response };
         } catch(e) {
             return {

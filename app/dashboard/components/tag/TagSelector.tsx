@@ -3,11 +3,15 @@
 import * as React from "react";
 import { Plus, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Command, CommandGroup, CommandItem, CommandSeparator } from "@/components/ui/command";
+import {
+    Command,
+    CommandGroup,
+    CommandItem,
+    CommandSeparator,
+} from "@/components/ui/command";
 import { Command as CommandPrimitive } from "cmdk";
-import useTags from "../../hooks/data/tag";
+import useTags from "../../../hooks/data/tag";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { revalidationContext } from "../../contexts/revalidation";
 import { Tag } from "@/lib/tag/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import ScopeBadge from "../resource/ScopeBadge";
@@ -15,7 +19,7 @@ import CreateTagModal from "./CreateTagModal";
 import { CreateTagSchemaType } from "./CreateTagForm";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-
+import { RevalidationContext } from "@/app/contexts/revalidation";
 
 export interface MultiSelectProps {
     onTagsChange?: (tags: string[]) => void;
@@ -28,7 +32,7 @@ export function TagSelector({
     onTagsChange,
     disabled,
 }: MultiSelectProps) {
-    const { revalidated } = useContext(revalidationContext);
+    const { revalidated } = useContext(RevalidationContext);
     const { findOwn, findPublic } = useTags();
     const inputRef = useRef<HTMLInputElement>(null);
     const [open, setOpen] = useState(false);
@@ -39,17 +43,16 @@ export function TagSelector({
     const setAndPropagate = (tags: string[]) => {
         setTags(tags);
         onTagsChange?.(tags);
-    }
+    };
 
     const updateCollection = async () => {
         const publicTags = await findPublic({});
         const ownTags = await findOwn({});
         const tags = [
-            ...(publicTags?.data?.filter(tag =>
-                    !ownTags?.data
-                        ?.map(tag => tag.name)
-                        ?.includes(tag.name)
-                ) || []),
+            ...(publicTags?.data?.filter(
+                (tag) =>
+                    !ownTags?.data?.map((tag) => tag.name)?.includes(tag.name)
+            ) || []),
             ...(ownTags?.data || []),
         ];
 
@@ -61,9 +64,12 @@ export function TagSelector({
         if (selected) setTags(selected);
     }, [revalidated]);
 
-    const handleUnselect = useCallback((unselectedTag: string) => {
-        setAndPropagate(tags.filter(tag => tag !== unselectedTag));
-    }, [ tags ]);
+    const handleUnselect = useCallback(
+        (unselectedTag: string) => {
+            setAndPropagate(tags.filter((tag) => tag !== unselectedTag));
+        },
+        [tags]
+    );
 
     const handleKeyDown = useCallback(
         (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -81,7 +87,7 @@ export function TagSelector({
                 if (e.key === "Escape") input.blur();
             }
         },
-        [ tags ]
+        [tags]
     );
 
     const selectables = collection.filter((tag) => !tags.includes(tag.name));
@@ -135,31 +141,38 @@ export function TagSelector({
                                 <CommandGroup className="h-full overflow-auto">
                                     {selectables.length > 0 &&
                                         selectables.map((tag, i) => {
-                                            return (<div>
-                                                {
-                                                    selectables[i - 1]?.is_public &&
-                                                    <CommandSeparator className="my-1"/>
-                                                }
-                                                <CommandItem
-                                                    key={tag.id}
-                                                    onMouseDown={(e) => {
-                                                        e.preventDefault();
-                                                        e.stopPropagation();
-                                                    }}
-                                                    onSelect={() => {
-                                                        setInputValue("");
-                                                        setAndPropagate([ ...tags, tag.name ]);
-                                                    }}
-                                                    className="cursor-pointer"
-                                                >
-                                                    {tag.name}
-                                                    <div className="ml-auto">
-                                                        <ScopeBadge
-                                                            isPublic={tag.is_public}
-                                                        />
-                                                    </div>
-                                                </CommandItem>
-                                            </div>);
+                                            return (
+                                                <div key={tag.name}>
+                                                    {selectables[i - 1]
+                                                        ?.is_public && (
+                                                        <CommandSeparator className="my-1" />
+                                                    )}
+                                                    <CommandItem
+                                                        key={tag.id}
+                                                        onMouseDown={(e) => {
+                                                            e.preventDefault();
+                                                            e.stopPropagation();
+                                                        }}
+                                                        onSelect={() => {
+                                                            setInputValue("");
+                                                            setAndPropagate([
+                                                                ...tags,
+                                                                tag.name,
+                                                            ]);
+                                                        }}
+                                                        className="cursor-pointer"
+                                                    >
+                                                        {tag.name}
+                                                        <div className="ml-auto">
+                                                            <ScopeBadge
+                                                                isPublic={
+                                                                    tag.is_public
+                                                                }
+                                                            />
+                                                        </div>
+                                                    </CommandItem>
+                                                </div>
+                                            );
                                         })}
                                     {!collection.length && (
                                         <div className="space-y-1">
@@ -173,7 +186,7 @@ export function TagSelector({
                 </Command>
             </div>
             <CreateTagModal
-                onSubmit={async (form: z.infer<CreateTagSchemaType>) => 
+                onSubmit={async (form: z.infer<CreateTagSchemaType>) =>
                     setAndPropagate([...tags, form.name])
                 }
             >

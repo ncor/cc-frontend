@@ -11,10 +11,11 @@ import { useToast } from "@/components/ui/use-toast";
 import useSuspense from "@/app/hooks/suspense";
 import { Proxy } from "@/lib/proxy/types";
 import { useContext } from "react";
-import useProxies from "../../hooks/data/proxy";
-import { userContext } from "../../contexts/user";
+import useProxies from "../../../hooks/data/proxy";
 import { isAdmin } from "@/lib/user/service";
-import { revalidationContext } from "../../contexts/revalidation";
+import { useSession } from "next-auth/react";
+import { RevalidationContext } from "@/app/contexts/revalidation";
+import useUser from "@/app/hooks/user";
 
 
 const proxySchema = z.object({
@@ -35,10 +36,11 @@ export default function ProxyForm({
     update, onSubmit
 }: ProxyFormProps) {
     const toast = useToast();
-    const user = useContext(userContext);
-    const { revalidate } = useContext(revalidationContext);
+    const user = useUser();
+    const { revalidate } = useContext(RevalidationContext);
     const { create: createProxy, update: updateProxy } = useProxies();
     const { isLoading, suspenseFor } = useSuspense();
+
     const form = useForm<z.infer<ProxySchemaType>>({
         resolver: zodResolver(proxySchema),
         defaultValues: Object.assign({

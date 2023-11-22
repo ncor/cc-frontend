@@ -1,11 +1,6 @@
-import { PrivateResource } from "../resource/types";
-import { User } from "../user/types";
+import { Prisma } from "@prisma/client";
 
 
-export type Tag =
-    PrivateResource &
-    {
-        id: string,
-        name: string,
-        user?: User
-    };
+export type Tag = Prisma.tagGetPayload<{}>;
+export type TagExtended =
+    Prisma.tagGetPayload<{ include: { user: true } }>;

@@ -3,13 +3,13 @@
 import { Button } from "@/components/ui/button";
 import { RefreshCcw } from "lucide-react";
 import { useContext, useState } from "react";
-import { revalidationContext } from "../contexts/revalidation";
+import { RevalidationContext } from "../../contexts/revalidation";
 import { cn } from "@/lib/client/utils";
 
 
 export default function RevalidationButton() {
     const [ isSpinning, setIsSpinning ] = useState<boolean>(false);
-    const { revalidate } = useContext(revalidationContext);
+    const { revalidate } = useContext(RevalidationContext);
     
 
     return <Button onClick={() => {

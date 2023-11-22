@@ -1,26 +1,18 @@
+import { getServerSession } from "next-auth";
+import Header from "./components/header/Header";
 import { redirect } from "next/navigation";
-import useSession from "../hooks/session";
-import { useServerSupabase } from "../hooks/supabase";
-import { useToast } from "@/components/ui/use-toast";
-import DashboardClientLayout from "./DashboardClientLayout";
-import { getSessionUser } from "@/lib/user/endpoints";
-import { User } from "@/lib/user/types";
+import Confetti from "./components/Confetti";
 
 
 export default async function DashboardLayout({
     children
 }: { children: React.ReactNode }) {
-    const supabase = await useServerSupabase();
-    const session = await useSession(supabase);
+    const session = await getServerSession();
 
-    if (!session) redirect('/auth');
+    if (!session) redirect('/login');
 
-    const { data: user } = await getSessionUser(session);
-
-    return <DashboardClientLayout
-        session={ session }
-        sessionUser={ user as User }
-    >
+    return <div className="w-full h-screen flex flex-col">
+        <Header/>
         { children }
-    </DashboardClientLayout>;
+    </div>;
 }

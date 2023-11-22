@@ -4,10 +4,9 @@ import { Proxy } from "@/lib/proxy/types";
 import { Edit2, MoreHorizontal, Trash } from "lucide-react";
 import ProxyModal from "./ProxyModal";
 import ProxyDeleteModal from "./ProxyDeleteModal";
-import { useContext } from "react";
-import { userContext } from "../../contexts/user";
-import useProxies from "../../hooks/data/proxy";
-import { ResourceActions } from "@/lib/resource/policy";
+import useProxies from "../../../hooks/data/proxy";
+import { ResourceActions } from "@/lib/resource/types";
+import useUser from "@/app/hooks/user";
 
 
 export type ProxyDropdownMenuProps = {
@@ -18,7 +17,7 @@ export default function ProxyDropDownMenu({
     data
 }: ProxyDropdownMenuProps) {
     const { can } = useProxies();
-    const user = useContext(userContext);
+    const user = useUser();
 
     return <DropdownMenu>
         <DropdownMenuTrigger asChild>

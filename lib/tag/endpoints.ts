@@ -1,35 +1,31 @@
 'use server';
 
-import { Session } from "@supabase/supabase-js";
 import { prisma } from "../prisma";
 import { endpoint } from "../endpoint";
 import { Prisma } from "@prisma/client";
-import { getUserAdapter } from "../user/service";
 import { tagPolicy } from "./policy";
-import { ResourceActions } from "../resource/policy";
 import { Tag } from "./types";
 import { getTagAdapter } from "./service";
+import { UserAuth } from "../user/types";
+import { ResourceActions } from "../resource/types";
 
 
 export const createTag = endpoint(async (
-    session: Session,
+    user: UserAuth,
     args: Prisma.tagCreateArgs
 ) => {
-    const user = await getUserAdapter({ where: { id: session.user.id }});
     await tagPolicy.validateInsert(args.data as Tag, user);
 
     return prisma.tag.createMany({
-        data: { ...args.data, owner_id: session.user.id }
+        data: { ...args.data, owner_id: user.id }
     }); 
 });
 
 
 export const findTag = endpoint(async (
-    session: Session,
+    user: UserAuth,
     args: Prisma.tagFindManyArgs
 ) => {
-    const user = await getUserAdapter({ where: { id: session.user.id }});
-
     return tagPolicy.filterForbidden(
         ResourceActions.GET, await prisma.tag.findMany(args), user
     );
@@ -37,10 +33,9 @@ export const findTag = endpoint(async (
 
 
 export const updateTag = endpoint(async (
-    session: Session,
+    user: UserAuth,
     args: Prisma.tagUpdateArgs
 ) => {
-    const user = await getUserAdapter({ where: { id: session.user.id } });
     const tag = await getTagAdapter({ where: args.where });
     await tagPolicy.verifyAction(ResourceActions.UPDATE, tag, user);
     
@@ -49,10 +44,9 @@ export const updateTag = endpoint(async (
 
 
 export const deleteTag = endpoint(async (
-    session: Session,
+    user: UserAuth,
     args: Prisma.tagDeleteArgs
 ) => {
-    const user = await getUserAdapter({ where: { id: session.user.id } });
     const tag = await getTagAdapter({ where: args.where });
     await tagPolicy.verifyAction(ResourceActions.DELETE, tag, user);
 

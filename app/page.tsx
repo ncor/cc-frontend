@@ -1,15 +1,14 @@
 import { redirect } from 'next/navigation';
-import useSession from './hooks/session';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
+import { getServerSession } from 'next-auth';
 
 
 export default async function Home() {
-    const supabase = createServerComponentClient({ cookies });
-    const session = await useSession(supabase);
-    
+    const session = await getServerSession();
+
     if (!session)
-        redirect('/auth')
+        redirect('/login')
     else
         redirect('/dashboard');
 }

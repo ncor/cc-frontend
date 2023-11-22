@@ -14,11 +14,11 @@ import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/ui/icons";
 import useSuspense from "@/app/hooks/suspense";
 import { useContext } from "react";
-import { revalidationContext } from "../../contexts/revalidation";
-import useTags from "../../hooks/data/tag";
-import { userContext } from "../../contexts/user";
+import { RevalidationContext } from "../../../contexts/revalidation";
+import useTags from "../../../hooks/data/tag";
 import { isAdmin } from "@/lib/user/service";
 import PermissionsFormFields from "../resource/permissions/PermissionsFormFields";
+import useUser from "@/app/hooks/user";
 
 export const createTagSchema = z.object({
     name: z.string().min(2).max(50),
@@ -33,9 +33,9 @@ export interface CreateTagFormProps {
 }
 
 export default function CreateTagForm({ onSubmit }: CreateTagFormProps) {
-    const user = useContext(userContext);
+    const user = useUser();
     const { create } = useTags();
-    const { revalidate } = useContext(revalidationContext);
+    const { revalidate } = useContext(RevalidationContext);
     const { isLoading, suspenseFor } = useSuspense();
 
     const form = useForm<z.infer<CreateTagSchemaType>>({

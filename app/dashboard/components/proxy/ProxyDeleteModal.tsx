@@ -14,8 +14,8 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import useProxies from "../../hooks/data/proxy";
-import { revalidationContext } from "../../contexts/revalidation";
+import useProxies from "../../../hooks/data/proxy";
+import { RevalidationContext } from "../../../contexts/revalidation";
 import useSuspense from "@/app/hooks/suspense";
 import { Icons } from "@/components/ui/icons";
 
@@ -29,7 +29,7 @@ export default function ProxyDeleteModal({
     onSubmit,
 }: ProxyDeleteModalProps) {
     const { remove } = useProxies();
-    const { revalidate } = useContext(revalidationContext);
+    const { revalidate } = useContext(RevalidationContext);
     const { isLoading, suspenseFor } = useSuspense();
     const [ open, setOpen ] = useState<boolean>(false);
 

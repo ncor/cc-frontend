@@ -14,7 +14,7 @@ export default function Confetti() {
 
     const makeShot = useCallback((particleRatio: number, opts: any) => {
         refAnimationInstance.current &&
-            refAnimationInstance.current({
+            (refAnimationInstance.current as any)({
                 ...opts,
                 origin: { y: 0.7 },
                 particleCount: Math.floor(200 * particleRatio),

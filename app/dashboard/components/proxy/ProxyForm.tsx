@@ -64,9 +64,8 @@ export default function ProxyForm({
                 title: 'Успешно',
                 description: 'Прокси сохранен.'
             });
+            revalidate();
         }
-
-        revalidate();
     }
 
     return (
@@ -82,7 +81,8 @@ export default function ProxyForm({
                                 <Input placeholder="URL" { ...field } />
                             </FormControl>
                             <FormDescription>
-                                Формат: ?://user:password:host:port
+                                Поддерживаются только прокси протоколов SOCKS и HTTPS.<br/>
+                                Формат: proto://user:password@host:port
                             </FormDescription>
                             <FormMessage/>
                         </FormItem>

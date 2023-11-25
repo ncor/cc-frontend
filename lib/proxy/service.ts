@@ -32,6 +32,7 @@ export const getProxyClient = (proxy: Proxy, baseURL?: string) => {
     } catch(e) {
         if (e != ERRORS.PROXY.INVALID_PROTOCOL)
             throw ERRORS.PROXY.INVALID_URL;
+        throw e;
     }
 }
 

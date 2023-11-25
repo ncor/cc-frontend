@@ -31,7 +31,7 @@ export const ERRORS = {
     PROXY: {
         INVALID_PROTOCOL: new CustomError(
             'PROXY_INVALID_PROTOCOL',
-            'Неподдерживаемый протокол',
+            'Неподдерживаемый протокол.',
         ),
         INVALID_URL: new CustomError(
             'PROXY_INVALID_URL',
@@ -43,7 +43,7 @@ export const ERRORS = {
         ),
         NOT_EXISTS: new CustomError(
             'PROXY_NOT_EXISTS',
-            'Прокси не ZZZнайден.'
+            'Прокси не найден.'
         )
     }
 };

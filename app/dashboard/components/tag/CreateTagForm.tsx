@@ -48,9 +48,12 @@ export default function CreateTagForm({ onSubmit }: CreateTagFormProps) {
     });
 
     const submit = async (form: z.infer<CreateTagSchemaType>) => {
-        await suspenseFor(() => create({ data: form }));
-        onSubmit && onSubmit<CreateTagSchemaType>(form);
-        revalidate();
+        const response = await suspenseFor(() => create({ data: form }));
+
+        if (!response.error) {
+            onSubmit && onSubmit<CreateTagSchemaType>(form);
+            revalidate();
+        }
     };
 
     return (

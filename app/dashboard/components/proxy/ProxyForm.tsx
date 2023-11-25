@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ZodType, z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/ui/icons";
@@ -19,7 +19,7 @@ import useUser from "@/app/hooks/user";
 
 
 const proxySchema = z.object({
-    url: z.string().min(2).max(50),
+    url: z.string().min(2),
     tags: z.array(z.string().min(2).max(50)),
     owner_id: z.string(),
     is_public: z.boolean(),
@@ -81,6 +81,9 @@ export default function ProxyForm({
                             <FormControl>
                                 <Input placeholder="URL" { ...field } />
                             </FormControl>
+                            <FormDescription>
+                                Формат: ?://user:password:host:port
+                            </FormDescription>
                             <FormMessage/>
                         </FormItem>
                     )}

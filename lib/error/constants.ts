@@ -29,9 +29,21 @@ export const ERRORS = {
         )
     },
     PROXY: {
+        INVALID_PROTOCOL: new CustomError(
+            'PROXY_INVALID_PROTOCOL',
+            'Неподдерживаемый протокол',
+        ),
+        INVALID_URL: new CustomError(
+            'PROXY_INVALID_URL',
+            'Неверный формат URL.',
+        ),
+        NOT_WORKING: new CustomError(
+            'PROXY_NOT_WORKING',
+            'Не пройден тестовый запрос, проверьте прокси на работоспособность.'
+        ),
         NOT_EXISTS: new CustomError(
             'PROXY_NOT_EXISTS',
-            'Прокси не найден.'
+            'Прокси не ZZZнайден.'
         )
     }
 };

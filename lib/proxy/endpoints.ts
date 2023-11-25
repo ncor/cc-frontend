@@ -1,13 +1,11 @@
 'use server';
 
-import { Session } from "@supabase/supabase-js";
 import { prisma } from "../prisma";
 import { endpoint } from "../endpoint";
 import { Prisma } from "@prisma/client";
-import { getUserAdapter } from "../user/service";
 import { proxyPolicy } from "./policy";
 import { Proxy } from "./types";
-import { getProxyAdapter } from "./service";
+import { checkProxyConnection, getProxyAdapter } from "./service";
 import { ResourceActions } from "../resource/types";
 import { UserAuth } from "../user/types";
 
@@ -17,6 +15,7 @@ export const createProxy = endpoint(async (
     args: Prisma.proxyCreateArgs
 ) => {
     await proxyPolicy.validateInsert(args.data as Proxy, user);
+    await checkProxyConnection(args.data as Proxy);
 
     return prisma.proxy.createMany({
         data: { ...args.data, owner_id: user.id }

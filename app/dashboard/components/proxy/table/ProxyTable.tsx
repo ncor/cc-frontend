@@ -56,6 +56,8 @@ export default function ProxyTable({ selectPublic }: ProxyTableProps) {
         fetch();
     }, [tags, page, revalidated]);
 
+    console.log('proxytable user', user);
+
     return (
         <div className="space-y-2">
             <TagSelector onTagsChange={(tags) => setTags(tags)} />
@@ -86,7 +88,14 @@ export default function ProxyTable({ selectPublic }: ProxyTableProps) {
                                     className="items-center h-[65px]"
                                 >
                                     <TableCell>{row.id}</TableCell>
-                                    <TableCell>{row.url}</TableCell>
+                                    <TableCell>
+                                        <div className="flex items-center gap-2">
+                                            <Badge variant="outline">
+                                                { row.url.split('://')[0] }
+                                            </Badge>
+                                            { row.url.split('@')[1] }
+                                        </div>
+                                    </TableCell>
                                     <TableCell className="space-x-1">
                                         {row.tags.map((tag) => (
                                             <Badge

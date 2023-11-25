@@ -51,6 +51,7 @@
     "react-day-picker": "^8.9.1",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.48.2",
+    "socks-proxy-agent": "^8.0.2",
     "supabase": "^1.110.1",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",

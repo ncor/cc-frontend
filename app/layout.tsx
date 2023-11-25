@@ -4,6 +4,7 @@ import { Toaster } from '../components/ui/toaster';
 import Script from 'next/script';
 import Providers from './components/Providers';
 import { getServerSession } from 'next-auth';
+import { prisma } from '@/lib/prisma';
 
 
 export const metadata = {
@@ -15,6 +16,14 @@ export default async function RootLayout({
     children
 }: { children: React.ReactNode }) {
     const session = await getServerSession();
+
+    if (session) {
+        const fetchedUser = await prisma.user.findFirst({
+            where: { name: session?.user?.name || '' }
+        });
+    
+        if (fetchedUser) session.user = fetchedUser;
+    }
 
     return (
         <html lang="en" className="dark" style={{colorScheme: "dark"}}>

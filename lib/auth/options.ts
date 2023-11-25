@@ -12,8 +12,10 @@ export const authOptions: NextAuthOptions = {
         Credentials({
             name: "sign-in",
             credentials: {
+                id: { type: 'text' },
                 name: { type: 'text' },
-                password: { type: "password" }
+                password: { type: "password" },
+                roles: { type: 'text' }
             },
             async authorize(credentials) {
                 const name = credentials?.name;
@@ -30,7 +32,7 @@ export const authOptions: NextAuthOptions = {
         }),
     ],
     callbacks: {
-        async session({ session, token }) {
+        async session({ session }) {
             const user = await prisma.user.findFirst({
                 where: { name: session?.user?.name || '' }
             });

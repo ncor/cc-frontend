@@ -20,6 +20,7 @@ import { CreateTagSchemaType } from "./CreateTagForm";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { RevalidationContext } from "@/app/contexts/revalidation";
+import useSuspense from "@/app/hooks/suspense";
 
 export interface MultiSelectProps {
     onTagsChange?: (tags: string[]) => void;
@@ -32,6 +33,7 @@ export function TagSelector({
     onTagsChange,
     disabled,
 }: MultiSelectProps) {
+    const { suspenseFor, isLoading } = useSuspense();
     const { revalidated } = useContext(RevalidationContext);
     const { findOwn, findPublic } = useTags();
     const inputRef = useRef<HTMLInputElement>(null);
@@ -46,15 +48,18 @@ export function TagSelector({
     };
 
     const updateCollection = async () => {
-        const publicTags = await findPublic({});
-        const ownTags = await findOwn({});
-        const tags = [
-            ...(publicTags?.data?.filter(
-                (tag) =>
-                    !ownTags?.data?.map((tag) => tag.name)?.includes(tag.name)
-            ) || []),
-            ...(ownTags?.data || []),
-        ];
+        const tags = await suspenseFor(async () => {
+            const publicTags = await findPublic({});
+            const ownTags = await findOwn({});
+
+            return [
+                ...(publicTags?.data?.filter(
+                    (tag) =>
+                        !ownTags?.data?.map((tag) => tag.name)?.includes(tag.name)
+                ) || []),
+                ...(ownTags?.data || []),
+            ];
+        })
 
         setCollection(tags);
     };
@@ -139,7 +144,8 @@ export function TagSelector({
                         {open && (
                             <div className="absolute w-full z-10 top-0 rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in">
                                 <CommandGroup className="h-full overflow-auto">
-                                    {selectables.length > 0 &&
+                                    {
+                                        !isLoading && selectables.length > 0 &&
                                         selectables.map((tag, i) => {
                                             return (
                                                 <div key={tag.name}>
@@ -173,12 +179,18 @@ export function TagSelector({
                                                     </CommandItem>
                                                 </div>
                                             );
-                                        })}
-                                    {!collection.length && (
-                                        <div className="space-y-1">
-                                            <Skeleton className="h-8 w-full rounded-sm" />
-                                        </div>
-                                    )}
+                                        })
+                                    }
+                                    {
+                                        isLoading &&
+                                        <Skeleton className="h-8 w-full rounded-sm" />
+                                    }
+                                    {
+                                        !isLoading && !collection.length &&
+                                        <div className="w-full text-center p-2 text-sm">
+                                            Теги не найдены.
+                                        </div>                             
+                                    }
                                 </CommandGroup>
                             </div>
                         )}

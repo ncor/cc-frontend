@@ -3,7 +3,11 @@ import { JWT } from "next-auth/jwt";
 
 
 declare module "next-auth" {
-    interface Session {
+    export type User = UserAuth;
+    export interface JWT extends Record<string, unknown> {
+        id: string
+    }
+    export interface Session {
         user: UserAuth
     }
 }

@@ -18,6 +18,8 @@ import useProxies from "../../../hooks/data/proxy";
 import { RevalidationContext } from "../../../contexts/revalidation";
 import useSuspense from "@/app/hooks/suspense";
 import { Icons } from "@/components/ui/icons";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
+
 
 export type ProxyDeleteModalProps = ModalProps & {
     data: Proxy;
@@ -58,9 +60,7 @@ export default function ProxyDeleteModal({
                             revalidate();
                         }}
                     >
-                        {isLoading && (
-                            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                        )}
+                        <LoadingSpinner isLoading={ isLoading }/>
                         Да, удалить
                     </AlertDialogAction>
                 </AlertDialogFooter>

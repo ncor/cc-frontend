@@ -26,6 +26,10 @@ export const ERRORS = {
         NOT_EXISTS: new CustomError(
             'USER_NOT_EXISTS',
             'Пользователь не найден.'
+        ),
+        NAME_IS_BUSY: new CustomError(
+            'USER_NAME_IS_BUSY',
+            'Данное имя уже занято.'
         )
     },
     PROXY: {

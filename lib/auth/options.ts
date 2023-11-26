@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
-import { encode } from "next-auth/jwt";
+
 
 export const authOptions: NextAuthOptions = {
     session: {
@@ -12,10 +12,8 @@ export const authOptions: NextAuthOptions = {
         Credentials({
             name: "sign-in",
             credentials: {
-                id: { type: 'text' },
                 name: { type: 'text' },
                 password: { type: "password" },
-                roles: { type: 'text' }
             },
             async authorize(credentials) {
                 const name = credentials?.name;
@@ -32,9 +30,13 @@ export const authOptions: NextAuthOptions = {
         }),
     ],
     callbacks: {
-        async session({ session }) {
+        async jwt({ token, user }) {
+            if (user) token.id = user.id;
+            return token;
+        },
+        async session({ session, token }) {
             const user = await prisma.user.findFirst({
-                where: { name: session?.user?.name || '' }
+                where: { id: token.id || '' }
             });
         
             if (user) session.user = user;

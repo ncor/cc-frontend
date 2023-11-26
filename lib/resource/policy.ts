@@ -1,5 +1,4 @@
 import { ERRORS } from "../error/constants";
-import { isAdmin } from "../user/service";
 import { User } from "../user/types";
 import { ProtectedResource, ResourcePolicyRules } from "./types";
 
@@ -10,7 +9,7 @@ export class ResourcePolicy<T extends ProtectedResource> {
     ) {}
 
     public isAllowed(action: string, resource: T, user: User) {
-        if (resource.owner_id == user.id || isAdmin(user.roles))
+        if (resource.owner_id == user.id || user.is_admin)
             return true;
 
         if (!resource.is_public)
@@ -22,7 +21,7 @@ export class ResourcePolicy<T extends ProtectedResource> {
     }
 
     public validateInsert(resource: T, user: User) {
-        if (resource?.is_public && !isAdmin(user.roles))
+        if (resource?.is_public && !user.is_admin)
             throw ERRORS.AUTH.NOT_PERMITTED;
     }
 

@@ -12,8 +12,6 @@ import useSuspense from "@/app/hooks/suspense";
 import { Proxy } from "@/lib/proxy/types";
 import { useContext } from "react";
 import useProxies from "../../../hooks/data/proxy";
-import { isAdmin } from "@/lib/user/service";
-import { useSession } from "next-auth/react";
 import { RevalidationContext } from "@/app/contexts/revalidation";
 import useUser from "@/app/hooks/user";
 
@@ -94,7 +92,7 @@ export default function ProxyForm({
                     disabled={ isLoading }
                 />
                 {
-                    isAdmin(user.roles) &&
+                    user.is_admin &&
                     <PermissionsFormFields
                         form={ form }
                         disabled={ isLoading }

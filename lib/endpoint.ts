@@ -19,8 +19,6 @@ export const endpoint = <A extends Array<any>, R>(
         ...args: ArgsType<typeof callback>
     ): Promise<EndpointResponse<Awaited<R>>> => {
         try {
-            // verifyToken(args[0].token);
-
             const response = await callback(...args);
             
             return { data: response };

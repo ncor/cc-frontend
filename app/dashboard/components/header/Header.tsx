@@ -1,5 +1,7 @@
+'use client';
+
 import Navigation from "./Navigation";
-import UserMenu from "./UserMenu";
+import UserMenu from "../user/UserMenu";
 
 
 export default function Header() {

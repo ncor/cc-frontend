@@ -17,11 +17,11 @@ export default function UserAvatar({
     seed, size='default'
 }: UserAvatarProps) {
     const [ avatarUri, setAvatarUri ] = useState<string>('');
-    const avatar = createAvatar(identicon, { seed: seed || '', scale: 70 });
 
     useEffect(() => {
+        const avatar = createAvatar(identicon, { seed: seed || '', scale: 70 });
         avatar.toDataUri().then(uri => setAvatarUri(uri));
-    }, []);
+    }, [ seed ]);
 
     const sizeStyle = size == 'default' ? 'w-8 h-8' : 'w-4 h-4';
 

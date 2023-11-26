@@ -11,7 +11,9 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { signOut } from "next-auth/react";
-import UserAvatar from "../UserAvatar";
+import UserAvatar from "./UserAvatar";
+import UserChip from "./UserChip";
+import UserModal from "./UserModal";
 
 
 export default function UserMenu() {
@@ -34,12 +36,25 @@ export default function UserMenu() {
                 <DropdownMenuContent className="w-56" align="end" forceMount>
                     <DropdownMenuLabel className="font-normal">
                         <div className="flex flex-col space-y-1">
-                            <p className="text-sm font-medium leading-none">
-                                { user ? user.name : '...' }
-                            </p>
+                            <UserChip user={ user } includeAvatar={ false }/>
+                            {
+                                user.is_admin &&
+                                <div className="text-xs leading-none text-muted-foreground">
+                                    Администратор
+                                </div>                   
+                            }
                         </div>
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
+                    <UserModal update={ user }>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className="w-full rounded-sm px-2 justify-start font-normal"
+                        >
+                            Профиль
+                        </Button>
+                    </UserModal>
                     <DropdownMenuItem
                         onClick={ () => leave() }
                         className="cursor-pointer"

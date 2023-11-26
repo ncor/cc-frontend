@@ -16,7 +16,6 @@ import useSuspense from "@/app/hooks/suspense";
 import { useContext } from "react";
 import { RevalidationContext } from "../../../contexts/revalidation";
 import useTags from "../../../hooks/data/tag";
-import { isAdmin } from "@/lib/user/service";
 import PermissionsFormFields from "../resource/permissions/PermissionsFormFields";
 import useUser from "@/app/hooks/user";
 
@@ -73,7 +72,7 @@ export default function CreateTagForm({ onSubmit }: CreateTagFormProps) {
                     )}
                     disabled={isLoading}
                 />
-                {isAdmin(user.roles) && (
+                {user.is_admin && (
                     <PermissionsFormFields form={form} disabled={isLoading} />
                 )}
                 <Button type="submit" className="w-full" disabled={isLoading}>

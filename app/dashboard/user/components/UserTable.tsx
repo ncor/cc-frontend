@@ -9,15 +9,14 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { User, UserBatchItem } from "@/lib/user/types";
+import { User } from "@/lib/user/types";
 import useSuspense from "@/app/hooks/suspense";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import useUser from "@/app/hooks/user";
+import useUser from "@/app/dashboard/users/hooks/user";
 import { RevalidationContext } from "@/app/contexts/revalidation";
 import { MAX_ROWS_IN_PAGE } from "../../constants";
 import useUsers from "../../../hooks/data/user";
-import UserRankBadge from "./UserRankBadge";
 import UserChip from "./UserChip";
 import UserDropDownMenu from "./UserDropdownMenu";
 import { Input } from "@/components/ui/input";
@@ -26,7 +25,13 @@ import { Search } from "lucide-react";
 
 export type UserTableRow = User;
 
-export default function UserTable() {
+export interface UserTableProps {
+    selectAdmins?: boolean
+}
+
+export default function UserTable({
+    selectAdmins=false
+}: UserTableProps) {
     const user = useUser();
     const { find } = useUsers();
     const { isLoading, suspenseFor } = useSuspense();
@@ -39,7 +44,8 @@ export default function UserTable() {
     const fetch = async () => {
         const query = {
             where: {
-                ...(search && { name: { contains: search } })
+                ...(search && { name: { contains: search } }),
+                ...(selectAdmins && { is_admin: selectAdmins })
             },
             skip: page * MAX_ROWS_IN_PAGE,
             take: MAX_ROWS_IN_PAGE
@@ -56,7 +62,7 @@ export default function UserTable() {
 
     return (
         <div className="space-y-2">
-            <div className="w-full flex items-center gap-1">
+            <div className="flex w-full items-center gap-1">
                 <Input
                     onKeyDown={ e => {
                         if (e.key == 'Enter') revalidate()

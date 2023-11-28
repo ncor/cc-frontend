@@ -16,7 +16,7 @@ export default function UserModal({
 
     return (
         <Dialog open={ open } onOpenChange={ setOpen }>
-            <DialogTrigger className="w-full">
+            <DialogTrigger>
                 { children }
             </DialogTrigger>
             <DialogContent>
@@ -24,9 +24,7 @@ export default function UserModal({
                     <DialogTitle className="flex items-center gap-2">
                         {
                             update &&
-                            <div className="px-3 py-2 bg-zinc-900 rounded-md">
-                                <UserChip user={ update }/>
-                            </div>
+                            <UserChip user={ update } card/>
                         }
                         Пользователь
                     </DialogTitle>

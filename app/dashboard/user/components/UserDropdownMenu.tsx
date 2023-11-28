@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { User } from "@/lib/user/types";
-import { Edit2, MoreHorizontal, Trash } from "lucide-react";
+import { Edit2, MoreHorizontal, Sword, Trash } from "lucide-react";
 import UserModal from "./UserModal";
 import UserDeleteModal from "./UserDeleteModal";
-import useUser from "@/app/hooks/user";
+import useUser from "@/app/dashboard/users/hooks/user";
 
 
 export type UserDropdownMenuProps = {
@@ -43,10 +43,10 @@ export default function UserDropDownMenu({
                     <Button
                         variant="ghost"
                         size="sm"
-                        className="w-full rounded-sm px-2 justify-start"
+                        className="w-full rounded-sm px-2 justify-start text-red-500"
                     >
-                        <Trash className="mr-2 h-4 w-4"/>
-                        Удалить
+                        <Sword className="mr-2 h-4 w-4"/>
+                        Забанить
                     </Button>
                 </UserDeleteModal>
             }

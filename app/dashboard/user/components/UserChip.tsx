@@ -7,16 +7,21 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/h
 
 export interface UserChipProps {
     user: User,
+    card?: boolean,
     includeAvatar?: boolean
 }
 
 export default function UserChip({
-    user, includeAvatar=true
+    user, card=false, includeAvatar=true
 }: UserChipProps) {
+    const cardStyles = 'px-3 py-2 bg-zinc-100 dark:bg-zinc-900 rounded-md';
+
     return <HoverCard>
         <HoverCardTrigger>
             <div className={
-                `flex items-center text-sm font-medium gap-2 ${ user.is_admin ? 'text-green-400' : '' }`
+                `flex items-center text-sm font-medium gap-2 
+                ${ user.is_admin ? 'text-green-400' : '' } 
+                ${ card ? cardStyles : '' }`
             }>
                 {
                     includeAvatar &&

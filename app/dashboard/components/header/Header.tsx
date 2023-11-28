@@ -1,10 +1,9 @@
 'use client';
 
 import Navigation from "./Navigation";
-import UserMenu from "../../users/components/UserMenu";
 import ThemeSwitcher from "./ThemeSwitcher";
-import Image from "next/image";
 import LogoImage from "@/app/components/LogoImage";
+import UserMenu from "../../users/components/UserMenu";
 
 
 export default function Header() {

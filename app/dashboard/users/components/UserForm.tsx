@@ -10,10 +10,10 @@ import useSuspense from "@/app/hooks/suspense";
 import { User } from "@/lib/user/types";
 import { useContext } from "react";
 import { RevalidationContext } from "@/app/contexts/revalidation";
-import useUser from "@/app/dashboard/users/hooks/user";
-import useUsers from "@/app/hooks/data/user";
 import { Shield } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
+import useUser from "../hooks/user";
+import useUsers from "@/app/hooks/data/user";
 
 
 const userSchema = z.object({

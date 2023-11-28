@@ -6,8 +6,8 @@ import ProxyModal from "./ProxyModal";
 import ProxyDeleteModal from "./ProxyDeleteModal";
 import useProxies from "../../../hooks/data/proxy";
 import { ResourceActions } from "@/lib/resource/types";
-import useUser from "@/app/dashboard/users/hooks/user";
 import { User } from "@/lib/user/types";
+import useUser from "../../users/hooks/user";
 
 
 export type ProxyDropdownMenuProps = {

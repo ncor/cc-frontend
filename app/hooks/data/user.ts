@@ -1,10 +1,10 @@
 'use client';
 
 import cook from "../cook";
-import useUser from "../../dashboard/users/hooks/user";
 import { ArgsType } from "@/lib/types";
 import { useToast } from "@/components/ui/use-toast";
 import { countUsers, createUser, deleteUser, findUser, updateUser } from "@/lib/user/endpoints";
+import useUser from "@/app/dashboard/users/hooks/user";
 
 
 export default function useUsers() {

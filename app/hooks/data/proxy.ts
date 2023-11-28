@@ -7,7 +7,7 @@ import { Proxy } from "@/lib/proxy/types";
 import { User } from "@/lib/user/types";
 import { useToast } from "@/components/ui/use-toast";
 import cook from "../cook";
-import useUser from "../../dashboard/users/hooks/user";
+import useUser from "@/app/dashboard/users/hooks/user";
 
 
 export default function useProxies() {

@@ -7,7 +7,7 @@ import { tagPolicy } from "@/lib/tag/policy";
 import { Tag } from "@/lib/tag/types";
 import { User } from "@/lib/user/types";
 import cook from "../cook";
-import useUser from "../../dashboard/users/hooks/user";
+import useUser from "@/app/dashboard/users/hooks/user";
 
 
 export default function useTags() {

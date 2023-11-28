@@ -13,18 +13,18 @@ import { ProxyExtended } from "@/lib/proxy/types";
 import useSuspense from "@/app/hooks/suspense";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import useUser from "@/app/dashboard/users/hooks/user";
 import { RevalidationContext } from "@/app/contexts/revalidation";
 import { MAX_ROWS_IN_PAGE } from "../../constants";
 import useProxies from "../../../hooks/data/proxy";
-import UserChip from "../../users/components/UserChip";
 import ProxyDropDownMenu from "./ProxyDropdownMenu";
 import { Badge } from "@/components/ui/badge";
 import { createTagsSearchBody } from "@/app/hooks/helpers";
 import { ResourceActions } from "@/lib/resource/types";
 import ScopeBadge from "../../components/resource/ScopeBadge";
-import TagSelector from "../../tags/components/TagSelector";
 import useTags from "@/app/hooks/data/tag";
+import useUser from "../../users/hooks/user";
+import TagSelector from "../../tag/components/TagSelector";
+import UserChip from "../../users/components/UserChip";
 
 
 export type ProxyTableRow = ProxyExtended;

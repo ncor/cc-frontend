@@ -1,8 +1,8 @@
 'use client';
 
-import { UserContext } from "@/app/dashboard/users/contexts/user";
 import { User } from "@/lib/user/types";
 import { ReactNode, useState } from "react";
+import { UserContext } from "../../contexts/user";
 
 
 export interface UserProviderProps {

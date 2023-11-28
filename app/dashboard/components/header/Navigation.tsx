@@ -11,7 +11,7 @@ import {
 import { Link2, Shield } from "lucide-react";
 import Link from "next/link";
 import { forwardRef } from "react";
-import useUser from "../../user/hooks/user";
+import useUser from "../../users/hooks/user";
 
 
 export default function Navigation() {

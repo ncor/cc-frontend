@@ -1,6 +1,5 @@
 'use client';
 
-import useUser from "@/app/dashboard/users/hooks/user";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -14,6 +13,7 @@ import { signOut } from "next-auth/react";
 import UserAvatar from "./UserAvatar";
 import UserChip from "./UserChip";
 import UserModal from "./UserModal";
+import useUser from "../hooks/user";
 
 
 export default function UserMenu() {

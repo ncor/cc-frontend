@@ -4,6 +4,10 @@ import { Toaster } from '../components/ui/toaster';
 import Script from 'next/script';
 import Providers from './components/Providers';
 import { getServerSession } from 'next-auth';
+import { cookies } from 'next/headers';
+import { COOKIES, THEMES } from './constants';
+import { User } from '@/lib/user/types';
+import { prisma } from '@/lib/prisma';
 
 
 export const metadata = {
@@ -16,11 +20,17 @@ export default async function RootLayout({
 }: { children: React.ReactNode }) {
     const session = await getServerSession();
 
+    let theme = cookies().get(COOKIES.PREFERRED_THEME)?.value;
+    if (!theme || !Object.values(THEMES).includes(theme)) theme = 'dark';
+
     return (
-        <html lang="en" className="dark" style={{colorScheme: "dark"}}>
+        <html lang="en" className={ theme }>
             <Script type="text/javascript" src="gradient.js"/>
             <body className="antialiased">
-                <Providers session={ session }>
+                <Providers
+                    defaultTheme={ theme }
+                    session={ session }
+                >
                     { children }
                 </Providers>
             </body>

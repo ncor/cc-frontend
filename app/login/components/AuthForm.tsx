@@ -1,6 +1,7 @@
 'use client';
 
 import LoadingSpinner from '@/app/components/LoadingSpinner';
+import LogoImage from '@/app/components/LogoImage';
 import cook, { burnt } from '@/app/hooks/cook';
 import useSuspense from '@/app/hooks/suspense';
 import { Badge } from '@/components/ui/badge';
@@ -47,9 +48,9 @@ export default function LoginForm() {
     }
 
     return <Card className="w-full max-w-sm border-0">
-        <CardHeader className="text-center">
-            <div className="relative h-8">
-                <Image src="logo.svg" alt="" fill/>
+        <CardHeader>
+            <div className="flex justify-center h-8 dark:invert">
+                <LogoImage/>
             </div>
         </CardHeader>
         <CardContent>

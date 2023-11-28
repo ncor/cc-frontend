@@ -6,7 +6,7 @@ import ProxyModal from "./ProxyModal";
 import ProxyDeleteModal from "./ProxyDeleteModal";
 import useProxies from "../../../hooks/data/proxy";
 import { ResourceActions } from "@/lib/resource/types";
-import useUser from "@/app/hooks/user";
+import useUser from "@/app/dashboard/users/hooks/user";
 import { User } from "@/lib/user/types";
 
 
@@ -47,7 +47,7 @@ export default function ProxyDropDownMenu({
                     <Button
                         variant="ghost"
                         size="sm"
-                        className="w-full rounded-sm px-2 justify-start"
+                        className="w-full rounded-sm px-2 justify-start text-red-500"
                     >
                         <Trash className="mr-2 h-4 w-4"/>
                         Удалить

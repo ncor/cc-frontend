@@ -9,39 +9,42 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Proxy } from "@/lib/proxy/types";
-import { User } from "@/lib/user/types";
-import { Badge } from "@/components/ui/badge";
-import UserAvatar from "../user/UserAvatar";
+import { ProxyExtended } from "@/lib/proxy/types";
 import useSuspense from "@/app/hooks/suspense";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import useProxies from "../../../hooks/data/proxy";
-import ProxyDropDownMenu from "./ProxyDropdownMenu";
-import { createTagsSearchBody } from "@/app/hooks/helpers";
-import ScopeBadge from "../resource/ScopeBadge";
-import { TagSelector } from "../tag/TagSelector";
-import useUser from "@/app/hooks/user";
+import useUser from "@/app/dashboard/users/hooks/user";
 import { RevalidationContext } from "@/app/contexts/revalidation";
-import { ResourceActions } from "@/lib/resource/types";
 import { MAX_ROWS_IN_PAGE } from "../../constants";
-import UserChip from "../user/UserChip";
+import useProxies from "../../../hooks/data/proxy";
+import UserChip from "../../users/components/UserChip";
+import ProxyDropDownMenu from "./ProxyDropdownMenu";
+import { Badge } from "@/components/ui/badge";
+import { createTagsSearchBody } from "@/app/hooks/helpers";
+import { ResourceActions } from "@/lib/resource/types";
+import ScopeBadge from "../../components/resource/ScopeBadge";
+import TagSelector from "../../tags/components/TagSelector";
+import useTags from "@/app/hooks/data/tag";
 
-export type ProxyTableRow = Proxy & { user: User };
 
-export type ProxyTableProps = {
+export type ProxyTableRow = ProxyExtended;
+
+export interface ProxyTableProps {
     selectPublic?: boolean;
-};
+}
 
-export default function ProxyTable({ selectPublic }: ProxyTableProps) {
+export default function ProxyTable({
+    selectPublic=false
+}: ProxyTableProps) {
     const user = useUser();
-    const { revalidated } = useContext(RevalidationContext);
     const { findOwn, findPublic, can } = useProxies();
+    const { find: findTags } = useTags();
     const { isLoading, suspenseFor } = useSuspense();
+    const { revalidated } = useContext(RevalidationContext);
 
-    const [rows, setRows] = useState<ProxyTableRow[]>();
-    const [tags, setTags] = useState<string[]>([]);
-    const [page, setPage] = useState<number>(0);
+    const [ rows, setRows ] = useState<ProxyTableRow[]>();
+    const [ tags, setTags ] = useState<string[]>([]);
+    const [ page, setPage ] = useState<number>(0);
 
     const fetch = async () => {
         const query = {
@@ -50,18 +53,18 @@ export default function ProxyTable({ selectPublic }: ProxyTableProps) {
             take: MAX_ROWS_IN_PAGE
         };
 
-        const response = await suspenseFor(async () => {
+        const response = await suspenseFor(() => {
             return selectPublic
                 ? findPublic(query)
                 : findOwn(query);
         });
 
-        if (response?.data) setRows(response.data as any);
+        if (response?.data) setRows(response.data as ProxyExtended[]);
     };
 
     useEffect(() => {
         fetch();
-    }, [tags, page, revalidated]);
+    }, [ tags, page, revalidated ]);
 
     return (
         <div className="space-y-2">

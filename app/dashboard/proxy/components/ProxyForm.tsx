@@ -5,15 +5,15 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/ui/icons";
-import TagsFormFields from "../tag/TagSelectFormField";
-import PermissionsFormFields from "../resource/permissions/PermissionsFormFields";
+import TagsFormFields from "../../tags/components/TagSelectFormField";
+import PermissionsFormFields from "../../components/resource/permissions/PermissionsFormFields";
 import { useToast } from "@/components/ui/use-toast";
 import useSuspense from "@/app/hooks/suspense";
 import { Proxy } from "@/lib/proxy/types";
 import { useContext } from "react";
 import useProxies from "../../../hooks/data/proxy";
 import { RevalidationContext } from "@/app/contexts/revalidation";
-import useUser from "@/app/hooks/user";
+import useUser from "@/app/dashboard/users/hooks/user";
 
 
 const proxySchema = z.object({

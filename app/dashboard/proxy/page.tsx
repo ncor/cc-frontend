@@ -1,12 +1,13 @@
 import { Button } from "@/components/ui/button";
-import ProxyModal from "../components/proxy/ProxyModal";
+import ProxyModal from "./components/ProxyModal";
 import { Plus } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ProxyTable from "../components/proxy/ProxyTable";
+import ProxyTable from "./components/ProxyTable";
 import RevalidationButton from "../components/RevalidationButton";
+import ProxyPageStats from "./components/ProxyPageStats";
 
 
-export default function ProxyPage() {
+export default async function ProxyPage() {
     return (
         <div className="w-full p-8 pt-6 flex justify-center">
             <div className="space-y-4 w-full max-w-5xl">
@@ -24,6 +25,7 @@ export default function ProxyPage() {
                         </ProxyModal>
                     </div>
                 </div>
+                <ProxyPageStats/>
                 <Tabs defaultValue="own" className="w-full">
                     <TabsList className="grid w-full grid-cols-2">
                         <TabsTrigger value="own">Личные</TabsTrigger>

@@ -6,7 +6,7 @@ import { ModalProps } from "@/lib/client/types";
 import ProxyForm, { ProxyFormProps } from "./ProxyForm";
 import { User } from "@/lib/user/types";
 import { Proxy } from "@/lib/proxy/types";
-import UserChip from "../user/UserChip";
+import UserChip from "../../users/components/UserChip";
 
 
 export type ProxyModalProps = ModalProps & {
@@ -28,9 +28,7 @@ export default function ProxyModal({
                     <DialogTitle className="flex items-center gap-2">
                         {
                             update &&
-                            <div className="px-3 py-2 bg-zinc-900 rounded-md">
-                                <UserChip user={ update.user }/>
-                            </div>
+                            <UserChip user={ update.user } card/>
                         }
                         Прокси
                     </DialogTitle>

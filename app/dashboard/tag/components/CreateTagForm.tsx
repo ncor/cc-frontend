@@ -16,8 +16,9 @@ import useSuspense from "@/app/hooks/suspense";
 import { useContext } from "react";
 import { RevalidationContext } from "../../../contexts/revalidation";
 import useTags from "../../../hooks/data/tag";
-import PermissionsFormFields from "../resource/permissions/PermissionsFormFields";
-import useUser from "@/app/hooks/user";
+import PermissionsFormFields from "../../components/resource/permissions/PermissionsFormFields";
+import useUser from "../../users/hooks/user";
+
 
 export const createTagSchema = z.object({
     name: z.string().min(2).max(50),

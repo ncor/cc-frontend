@@ -14,33 +14,37 @@ import useTags from "../../../hooks/data/tag";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Tag } from "@/lib/tag/types";
 import { Skeleton } from "@/components/ui/skeleton";
-import ScopeBadge from "../resource/ScopeBadge";
+import ScopeBadge from "../../components/resource/ScopeBadge";
 import CreateTagModal from "./CreateTagModal";
 import { CreateTagSchemaType } from "./CreateTagForm";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { RevalidationContext } from "@/app/contexts/revalidation";
 import useSuspense from "@/app/hooks/suspense";
+import useUser from "../../users/hooks/user";
 
-export interface MultiSelectProps {
+
+export interface TagSelectorProps {
     onTagsChange?: (tags: string[]) => void;
     selected?: string[];
     disabled?: boolean;
 }
 
-export function TagSelector({
+export default function TagSelector({
     selected,
     onTagsChange,
     disabled,
-}: MultiSelectProps) {
+}: TagSelectorProps) {
+    const user = useUser();
+    const { find } = useTags();
     const { suspenseFor, isLoading } = useSuspense();
     const { revalidated } = useContext(RevalidationContext);
-    const { findOwn, findPublic } = useTags();
     const inputRef = useRef<HTMLInputElement>(null);
-    const [open, setOpen] = useState(false);
-    const [inputValue, setInputValue] = useState("");
-    const [collection, setCollection] = useState<Tag[]>([]);
-    const [tags, setTags] = useState<string[]>([]);
+    const [ collection, setCollection ] = useState<Tag[]>([]);
+    const [ open, setOpen ] = useState(false);
+    const [ tags, setTags ] = useState<string[]>([]);
+    const [ inputValue, setInputValue ] = useState("");
+    const [ shouldUpdate, setShouldUpdate ] = useState<boolean>(false);
 
     const setAndPropagate = (tags: string[]) => {
         setTags(tags);
@@ -48,32 +52,19 @@ export function TagSelector({
     };
 
     const updateCollection = async () => {
-        const tags = await suspenseFor(async () => {
-            const publicTags = await findPublic({});
-            const ownTags = await findOwn({});
-
-            return [
-                ...(publicTags?.data?.filter(
-                    (tag) =>
-                        !ownTags?.data?.map((tag) => tag.name)?.includes(tag.name)
-                ) || []),
-                ...(ownTags?.data || []),
-            ];
-        })
-
-        setCollection(tags);
+        setCollection((await suspenseFor(() => find({})))?.data || []);
     };
 
     useEffect(() => {
-        updateCollection();
-        if (selected) setTags(selected);
-    }, [revalidated]);
+        setShouldUpdate(true);
+        if (selected) setAndPropagate(selected);
+    }, [ revalidated ]);
 
     const handleUnselect = useCallback(
         (unselectedTag: string) => {
             setAndPropagate(tags.filter((tag) => tag !== unselectedTag));
         },
-        [tags]
+        [ tags ]
     );
 
     const handleKeyDown = useCallback(
@@ -133,7 +124,13 @@ export function TagSelector({
                                 value={inputValue}
                                 onValueChange={setInputValue}
                                 onBlur={() => setOpen(false)}
-                                onFocus={() => setOpen(true)}
+                                onFocus={() => {
+                                    setOpen(true);
+                                    if (shouldUpdate) {
+                                        updateCollection();
+                                        setShouldUpdate(false);
+                                    }
+                                }}
                                 placeholder="Теги"
                                 className="ml-2 bg-transparent outline-none placeholder:text-muted-foreground flex-1"
                                 disabled={disabled}

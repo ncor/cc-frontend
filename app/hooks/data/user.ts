@@ -1,10 +1,10 @@
 'use client';
 
 import cook from "../cook";
-import useUser from "../user";
+import useUser from "../../dashboard/users/hooks/user";
 import { ArgsType } from "@/lib/types";
 import { useToast } from "@/components/ui/use-toast";
-import { createUser, deleteUser, findUser, updateUser } from "@/lib/user/endpoints";
+import { countUsers, createUser, deleteUser, findUser, updateUser } from "@/lib/user/endpoints";
 
 
 export default function useUsers() {
@@ -17,6 +17,9 @@ export default function useUsers() {
     const find = async (args: ArgsType<typeof findUser>[1]) =>
         cook(toast, await findUser(user, args));
 
+    const count = async (args: ArgsType<typeof countUsers>[1]) =>
+        cook(toast, await countUsers(user, args));
+
     const update = async (args: ArgsType<typeof updateUser>[1]) =>
         cook(toast, await updateUser(user, args));
 
@@ -24,6 +27,6 @@ export default function useUsers() {
         cook(toast, await deleteUser(user, args));
 
     return {
-        create, find, update, remove
+        create, find, count, update, remove
     };
 }

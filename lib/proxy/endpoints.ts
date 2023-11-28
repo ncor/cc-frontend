@@ -33,6 +33,14 @@ export const findProxy = endpoint(async (
 });
 
 
+export const countProxies = endpoint(async (
+    user: UserAuth,
+    args: Prisma.proxyCountArgs
+) => {
+    return prisma.proxy.count(args);
+});
+
+
 export const updateProxy = endpoint(async (
     user: UserAuth,
     args: Prisma.proxyUpdateArgs

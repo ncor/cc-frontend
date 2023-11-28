@@ -1,13 +1,13 @@
 'use client';
 
-import { createProxy, deleteProxy, findProxy, updateProxy } from "@/lib/proxy/endpoints";
+import { countProxies, createProxy, deleteProxy, findProxy, updateProxy } from "@/lib/proxy/endpoints";
 import { ArgsType } from "@/lib/types";
 import { proxyPolicy } from "@/lib/proxy/policy";
 import { Proxy } from "@/lib/proxy/types";
 import { User } from "@/lib/user/types";
 import { useToast } from "@/components/ui/use-toast";
 import cook from "../cook";
-import useUser from "../user";
+import useUser from "../../dashboard/users/hooks/user";
 
 
 export default function useProxies() {
@@ -22,11 +22,20 @@ export default function useProxies() {
             ...args, include: { user: true }
         }));
 
-    const findOwn = async(args: ArgsType<typeof findProxy>[1]) =>
+    const findOwn = (args: ArgsType<typeof findProxy>[1]) =>
         find({ ...args, where: { ...args.where, owner_id: user.id } });
 
-    const findPublic = async(args: ArgsType<typeof findProxy>[1]) =>
+    const findPublic = (args: ArgsType<typeof findProxy>[1]) =>
         find({ ...args, where: { ...args.where, is_public: true } });
+
+    const count = async (args: ArgsType<typeof countProxies>[1]) =>
+        cook(toast, await countProxies(user, args))
+
+    const countOwn = async (args: ArgsType<typeof countProxies>[1]) =>
+        count({ ...args, where: { ...args.where, owner_id: user.id } })
+
+    const countPublic = async (args: ArgsType<typeof countProxies>[1]) =>
+        count({ ...args, where: { ...args.where, is_public: true } })
 
     const update = async (args: ArgsType<typeof updateProxy>[1]) =>
         cook(toast, await updateProxy(user, args));
@@ -38,6 +47,6 @@ export default function useProxies() {
         proxyPolicy.isAllowed(action, proxy, user)
 
     return {
-        create, find, findOwn, findPublic, update, remove, can
+        create, find, findOwn, count, countOwn, countPublic, findPublic, update, remove, can
     };
 }

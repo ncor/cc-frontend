@@ -53,6 +53,14 @@ export const findUser = endpoint(async (
 });
 
 
+export const countUsers = endpoint(async (
+    user: UserAuth,
+    args: Prisma.userCountArgs
+) => {
+    return prisma.user.count(args);
+});
+
+
 export const updateUser = endpoint(async (
     user: UserAuth,
     args: Prisma.userUpdateArgs

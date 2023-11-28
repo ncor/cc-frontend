@@ -1,3 +1,5 @@
+'use client';
+
 export const createCommonQueryBody = (
     pagination?: [number, number] | null,
     tags?: string[] | null,

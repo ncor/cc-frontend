@@ -7,7 +7,7 @@ import { tagPolicy } from "@/lib/tag/policy";
 import { Tag } from "@/lib/tag/types";
 import { User } from "@/lib/user/types";
 import cook from "../cook";
-import useUser from "../user";
+import useUser from "../../dashboard/users/hooks/user";
 
 
 export default function useTags() {
@@ -19,13 +19,13 @@ export default function useTags() {
 
     const find = async (args: ArgsType<typeof findTag>[1]) =>
         cook(toast, await findTag(user, {
-            ...args
+            ...args, orderBy: { is_public: 'desc' }
         }));
 
-    const findOwn = async(args: ArgsType<typeof findTag>[1]) =>
+    const findOwn = (args: ArgsType<typeof findTag>[1]) =>
         find({ ...args, where: { ...args.where, owner_id: user.id } });
 
-    const findPublic = async(args: ArgsType<typeof findTag>[1]) =>
+    const findPublic = (args: ArgsType<typeof findTag>[1]) =>
         find({ ...args, where: { ...args.where, is_public: true } });
 
     const update = async (args: ArgsType<typeof updateTag>[1]) =>

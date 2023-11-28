@@ -1,26 +1,26 @@
 'use client';
 
 import { SessionProvider } from "next-auth/react";
-import { ReactNode, useState } from "react";
-import { RevalidationContext } from '../contexts/revalidation';
+import { ReactNode } from "react";
 import { Session } from "next-auth";
+import RevalidationProvider from "./providers/RevalidationProvider";
+import ThemeProvider from "./providers/theme/ThemeProvider";
 
 
 export type ProvidersProps = {
     session: Session | null,
+    defaultTheme: string,
     children: ReactNode
 };
 
 export default function Providers({
-    session, children
+    session, defaultTheme, children
 }: ProvidersProps) {
-    const [ revalidated, revalidate ] = useState<number>(Math.random());
-
     return <SessionProvider session={ session }>
-        <RevalidationContext.Provider value={{
-            revalidated, revalidate: () => { revalidate(Math.random()) }
-        }}>
-            { children }
-        </RevalidationContext.Provider>
+        <RevalidationProvider>
+            <ThemeProvider defaultTheme={ defaultTheme }>
+                { children }
+            </ThemeProvider>
+        </RevalidationProvider>
     </SessionProvider>;
 }

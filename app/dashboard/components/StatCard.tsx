@@ -15,7 +15,7 @@ export default function StatCard({
     title, icon, isLoading, children
 }: StatCardProps) {
     return (
-        <Card>
+        <Card className="bg-accent dark:bg-accent/50 border-0">
             <CardHeader className="flex flex-row items-center justify-between space-y-0">
                 <CardTitle className="text-sm font-medium">
                     { title }
@@ -24,7 +24,7 @@ export default function StatCard({
                     { icon }
                 </div>
             </CardHeader>
-            <CardContent className="text-2xl font-bold">
+            <CardContent className="text-3xl font-bold">
                 {
                     isLoading
                     ? <Skeleton className="w-full h-[48px]"/>

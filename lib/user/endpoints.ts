@@ -44,7 +44,7 @@ export const updateUser = endpoint(async (
     if (!targetUser) throw ERRORS.USER.NOT_EXISTS;
     await verifyUserUpdateAccess(user, targetUser);
 
-    args.data = await verifyUserDataUpsert(args.data as User);
+    args.data = await verifyUserDataUpsert(args.data as User, targetUser.name);
 
     return prisma.user.update(args);
 });

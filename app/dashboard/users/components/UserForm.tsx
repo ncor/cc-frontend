@@ -14,6 +14,7 @@ import { Shield } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import useUser from "../hooks/user";
 import useUsers from "@/app/hooks/data/user";
+import { excludeEmptyRecords } from "@/lib/helpers";
 
 
 const userSchema = z.object({
@@ -54,7 +55,10 @@ export default function UserForm({
     const submit = async (form: z.infer<UserSchemaType>) => {
         const response = await suspenseFor(async () => {
             return update
-                ? updateUser({ where: { id: update.id },  data: form })
+                ? updateUser({
+                    where: { id: update.id },
+                    data: excludeEmptyRecords(form)
+                })
                 : createUser({ data: form });
         });
 
@@ -78,7 +82,10 @@ export default function UserForm({
                         <FormItem>
                             <FormLabel>Имя</FormLabel>
                             <FormControl>
-                                <Input placeholder="Имя" { ...field } />
+                                <Input
+                                    autoComplete="new-password"
+                                    placeholder="Имя" { ...field }                            
+                                />
                             </FormControl>
                             <FormDescription>
                                 Советуем использовать только латинские буквы и нижние подчеркивания.
@@ -98,6 +105,7 @@ export default function UserForm({
                                 <FormLabel>Пароль</FormLabel>
                                 <FormControl>
                                     <Input
+                                        autoComplete="new-password"
                                         type="password"
                                         placeholder="Пароль"
                                         { ...field }
@@ -119,7 +127,7 @@ export default function UserForm({
                         name="is_admin"
                         render={({ field }) => (
                             <FormItem
-                                className="flex flex-row items-center justify-between rounded-lg border border-red-500 text-red-500 stroke-red-500 p-4"
+                                className="flex flex-row items-center justify-between rounded-lg bg-red-500/10 text-red-500 stroke-red-500 p-6"
                             >
                                 <div>
                                     <FormLabel className="text-base flex items-center mb-2">
@@ -132,7 +140,7 @@ export default function UserForm({
                                 </div>
                                 <FormControl>
                                     <Switch
-                                        className="data-[state=checked]:bg-red-500"
+                                        className="data-[state=unchecked]:bg-red-500/25 data-[state=checked]:bg-red-500"
                                         checked={ field.value }
                                         onCheckedChange={ field.onChange }
                                     />

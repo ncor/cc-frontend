@@ -11,7 +11,7 @@ export const verifyUserUpdateAccess = async (
     user: User,
     targetUser: User
 ) => {
-    if (user.id != targetUser.id && user.is_admin)
+    if (user.id != targetUser.id && !user.is_admin)
         throw ERRORS.AUTH.NOT_PERMITTED;
 }
 
@@ -25,15 +25,21 @@ export const refactorUserData = async (data: User) => {
     return data;
 }
 
-export const verifyUserNameAvailability = async (name: string) => {
+export const verifyUserNameAvailability = async (
+    name: string, currentUserName?: string
+) => {
+    if (currentUserName && currentUserName == name) return;
+
     const possibleUser = await prisma.user.findFirst({ where: { name } });
 
     if (possibleUser) throw ERRORS.USER.NAME_IS_BUSY;
 }
 
-export const verifyUserDataUpsert = async(data: User) => {
+export const verifyUserDataUpsert = async(
+    data: User, currentUserName?: string
+) => {
     data = await refactorUserData(data as User);
-    await verifyUserNameAvailability(data.name);
+    await verifyUserNameAvailability(data.name, currentUserName);
 
     return data;
 }

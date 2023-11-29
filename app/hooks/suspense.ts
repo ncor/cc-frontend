@@ -4,7 +4,7 @@ import { useState } from "react";
 
 
 export default function useSuspense() {
-    const [ isLoading, setIsLoading ] = useState<boolean>(false);
+    const [ isLoading, setIsLoading ] = useState<boolean>(true);
 
     const suspenseFor = async <R>(
         callback: (...args: any) => R

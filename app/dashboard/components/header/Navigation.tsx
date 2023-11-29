@@ -27,19 +27,24 @@ export default function Navigation({
     const user = useUser();
 
     const positioningStyles = sticked ? 'fixed top-0' : '';
+    const backgroundColor = sticked ? 'bg-background' : 'bg-transparent';
 
     return <div
         className={
-            cn("w-full flex items-center py-2 border-b bg-background px-3", positioningStyles)
+            cn(
+                "w-full flex items-center py-2 border-b px-3",
+                positioningStyles,
+                backgroundColor
+            )
         }
     >
         <AnimatePresence>
             {
                 sticked &&
                 <motion.div
-                    initial={{ opacity: 0, x: -24 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -24 }}
+                    initial={{ opacity: 0, y: -24 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -24 }}
                     transition={{ type: "tween", duration: 0.2 }}
                     className="absolute left-6 h-6 dark:invert"
                 >

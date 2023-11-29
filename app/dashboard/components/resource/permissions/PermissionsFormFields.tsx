@@ -17,7 +17,7 @@ export default function IsPublicFormField({
             name="is_public"
             render={({ field }) => (
                 <FormItem
-                    className="flex flex-row items-center justify-between rounded-lg border p-4"
+                    className="flex flex-row items-center justify-between rounded-lg bg-accent dark:bg-accent/25 p-6"
                 >
                     <div>
                         <FormLabel className="text-base flex items-center mb-2">

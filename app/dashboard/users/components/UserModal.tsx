@@ -7,16 +7,18 @@ import UserForm, { UserFormProps } from "./UserForm";
 import UserChip from "./UserChip";
 
 
-export type UserModalProps = ModalProps & UserFormProps;
+export type UserModalProps = ModalProps & UserFormProps & {
+    className?: string
+};
 
 export default function UserModal({
-    children, update, onSubmit
+    className, children, update, onSubmit
 }: UserModalProps) {
     const [ open, setOpen ] = useState<boolean>(false);
 
     return (
         <Dialog open={ open } onOpenChange={ setOpen }>
-            <DialogTrigger>
+            <DialogTrigger className={ className }>
                 { children }
             </DialogTrigger>
             <DialogContent>

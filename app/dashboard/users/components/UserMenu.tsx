@@ -44,7 +44,7 @@ export default function UserMenu() {
                 </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <UserModal update={ user }>
+            <UserModal update={ user } className="w-full">
                 <Button
                     variant="ghost"
                     size="sm"

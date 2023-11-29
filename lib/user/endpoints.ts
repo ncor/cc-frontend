@@ -3,35 +3,10 @@
 import { Prisma } from "@prisma/client";
 import { endpoint } from "../endpoint";
 import { User, UserAuth, UserBatchItem } from "./types";
-import { verifyUserUpdateAccess } from "./service";
+import { verifyUserDataUpsert, verifyUserUpdateAccess } from "./service";
 import { ERRORS } from "../error/constants";
 import { prisma } from "../prisma";
-import bcrypt from 'bcrypt';
-import { PASSWORD_HASHING_ROUNDS } from "./constants";
 
-
-const hashPassword = (password: string) =>
-    bcrypt.hash(password, PASSWORD_HASHING_ROUNDS);
-
-const refactorUserData = async (data: User) => {
-    if (data.name) data.name = data.name.trim();
-    if (data.password) data.password = await hashPassword(data.password);
-
-    return data;
-}
-
-const verifyUserNameAvailability = async (name: string) => {
-    const possibleUser = await prisma.user.findFirst({ where: { name } });
-
-    if (possibleUser) throw ERRORS.USER.NAME_IS_BUSY;
-}
-
-const verifyUserDataUpsert = async(data: User) => {
-    data = await refactorUserData(data as User);
-    await verifyUserNameAvailability(data.name);
-
-    return data;
-}
 
 export const createUser = endpoint(async (
     user: UserAuth,

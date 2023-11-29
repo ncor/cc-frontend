@@ -1,4 +1,4 @@
-import { CustomError } from "../error";
+import { CustomError } from ".";
 
 
 export const ERRORS = {

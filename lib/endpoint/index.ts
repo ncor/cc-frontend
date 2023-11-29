@@ -1,16 +1,8 @@
-import verifyToken from "./auth/verify";
-import { CustomError } from "./error";
-import { ArgsType } from "./types";
-import { UserAuth } from "./user/types";
+import { EndpointResponse } from '@/lib/endpoint/types';
+import { CustomError } from "../error";
+import { ArgsType } from "../types";
+import { UserAuth } from "../user/types";
 
-
-export type EndpointResponse<T> = {
-    data?: T,
-    error?: {
-        message: string,
-        code: string
-    }
-}
 
 export const endpoint = <A extends Array<any>, R>(
     callback: (user: UserAuth, ...args: A) => R

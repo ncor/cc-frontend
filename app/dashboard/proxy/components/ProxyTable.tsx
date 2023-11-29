@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import {
     Table,
     TableBody,
@@ -10,10 +10,6 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { ProxyExtended } from "@/lib/proxy/types";
-import useSuspense from "@/app/hooks/suspense";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
-import { RevalidationContext } from "@/app/contexts/revalidation";
 import { MAX_ROWS_IN_PAGE } from "../../constants";
 import useProxies from "../../../hooks/data/proxy";
 import ProxyDropDownMenu from "./ProxyDropdownMenu";
@@ -21,10 +17,12 @@ import { Badge } from "@/components/ui/badge";
 import { createTagsSearchBody } from "@/app/hooks/helpers";
 import { ResourceActions } from "@/lib/resource/types";
 import ScopeBadge from "../../components/resource/ScopeBadge";
-import useTags from "@/app/hooks/data/tag";
 import useUser from "../../users/hooks/user";
 import TagSelector from "../../tag/components/TagSelector";
 import UserChip from "../../users/components/UserChip";
+import useTable from "@/app/hooks/table";
+import TableRowsAdapter from "../../components/table/TableRowsAdapter";
+import TablePagination from "../../components/table/TablePagination";
 
 
 export type ProxyTableRow = ProxyExtended;
@@ -38,33 +36,24 @@ export default function ProxyTable({
 }: ProxyTableProps) {
     const user = useUser();
     const { findOwn, findPublic, can } = useProxies();
-    const { find: findTags } = useTags();
-    const { isLoading, suspenseFor } = useSuspense();
-    const { revalidated } = useContext(RevalidationContext);
-
-    const [ rows, setRows ] = useState<ProxyTableRow[]>();
     const [ tags, setTags ] = useState<string[]>([]);
-    const [ page, setPage ] = useState<number>(0);
 
-    const fetch = async () => {
-        const query = {
-            ...createTagsSearchBody(tags),
-            skip: page * MAX_ROWS_IN_PAGE,
-            take: MAX_ROWS_IN_PAGE
-        };
-
-        const response = await suspenseFor(() => {
-            return selectPublic
+    const { rows, isFetching, pagination } = useTable<ProxyExtended>({
+        fetch: async pageIndex => {
+            const query = {
+                ...createTagsSearchBody(tags),
+                skip: pageIndex * MAX_ROWS_IN_PAGE,
+                take: MAX_ROWS_IN_PAGE
+            };
+    
+            const response = await (selectPublic
                 ? findPublic(query)
-                : findOwn(query);
-        });
+                : findOwn(query)
+            );
 
-        if (response?.data) setRows(response.data as ProxyExtended[]);
-    };
-
-    useEffect(() => {
-        fetch();
-    }, [ tags, page, revalidated ]);
+            return response?.data || [];
+        }
+    });
 
     return (
         <div className="space-y-2">
@@ -79,18 +68,11 @@ export default function ProxyTable({
                         <TableHead>Область</TableHead>
                     </TableHeader>
                     <TableBody>
-                        {!rows || isLoading ? (
-                            [...Array(rows?.length || MAX_ROWS_IN_PAGE)].map(
-                                (_, i) => (
-                                    <TableRow key={i}>
-                                        <TableCell colSpan={100}>
-                                            <Skeleton className="h-8" />
-                                        </TableCell>
-                                    </TableRow>
-                                )
-                            )
-                        ) : rows?.length ? (
-                            rows.map((row) => (
+                        <TableRowsAdapter
+                            rows={ rows }
+                            isFetching={ isFetching }
+                        >
+                            { rows?.map((row) => (
                                 <TableRow
                                     key={row.id}
                                     className="items-center h-[65px]"
@@ -135,39 +117,12 @@ export default function ProxyTable({
                                         )}
                                     </TableCell>
                                 </TableRow>
-                            ))
-                        ) : (
-                            <TableRow>
-                                <TableCell
-                                    colSpan={5}
-                                    className="h-24 text-center"
-                                >
-                                    Ничего не найдено.
-                                </TableCell>
-                            </TableRow>
-                        )}
+                            )) }
+                        </TableRowsAdapter>
                     </TableBody>
                 </Table>
             </div>
-            <div className="w-full flex gap-2 items-center justify-end">
-                <p className="text-sm text-muted-foreground mr-auto">
-                    Страница {page + 1}
-                </p>
-                <Button
-                    variant="outline"
-                    disabled={page < 1}
-                    onClick={() => setPage(page < 1 ? 0 : page - 1)}
-                >
-                    Назад
-                </Button>
-                <Button
-                    variant="outline"
-                    disabled={!rows || rows.length < MAX_ROWS_IN_PAGE}
-                    onClick={() => setPage(page + 1)}
-                >
-                    Дальше
-                </Button>
-            </div>
+            <TablePagination rows={ rows } pagination={ pagination }/>
         </div>
     );
 }

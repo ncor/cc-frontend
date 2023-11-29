@@ -1,5 +1,6 @@
 'use client';
 
+import useSuspense from "@/app/hooks/suspense";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/client/utils";
@@ -16,23 +17,30 @@ export type UserAvatarProps = {
 export default function UserAvatar({
     seed, size='default'
 }: UserAvatarProps) {
+    const { isLoading, suspenseFor } = useSuspense(true);
     const [ avatarUri, setAvatarUri ] = useState<string>('');
 
-    useEffect(() => {
+    const loadAvatar = async () => {
         const avatar = createAvatar(identicon, { seed: seed || '', scale: 70 });
-        avatar.toDataUri().then(uri => setAvatarUri(uri));
+        const dataUri = await suspenseFor(() => avatar.toDataUri());
+
+        setAvatarUri(dataUri);
+    };
+
+    useEffect(() => {
+        loadAvatar();
     }, [ seed ]);
 
     const sizeStyle = size == 'default' ? 'w-[22px] h-[22px]' : 'w-4 h-4';
 
-    return avatarUri && seed ?
-        <Avatar className={ cn("relative rounded-full bg-white", sizeStyle) }>
-            <AvatarImage
-                src={ avatarUri }
-                alt="@shadcn"
-            />
-            <AvatarFallback>?</AvatarFallback>
-        </Avatar>
-    :
-        <Skeleton className={ cn("relative rounded-full h-8 w-8", sizeStyle) }/>;
+    if (isLoading)
+        return <Skeleton className={ cn("relative rounded-full h-8 w-8", sizeStyle) }/>;
+
+    return <Avatar className={ cn("relative rounded-full bg-white", sizeStyle) }>
+        <AvatarImage
+            src={ avatarUri }
+            alt="@shadcn"
+        />
+        <AvatarFallback>?</AvatarFallback>
+    </Avatar>;
 }

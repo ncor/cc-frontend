@@ -12,7 +12,7 @@ import StatsSection from "../../components/stats/StatsSection";
 export default function ProxyPageStats() {
     const { countOwn, countPublic } = useProxies();
     const { revalidated } = useRevalidation();
-    const { suspenseFor, isLoading } = useSuspense();
+    const { suspenseFor, isLoading } = useSuspense(true);
     const [ ownProxiesCount, setOwnProxiesCount ] = useState<number>(0);
     const [ publicProxiesCount, setPublicProxiesCount ] = useState<number>(0);
     const [ ownRequestsCount, setOwnRequestsCount ] = useState<number>(0);

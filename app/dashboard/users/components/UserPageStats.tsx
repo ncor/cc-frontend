@@ -14,7 +14,7 @@ import StatsSection from "../../components/stats/StatsSection";
 export default function UserPageStats() {
     const { count } = useUsers();
     const { revalidated } = useRevalidation();
-    const { suspenseFor, isLoading } = useSuspense();
+    const { suspenseFor, isLoading } = useSuspense(true);
     const [ usersCount, setUsersCount ] = useState<number>(0);
     const [ newUsersCount, setNewUsersCount ] = useState<number>(0);
     const [ adminsCount, setAdminsCount ] = useState<number>(0);

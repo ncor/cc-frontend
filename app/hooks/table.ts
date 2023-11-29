@@ -10,7 +10,7 @@ export interface ITableHookParams<T> {
 
 export default function useTable<T>({ fetch }: ITableHookParams<T>) {
     const pagination = usePagination();
-    const { suspenseFor, isLoading } = useSuspense();
+    const { suspenseFor, isLoading } = useSuspense(true);
     const revalidation = useRevalidation();
 
     const [ rows, setRows ] = useState<T[]>();

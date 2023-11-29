@@ -12,13 +12,44 @@ import { Link2, Shield } from "lucide-react";
 import Link from "next/link";
 import { forwardRef } from "react";
 import useUser from "../../users/hooks/user";
+import { cn } from "@/lib/client/utils";
+import LogoImage from "@/app/components/LogoImage";
+import { AnimatePresence, motion } from "framer-motion";
 
 
-export default function Navigation() {
+export interface NavigationProps {
+    sticked?: boolean
+}
+
+export default function Navigation({
+    sticked=false
+}: NavigationProps) {
     const user = useUser();
 
-    return (
-        <NavigationMenu>
+    const positioningStyles = sticked ? 'fixed top-0' : '';
+
+    return <div
+        className={
+            cn("w-full flex items-center py-2 border-b bg-background px-3", positioningStyles)
+        }
+    >
+        <AnimatePresence>
+            {
+                sticked &&
+                <motion.div
+                    initial={{ opacity: 0, x: -24 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -24 }}
+                    transition={{ type: "tween", duration: 0.2 }}
+                    className="absolute left-6 h-6 dark:invert"
+                >
+                    <LogoImage/>
+                </motion.div>
+            }
+        </AnimatePresence>
+        <NavigationMenu className={
+            cn("transition-all duration-200", sticked && "translate-x-16")
+        }>
             <NavigationMenuList>
                 <NavigationMenuItem>
                     <Link href="/dashboard/proxy" legacyBehavior passHref>
@@ -53,5 +84,5 @@ export default function Navigation() {
                 }
             </NavigationMenuList>
         </NavigationMenu>
-    );
+    </div>
 }

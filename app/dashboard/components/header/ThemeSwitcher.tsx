@@ -17,8 +17,8 @@ export default function ThemeSwitcher() {
     >
         {
             theme == 'dark'
-            ? <SunDim className="w-5 h-5"/>
-            : <Moon className="w-4 h-4"/>
+            ? <SunDim className="w-5 h-5 text-muted-foreground"/>
+            : <Moon className="w-4 h-4 text-muted-foreground"/>
         }
     </Button>
 };

@@ -27,7 +27,7 @@ export default function StatCard({
             <CardContent className="text-3xl font-bold">
                 {
                     isLoading
-                    ? <Skeleton className="w-full h-[48px]"/>
+                    ? <Skeleton className="w-full h-[52px]"/>
                     : children
                 }
             </CardContent>

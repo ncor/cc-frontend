@@ -23,13 +23,8 @@ export default function UserMenu() {
         signOut({ callbackUrl: window.location.origin + '/login' });
 
     return <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-            <Button
-                variant="secondary"
-                className="relative h-8 w-8 rounded-full"
-            >
-                <UserAvatar seed={ user.name }/>
-            </Button>
+        <DropdownMenuTrigger>
+            <UserChip user={ user } card/>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56" align="end" forceMount>
             <DropdownMenuLabel className="font-normal">

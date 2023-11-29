@@ -16,11 +16,14 @@ import { MAX_ROWS_IN_PAGE } from "../../constants";
 import useUsers from "../../../hooks/data/user";
 import UserChip from "./UserChip";
 import UserDropDownMenu from "./UserDropdownMenu";
-import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Input, Search } from "@/components/ui/input";
+import { Plus } from "lucide-react";
 import useTable from "@/app/hooks/table";
 import TableRowsAdapter from "../../components/table/TableRowsAdapter";
 import TablePagination from "../../components/table/TablePagination";
+import UserModal from './UserModal';
+import SectionContent from '../../components/section/SectionContent';
+import Section from '../../components/section/Section';
 
 
 export type UserTableRow = User;
@@ -53,65 +56,62 @@ export default function UserTable({
         }
     });
 
-    return (
-        <div className="space-y-2">
-            <div className="flex w-full items-center gap-1">
-                <Input
-                    onKeyDown={ e => {
-                        if (e.key == 'Enter') update();
-                    } }
-                    onChange={ e => setSearch(e.target.value) }
-                    placeholder="Найти по имени..."
-                />
-                <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={ () => update() }
-                >
-                    <Search className="w-4 h-4"/>
-                </Button>
-            </div>
-            <div className="rounded-md border">
-                <Table>
-                    <TableHeader className="border-b">
-                        <TableHead>ID</TableHead>
-                        <TableHead>Профиль</TableHead>
-                        <TableHead>Дата регистрации</TableHead>
-                    </TableHeader>
-                    <TableBody>
-                        <TableRowsAdapter
-                            rows={ rows }
-                            isFetching={ isFetching }
-                        >
-                            { rows?.map((row) => (
-                                    <TableRow
-                                        key={row.id}
-                                        className="items-center h-[65px]"
-                                    >
-                                        <TableCell className="pt-5">
-                                            { row.id.slice(0, 4) }
-                                            { ' ... ' }
-                                            { row.id.slice(-4) }
-                                        </TableCell>
-                                        <TableCell className="pt-5">
-                                            <UserChip user={ row }/>
-                                        </TableCell>
-                                        <TableCell>
-                                            { row.created_at.toDateString() }
-                                        </TableCell>
-                                        <TableCell className="float-right">
-                                            {
-                                                user.is_admin && 
-                                                <UserDropDownMenu data={ row }/>
-                                            }
-                                        </TableCell>
-                                    </TableRow>
-                            )) }
-                        </TableRowsAdapter>
-                    </TableBody>
-                </Table>
-            </div>
-            <TablePagination rows={ rows } pagination={ pagination }/>
+    return <div className="space-y-2">
+        <div className="w-full">
+            <Search
+                onKeyDown={ e => {
+                    if (e.key == 'Enter') update();
+                } }
+                onChange={ e => setSearch(e.target.value) }
+                placeholder="Найти по имени..."
+            />
         </div>
-    );
+        <Table>
+            <TableHeader>
+                <TableHead>ID</TableHead>
+                <TableHead>Профиль</TableHead>
+                <TableHead>Дата регистрации</TableHead>
+                <TableHead>
+                    <UserModal className="float-right">
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                            <span className="sr-only">Новый пользователь</span>
+                            <Plus className="h-4 w-4" />
+                        </Button>
+                    </UserModal>
+                </TableHead>
+            </TableHeader>
+            <TableBody>
+                <TableRowsAdapter
+                    rows={ rows }
+                    isFetching={ isFetching }
+                >
+                    { rows?.map((row) => (
+                            <TableRow
+                                key={row.id}
+                                className="items-center h-[65px]"
+                            >
+                                <TableCell className="pt-5">
+                                    { row.id.slice(0, 4) }
+                                    { ' ... ' }
+                                    { row.id.slice(-4) }
+                                </TableCell>
+                                <TableCell className="pt-5">
+                                    <UserChip user={ row }/>
+                                </TableCell>
+                                <TableCell>
+                                    { row.created_at.toDateString() }
+                                </TableCell>
+                                <TableCell className="float-right">
+                                    {
+                                        user.is_admin && 
+                                        <UserDropDownMenu data={ row }/>
+                                    }
+                                </TableCell>
+                            </TableRow>
+                    )) }
+                </TableRowsAdapter>
+            </TableBody>
+        </Table>
+        <TablePagination rows={ rows } pagination={ pagination }/>
+    </div>;
 }

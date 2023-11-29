@@ -58,70 +58,68 @@ export default function ProxyTable({
     return (
         <div className="space-y-2">
             <TagSelector onTagsChange={(tags) => setTags(tags)} />
-            <div className="rounded-md border">
-                <Table>
-                    <TableHeader className="border-b">
-                        <TableHead>ID</TableHead>
-                        <TableHead>URL</TableHead>
-                        <TableHead>Теги</TableHead>
-                        <TableHead>Владелец</TableHead>
-                        <TableHead>Область</TableHead>
-                    </TableHeader>
-                    <TableBody>
-                        <TableRowsAdapter
-                            rows={ rows }
-                            isFetching={ isFetching }
-                        >
-                            { rows?.map((row) => (
-                                <TableRow
-                                    key={row.id}
-                                    className="items-center h-[65px]"
-                                >
-                                    <TableCell>{row.id}</TableCell>
-                                    <TableCell>
-                                        <div className="flex items-center gap-2">
-                                            <Badge variant="outline">
-                                                { row.url.split('://')[0] }
-                                            </Badge>
-                                            { row.url.split('@')[1] }
-                                        </div>
-                                    </TableCell>
-                                    <TableCell className="space-x-1">
-                                        {row.tags.map((tag) => (
-                                            <Badge
-                                                key={row.id}
-                                                variant="secondary"
-                                            >
-                                                {tag}
-                                            </Badge>
-                                        ))}
-                                    </TableCell>
-                                    <TableCell>
-                                        <UserChip user={ row.user }/>
-                                    </TableCell>
-                                    <TableCell>
-                                        <ScopeBadge isPublic={row.is_public} />
-                                    </TableCell>
-                                    <TableCell className="float-right">
-                                        {(can(
-                                            ResourceActions.UPDATE,
+            <Table>
+                <TableHeader>
+                    <TableHead>ID</TableHead>
+                    <TableHead>URL</TableHead>
+                    <TableHead>Теги</TableHead>
+                    <TableHead>Владелец</TableHead>
+                    <TableHead>Область</TableHead>
+                </TableHeader>
+                <TableBody>
+                    <TableRowsAdapter
+                        rows={ rows }
+                        isFetching={ isFetching }
+                    >
+                        { rows?.map((row) => (
+                            <TableRow
+                                key={row.id}
+                                className="items-center h-[65px]"
+                            >
+                                <TableCell>{row.id}</TableCell>
+                                <TableCell>
+                                    <div className="flex items-center gap-2">
+                                        <Badge variant="outline">
+                                            { row.url.split('://')[0] }
+                                        </Badge>
+                                        { row.url.split('@')[1] }
+                                    </div>
+                                </TableCell>
+                                <TableCell className="space-x-1">
+                                    {row.tags.map((tag) => (
+                                        <Badge
+                                            key={row.id}
+                                            variant="secondary"
+                                        >
+                                            {tag}
+                                        </Badge>
+                                    ))}
+                                </TableCell>
+                                <TableCell>
+                                    <UserChip user={ row.user }/>
+                                </TableCell>
+                                <TableCell>
+                                    <ScopeBadge isPublic={row.is_public} />
+                                </TableCell>
+                                <TableCell className="float-right">
+                                    {(can(
+                                        ResourceActions.UPDATE,
+                                        row,
+                                        user
+                                    ) ||
+                                        can(
+                                            ResourceActions.DELETE,
                                             row,
                                             user
-                                        ) ||
-                                            can(
-                                                ResourceActions.DELETE,
-                                                row,
-                                                user
-                                            )) && (
-                                            <ProxyDropDownMenu data={row} />
-                                        )}
-                                    </TableCell>
-                                </TableRow>
-                            )) }
-                        </TableRowsAdapter>
-                    </TableBody>
-                </Table>
-            </div>
+                                        )) && (
+                                        <ProxyDropDownMenu data={row} />
+                                    )}
+                                </TableCell>
+                            </TableRow>
+                        )) }
+                    </TableRowsAdapter>
+                </TableBody>
+            </Table>
             <TablePagination rows={ rows } pagination={ pagination }/>
         </div>
     );

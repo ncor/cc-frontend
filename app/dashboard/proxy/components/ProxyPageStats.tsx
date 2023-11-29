@@ -1,11 +1,12 @@
 'use client';
 
 import { Network } from "lucide-react";
-import StatCard from "../../components/StatCard";
+import StatCard from "../../components/stats/StatCard";
 import useRevalidation from "@/app/hooks/revalidation";
 import useSuspense from "@/app/hooks/suspense";
 import { useEffect, useState } from "react";
 import useProxies from "@/app/hooks/data/proxy";
+import StatsSection from "../../components/stats/StatsSection";
 
 
 export default function ProxyPageStats() {
@@ -25,26 +26,28 @@ export default function ProxyPageStats() {
         });
     }, [ revalidated ]);
 
-    return <div className="grid gap-4 grid-rows-1 md:grid-cols-1 lg:grid-cols-2 pb-4">
-        <StatCard
-            title="Личные прокси"
-            icon={ <Network className="w-full h-full"/> }
-            isLoading={ isLoading }
-        >
-            { ownProxiesCount }
-            <p className="text-xs font-normal text-muted-foreground">
-                { ownRequestsCount } запросов
-            </p>
-        </StatCard>
-        <StatCard
-            title="Публичные прокси"
-            icon={ <Network className="w-full h-full"/> }
-            isLoading={ isLoading }
-        >
-            { publicProxiesCount }
-            <p className="text-xs font-normal text-muted-foreground">
-                { publicRequestsCount } запросов
-            </p>
-        </StatCard>
-    </div>
+    return <StatsSection>
+        <div className="grid gap-4 grid-rows-1 md:grid-cols-1 lg:grid-cols-2">
+            <StatCard
+                title="Личные прокси"
+                icon={ <Network className="w-full h-full"/> }
+                isLoading={ isLoading }
+            >
+                { ownProxiesCount }
+                <p className="text-xs font-normal text-muted-foreground">
+                    { ownRequestsCount } запросов
+                </p>
+            </StatCard>
+            <StatCard
+                title="Публичные прокси"
+                icon={ <Network className="w-full h-full"/> }
+                isLoading={ isLoading }
+            >
+                { publicProxiesCount }
+                <p className="text-xs font-normal text-muted-foreground">
+                    { publicRequestsCount } запросов
+                </p>
+            </StatCard>
+        </div>
+    </StatsSection>;
 }

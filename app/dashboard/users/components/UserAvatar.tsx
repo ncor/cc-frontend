@@ -23,7 +23,7 @@ export default function UserAvatar({
         avatar.toDataUri().then(uri => setAvatarUri(uri));
     }, [ seed ]);
 
-    const sizeStyle = size == 'default' ? 'w-8 h-8' : 'w-4 h-4';
+    const sizeStyle = size == 'default' ? 'w-[22px] h-[22px]' : 'w-4 h-4';
 
     return avatarUri && seed ?
         <Avatar className={ cn("relative rounded-full bg-white", sizeStyle) }>

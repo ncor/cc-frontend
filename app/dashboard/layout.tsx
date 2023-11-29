@@ -17,7 +17,7 @@ export default async function DashboardLayout({
     });
 
     return <UserProvider defaultUser={ user! }>
-        <div className="w-full h-screen flex flex-col">
+        <div className="w-screen min-h-screen flex flex-col">
             <Header/>
             { children }
         </div>

@@ -11,7 +11,6 @@
 
 ::-webkit-scrollbar {
     height: 10px;
-    width: 10px;
     background-color: red;
 }
 
@@ -58,7 +57,7 @@
     }
 
     .dark {
-        --background: 240 10% 3.9%;
+        --background: 240 10% 0%;
         --foreground: 0 0% 98%;
         --card: 240 10% 3.9%;
         --card-foreground: 0 0% 98%;
@@ -76,7 +75,7 @@
         --destructive-foreground: 0 0% 98%;
         --border: 240 3.7% 15.9%;
         --input: 240 3.7% 15.9%;
-        --ring: 240 4.9% 83.9%;
+        --ring: 240 4.9% 40%;
     }
 }
 
@@ -97,10 +96,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-html {
-    overflow-y: scroll;
 }
 
 html,

@@ -4,7 +4,7 @@ import { prisma } from "../prisma";
 import { endpoint } from "../endpoint";
 import { Prisma } from "@prisma/client";
 import { proxyPolicy } from "./policy";
-import { Proxy } from "./types";
+import { Proxy, ProxyExtended } from "./types";
 import { checkProxyConnection, getProxyAdapter } from "./service";
 import { ResourceActions } from "../resource/types";
 import { UserAuth } from "../user/types";
@@ -29,7 +29,7 @@ export const findProxy = endpoint(async (
 ) => {
     return proxyPolicy.filterForbidden(
         ResourceActions.GET, await prisma.proxy.findMany(args), user
-    );
+    ) as ProxyExtended[];
 });
 
 

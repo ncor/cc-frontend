@@ -2,7 +2,7 @@
 
 import { Prisma } from "@prisma/client";
 import { endpoint } from "../endpoint";
-import { User, UserAuth, UserBatchItem } from "./types";
+import { User, UserAuth } from "./types";
 import { verifyUserDataUpsert, verifyUserUpdateAccess } from "./service";
 import { ERRORS } from "../error/constants";
 import { prisma } from "../prisma";
@@ -23,7 +23,7 @@ export const createUser = endpoint(async (
 export const findUser = endpoint(async (
     user: UserAuth,
     args: Prisma.userFindManyArgs
-): Promise<UserBatchItem[]> => {
+) => {
     return prisma.user.findMany(args);
 });
 

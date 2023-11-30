@@ -3,11 +3,12 @@
 import { countProxies, createProxy, deleteProxy, findProxy, updateProxy } from "@/lib/proxy/endpoints";
 import { ArgsType } from "@/lib/types";
 import { proxyPolicy } from "@/lib/proxy/policy";
-import { Proxy } from "@/lib/proxy/types";
+import { Proxy, ProxyExtended } from "@/lib/proxy/types";
 import { User } from "@/lib/user/types";
 import { useToast } from "@/components/ui/use-toast";
 import cook from "../cook";
 import useUser from "@/app/dashboard/users/hooks/user";
+import { EndpointResponse } from "@/lib/endpoint/types";
 
 
 export default function useProxies() {

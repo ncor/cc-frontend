@@ -4,7 +4,7 @@ import { prisma } from "../prisma";
 import { endpoint } from "../endpoint";
 import { Prisma } from "@prisma/client";
 import { tagPolicy } from "./policy";
-import { Tag } from "./types";
+import { Tag, TagExtended } from "./types";
 import { getTagAdapter } from "./service";
 import { UserAuth } from "../user/types";
 import { ResourceActions } from "../resource/types";
@@ -28,7 +28,7 @@ export const findTag = endpoint(async (
 ) => {
     return tagPolicy.filterForbidden(
         ResourceActions.GET, await prisma.tag.findMany(args), user
-    );
+    ) as TagExtended[];
 });
 
 

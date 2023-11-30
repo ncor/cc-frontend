@@ -10,14 +10,10 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { User } from "@/lib/user/types";
-import { Button } from "@/components/ui/button";
 import useUser from "@/app/dashboard/users/hooks/user";
 import { MAX_ROWS_IN_PAGE } from "../../constants";
 import useUsers from "../../../hooks/data/user";
-import UserChip from "./UserChip";
 import UserDropDownMenu from "./UserDropdownMenu";
-import { Input, Search } from "@/components/ui/input";
-import { Plus } from "lucide-react";
 import useTable from "@/app/hooks/table";
 import TableRowsAdapter from "../../components/table/TableRowsAdapter";
 import TablePagination from "../../components/table/TablePagination";

@@ -10,8 +10,8 @@ export interface StatsSectionProps {
 export default function StatsSection({
     children
 }: StatsSectionProps) {
-    return <Section className="py-10">
-        <SectionContent>
+    return <Section className="pb-10">
+        <SectionContent className="-translate-y-4">
             { children }
         </SectionContent>
     </Section>

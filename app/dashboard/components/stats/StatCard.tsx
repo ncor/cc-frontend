@@ -15,7 +15,7 @@ export default function StatCard({
     title, icon, isLoading, children
 }: StatCardProps) {
     return (
-        <Card className="bg-accent dark:bg-accent/50 border-0">
+        <Card className="bg-muted dark:bg-card">
             <CardHeader className="flex flex-row items-center justify-between space-y-0">
                 <CardTitle className="text-sm font-medium">
                     { title }

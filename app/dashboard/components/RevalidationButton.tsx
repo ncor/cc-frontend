@@ -16,10 +16,11 @@ export default function RevalidationButton() {
         revalidate();
         setIsSpinning(true);
         setTimeout(() => setIsSpinning(false), 1000);
-    }} size="icon" variant="ghost" className="ml-2">
+    }} variant="outline">
         <RefreshCcw className={cn(
-            "w-4 h-4 text-muted-foreground",
+            "w-4 h-4 text-muted-foreground mr-2",
             isSpinning ? 'animate-spin' : ''
         )}/>
+        Обновить
     </Button>;
 }

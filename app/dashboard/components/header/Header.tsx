@@ -16,7 +16,7 @@ export default function Header() {
     if (scrollPosition >= 56 && !sticked) toggleSticked(true);
     if (scrollPosition < 56 && sticked) toggleSticked(false);
 
-    const backgroundColor = sticked ? 'bg-background' : 'bg-accent/25';
+    const backgroundColor = sticked ? 'bg-background' : 'dark:bg-accent/25';
 
     return <div className={ cn("w-screen flex flex-col", backgroundColor) }>
         <div className="flex items-center justify-between pt-4 px-6 pr-10">

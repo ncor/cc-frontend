@@ -32,7 +32,7 @@ export default function Navigation({
     return <div
         className={
             cn(
-                "w-full flex items-center py-2 border-b px-3",
+                "w-full flex items-center py-2 border-b px-3 z-10",
                 positioningStyles,
                 backgroundColor
             )

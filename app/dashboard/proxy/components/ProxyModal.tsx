@@ -10,17 +10,18 @@ import UserChip from "../../users/components/UserChip";
 
 
 export type ProxyModalProps = ModalProps & {
-    update?: Proxy & { user: User }
+    update?: Proxy & { user: User },
+    className?: string
 };
 
 export default function ProxyModal({
-    children, update, onSubmit
+    children, update, className, onSubmit
 }: ProxyModalProps) {
     const [ open, setOpen ] = useState<boolean>(false);
 
     return (
         <Dialog open={ open } onOpenChange={ setOpen }>
-            <DialogTrigger>
+            <DialogTrigger className={ className }>
                 { children }
             </DialogTrigger>
             <DialogContent>

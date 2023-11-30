@@ -23,6 +23,11 @@ import TableRowsAdapter from "../../components/table/TableRowsAdapter";
 import TablePagination from "../../components/table/TablePagination";
 import UserModal from './UserModal';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import useSearch from '@/app/hooks/search';
+import SearchField from '../../components/SearchField';
+import TableCreateHead from '../../components/table/TableCreateHead';
+import TableUuidColumn from '../../components/table/TableUuidColumn';
+import TableUserColumn from '../../components/table/TableUserColumn';
 
 
 export type UserTableRow = User;
@@ -30,15 +35,14 @@ export type UserTableRow = User;
 export default function UserTable() {
     const user = useUser();
     const { find } = useUsers();
-    const [ search, setSearch ] = useState<string>('');
-    const [ searchBuffer, setSearchBuffer ] = useState<string>('');
+    const search = useSearch();
     const [ selectAdmins, toggleSelectAdmins ] = useState<boolean>(false);
 
     const { rows, isFetching, pagination } = useTable<User>({
         fetch: useCallback(async pageIndex => {
             const query = {
                 where: {
-                    ...(search && { name: { contains: search } }),
+                    ...(search.text && { name: { contains: search.text } }),
                     ...(selectAdmins && { is_admin: selectAdmins })
                 },
                 skip: pageIndex * MAX_ROWS_IN_PAGE,
@@ -48,19 +52,12 @@ export default function UserTable() {
             const response = await find(query);
 
             return response?.data || [];
-        }, [ search, selectAdmins ])
+        }, [ search.text, selectAdmins ])
     });
 
     return <div className="space-y-2">
         <div className="w-full flex gap-2">
-            <Search
-                onKeyDown={ e => {
-                    if (e.key == 'Enter') setSearch(searchBuffer);
-                } }
-                onChange={ e => setSearchBuffer(e.target.value) }
-                placeholder="Найти по имени..."
-                className="w-full"
-            />
+            <SearchField provider={ search }/>
             <Tabs defaultValue="users" onValueChange={ value => {
                 toggleSelectAdmins(value === 'admins');
             }}>
@@ -75,14 +72,7 @@ export default function UserTable() {
                 <TableHead>ID</TableHead>
                 <TableHead>Профиль</TableHead>
                 <TableHead>Дата регистрации</TableHead>
-                <TableHead>
-                    <UserModal className="float-right">
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Новый пользователь</span>
-                            <Plus className="h-4 w-4" />
-                        </Button>
-                    </UserModal>
-                </TableHead>
+                <TableCreateHead modal={ UserModal }/>
             </TableHeader>
             <TableBody>
                 <TableRowsAdapter
@@ -94,14 +84,8 @@ export default function UserTable() {
                                 key={row.id}
                                 className="items-center h-[65px]"
                             >
-                                <TableCell className="pt-5">
-                                    { row.id.slice(0, 4) }
-                                    { ' ... ' }
-                                    { row.id.slice(-4) }
-                                </TableCell>
-                                <TableCell className="pt-5">
-                                    <UserChip user={ row }/>
-                                </TableCell>
+                                <TableUuidColumn uuid={ row.id }/>
+                                <TableUserColumn user={ row }/>
                                 <TableCell>
                                     { row.created_at.toDateString() }
                                 </TableCell>

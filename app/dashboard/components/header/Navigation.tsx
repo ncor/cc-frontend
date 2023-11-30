@@ -65,6 +65,15 @@ export default function Navigation({
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
+                <NavigationMenuItem>
+                    <Link href="/dashboard/tags" legacyBehavior passHref>
+                        <NavigationMenuLink
+                            className={navigationMenuTriggerStyle()}
+                        >
+                            Теги
+                        </NavigationMenuLink>
+                    </Link>
+                </NavigationMenuItem>
                 {
                     user.is_admin &&
                     <NavigationMenuItem>

@@ -1,13 +1,13 @@
 import { ReactNode } from "react"
 
 
-export interface HeadingControlsProps {
+export interface BannerControlsProps {
     children: ReactNode
 }
 
-export default function HeadingControls({
+export default function BannerControls({
     children
-}: HeadingControlsProps) {
+}: BannerControlsProps) {
     return <div className="flex items-center gap-2">
         { children }
     </div>

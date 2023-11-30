@@ -1,6 +1,7 @@
 'use client';
 
-import { EndpointResponse } from "@/lib/endpoint";
+import { EndpointResponse } from "@/lib/endpoint/types";
+
 
 export type CookPayload = {
     error: any

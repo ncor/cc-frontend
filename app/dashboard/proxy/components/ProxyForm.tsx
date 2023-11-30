@@ -13,7 +13,7 @@ import { useContext } from "react";
 import useProxies from "../../../hooks/data/proxy";
 import { RevalidationContext } from "@/app/contexts/revalidation";
 import useUser from "../../users/hooks/user";
-import TagSelectFormField from "../../tag/components/TagSelectFormField";
+import TagSelectFormField from "../../tags/components/TagSelectFormField";
 
 
 const proxySchema = z.object({

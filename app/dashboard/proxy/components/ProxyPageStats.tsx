@@ -1,6 +1,6 @@
 'use client';
 
-import { Network } from "lucide-react";
+import { User, Users } from "lucide-react";
 import StatCard from "../../components/stats/StatCard";
 import useRevalidation from "@/app/hooks/revalidation";
 import useSuspense from "@/app/hooks/suspense";
@@ -30,7 +30,7 @@ export default function ProxyPageStats() {
         <div className="grid gap-4 grid-rows-1 md:grid-cols-1 lg:grid-cols-2">
             <StatCard
                 title="Личные прокси"
-                icon={ <Network className="w-full h-full"/> }
+                icon={ <User className="w-full h-full"/> }
                 isLoading={ isLoading }
             >
                 { ownProxiesCount }
@@ -40,7 +40,7 @@ export default function ProxyPageStats() {
             </StatCard>
             <StatCard
                 title="Публичные прокси"
-                icon={ <Network className="w-full h-full"/> }
+                icon={ <Users className="w-full h-full"/> }
                 isLoading={ isLoading }
             >
                 { publicProxiesCount }

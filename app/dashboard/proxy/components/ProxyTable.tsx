@@ -18,7 +18,7 @@ import { createTagsSearchBody } from "@/app/hooks/helpers";
 import { ResourceActions } from "@/lib/resource/types";
 import ScopeBadge from "../../components/resource/ScopeBadge";
 import useUser from "../../users/hooks/user";
-import TagSelector from "../../tag/components/TagSelector";
+import TagSelector from "../../tags/components/TagSelector";
 import UserChip from "../../users/components/UserChip";
 import useTable from "@/app/hooks/table";
 import TableRowsAdapter from "../../components/table/TableRowsAdapter";
@@ -27,47 +27,49 @@ import ProxyModal from "./ProxyModal";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import useTagSearch from "@/app/hooks/tag-search";
+import TagSearchField from "../../components/TagSearchField";
+import ScopeTabs from "../../components/ScopeTabs";
+import useScope from "@/app/hooks/scope";
+import TableCreateHead from "../../components/table/TableCreateHead";
+import TableUserColumn from "../../components/table/TableUserColumn";
+import TableTagsColumn from "../../components/table/TableTagsColumn";
+import TableScopeColumn from "../../components/table/TableScopeColumn";
 
 
 export type ProxyTableRow = ProxyExtended;
 
 export default function ProxyTable() {
     const user = useUser();
-    const { findOwn, findPublic, can } = useProxies();
-    const [ tags, setTags ] = useState<string[]>([]);
-    const [ selectPublic, toggleSelectPublic ] = useState<boolean>(false);
+    const { find, findOwn, findPublic, can } = useProxies();
+    const tagSearch = useTagSearch();
+    const scope = useScope();
 
     const { rows, isFetching, pagination } = useTable<ProxyExtended>({
         fetch: useCallback(async pageIndex => {
             const query = {
-                ...createTagsSearchBody(tags),
+                ...createTagsSearchBody(tagSearch.list),
                 skip: pageIndex * MAX_ROWS_IN_PAGE,
                 take: MAX_ROWS_IN_PAGE
             };
     
-            const response = await (selectPublic
-                ? findPublic(query)
-                : findOwn(query)
+            const response = await (scope.value == 'all'
+                ? find(query)
+                : (scope.value == 'own'
+                    ? findOwn(query)
+                    : findPublic(query)
+                )
             );
 
             return response?.data || [];
-        }, [ tags, selectPublic ])
+        }, [ tagSearch.list, scope.value ])
     });
 
     return (
         <div className="space-y-2">
             <div className="w-full flex gap-2">
-                <TagSelector onTagsChange={(tags) =>
-                    setTags(tags)
-                }/>
-                <Tabs defaultValue="own" onValueChange={ value => {
-                    toggleSelectPublic(value === 'public');
-                }}>
-                    <TabsList>
-                        <TabsTrigger value="own">Личные</TabsTrigger>
-                        <TabsTrigger value="public">Общие</TabsTrigger>
-                    </TabsList>
-                </Tabs>
+                <TagSearchField provider={ tagSearch }/>
+                <ScopeTabs provider={ scope }/>
             </div>
             <Table>
                 <TableHeader>
@@ -76,14 +78,7 @@ export default function ProxyTable() {
                     <TableHead>Теги</TableHead>
                     <TableHead>Владелец</TableHead>
                     <TableHead>Область</TableHead>
-                    <TableHead>
-                        <ProxyModal className="float-right">
-                            <Button variant="ghost" className="h-8 w-8 p-0">
-                                <span className="sr-only">Новый прокси</span>
-                                <Plus className="h-4 w-4" />
-                            </Button>
-                        </ProxyModal>
-                    </TableHead>
+                    <TableCreateHead modal={ ProxyModal }/>
                 </TableHeader>
                 <TableBody>
                     <TableRowsAdapter
@@ -92,10 +87,10 @@ export default function ProxyTable() {
                     >
                         { rows?.map((row) => (
                             <TableRow
-                                key={row.id}
+                                key={ row.id }
                                 className="items-center h-[65px]"
                             >
-                                <TableCell>{row.id}</TableCell>
+                                <TableCell>{ row.id }</TableCell>
                                 <TableCell>
                                     <div className="flex items-center gap-2">
                                         <Badge variant="outline">
@@ -104,22 +99,9 @@ export default function ProxyTable() {
                                         { row.url.split('@')[1] }
                                     </div>
                                 </TableCell>
-                                <TableCell className="space-x-1">
-                                    {row.tags.map((tag) => (
-                                        <Badge
-                                            key={row.id}
-                                            variant="secondary"
-                                        >
-                                            {tag}
-                                        </Badge>
-                                    ))}
-                                </TableCell>
-                                <TableCell>
-                                    <UserChip user={ row.user }/>
-                                </TableCell>
-                                <TableCell>
-                                    <ScopeBadge isPublic={row.is_public} />
-                                </TableCell>
+                                <TableTagsColumn tags={ row.tags }/>
+                                <TableUserColumn user={ row.user }/>
+                                <TableScopeColumn isPublic={ row.is_public }/>
                                 <TableCell className="float-right">
                                     {(can(
                                         ResourceActions.UPDATE,

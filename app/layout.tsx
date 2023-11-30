@@ -1,13 +1,10 @@
 import './globals.css'
-import './gradient.css'
 import { Toaster } from '../components/ui/toaster';
 import Script from 'next/script';
 import Providers from './components/Providers';
 import { getServerSession } from 'next-auth';
 import { cookies } from 'next/headers';
 import { COOKIES, THEMES } from './constants';
-import { User } from '@/lib/user/types';
-import { prisma } from '@/lib/prisma';
 
 
 export const metadata = {

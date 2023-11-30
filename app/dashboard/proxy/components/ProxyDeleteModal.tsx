@@ -51,6 +51,7 @@ export default function ProxyDeleteModal({
                     </AlertDialogCancel>
                     <AlertDialogAction
                         disabled={isLoading}
+                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                         onClick={async () => {
                             await suspenseFor(() =>
                                 remove({ where: { id: data.id } })

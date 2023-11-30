@@ -15,16 +15,16 @@ export default function useTable<T>({ fetch }: ITableHookParams<T>) {
 
     const [ rows, setRows ] = useState<T[]>();
 
-    const update = async () => {
+    const update = useCallback(async () => {
         const data = await suspenseFor(
             () => fetch(pagination.pageIndex)
         );
         setRows(data);
-    }
+    }, [ fetch, pagination.pageIndex ]); 
 
     useEffect(() => {
         update();
-    }, [ revalidation.revalidated, pagination.pageIndex ]);
+    }, [ update, revalidation.revalidated ]);
 
     return {
         rows,

@@ -1,18 +1,22 @@
+'use client';
+
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useState } from "react";
 import CreateTagForm, { CreateTagFormProps } from "./CreateTagForm";
 import { ModalProps } from "@/lib/client/types";
 
 
-export type CreateTagModalProps = ModalProps & CreateTagFormProps;
+export type CreateTagModalProps = ModalProps & CreateTagFormProps & {
+    className?: string
+};
 
 export default function CreateTagModal({
-    children, onSubmit
+    children, className, onSubmit
 }: CreateTagModalProps) {
     const [ open, setOpen ] = useState<boolean>(false);
 
     return <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger>
+        <DialogTrigger className={ className }>
             { children }
         </DialogTrigger>
         <DialogContent>

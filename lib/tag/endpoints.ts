@@ -32,6 +32,14 @@ export const findTag = endpoint(async (
 });
 
 
+export const countTags = endpoint(async (
+    user: UserAuth,
+    args: Prisma.tagCountArgs
+) => {
+    return prisma.tag.count(args);
+});
+
+
 export const updateTag = endpoint(async (
     user: UserAuth,
     args: Prisma.tagUpdateArgs

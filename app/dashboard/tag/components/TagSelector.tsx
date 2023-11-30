@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Plus, X } from "lucide-react";
+import { Plus, Tag as TagIcon, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
     Command,
@@ -93,8 +93,9 @@ export default function TagSelector({
             onKeyDown={handleKeyDown}
             className="overflow-visible bg-transparent"
         >
-            <div className="group border border-input px-3 py-2 text-sm ring-offset-background rounded-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
-                <div className="flex gap-1 flex-wrap">
+            <div className="group border border-input px-3 py-2 text-sm ring-offset-background rounded-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 bg-accent dark:bg-accent/25">
+                <div className="flex items-center gap-2 flex-wrap">
+                    <TagIcon className="h-[16px] w-[16px] text-muted-foreground"/>
                     {tags.map((tag) => {
                         return (
                             <Badge key={tag} variant="secondary">
@@ -130,7 +131,7 @@ export default function TagSelector({
                             }
                         }}
                         placeholder="Теги"
-                        className="ml-2 bg-transparent outline-none placeholder:text-muted-foreground flex-1"
+                        className="bg-transparent outline-none placeholder:text-muted-foreground flex-1"
                         disabled={disabled}
                     />
                 </div>

@@ -22,25 +22,20 @@ import useTable from "@/app/hooks/table";
 import TableRowsAdapter from "../../components/table/TableRowsAdapter";
 import TablePagination from "../../components/table/TablePagination";
 import UserModal from './UserModal';
-import SectionContent from '../../components/section/SectionContent';
-import Section from '../../components/section/Section';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 
 export type UserTableRow = User;
 
-export interface UserTableProps {
-    selectAdmins?: boolean
-}
-
-export default function UserTable({
-    selectAdmins=false
-}: UserTableProps) {
+export default function UserTable() {
     const user = useUser();
     const { find } = useUsers();
     const [ search, setSearch ] = useState<string>('');
+    const [ searchBuffer, setSearchBuffer ] = useState<string>('');
+    const [ selectAdmins, toggleSelectAdmins ] = useState<boolean>(false);
 
-    const { rows, update, isFetching, pagination } = useTable<User>({
-        fetch: async pageIndex => {
+    const { rows, isFetching, pagination } = useTable<User>({
+        fetch: useCallback(async pageIndex => {
             const query = {
                 where: {
                     ...(search && { name: { contains: search } }),
@@ -53,18 +48,27 @@ export default function UserTable({
             const response = await find(query);
 
             return response?.data || [];
-        }
+        }, [ search, selectAdmins ])
     });
 
     return <div className="space-y-2">
-        <div className="w-full">
+        <div className="w-full flex gap-2">
             <Search
                 onKeyDown={ e => {
-                    if (e.key == 'Enter') update();
+                    if (e.key == 'Enter') setSearch(searchBuffer);
                 } }
-                onChange={ e => setSearch(e.target.value) }
+                onChange={ e => setSearchBuffer(e.target.value) }
                 placeholder="Найти по имени..."
+                className="w-full"
             />
+            <Tabs defaultValue="users" onValueChange={ value => {
+                toggleSelectAdmins(value === 'admins');
+            }}>
+                <TabsList>
+                    <TabsTrigger value="users">Все пользователи</TabsTrigger>
+                    <TabsTrigger value="admins">Администраторы</TabsTrigger>
+                </TabsList>
+            </Tabs>
         </div>
         <Table>
             <TableHeader>

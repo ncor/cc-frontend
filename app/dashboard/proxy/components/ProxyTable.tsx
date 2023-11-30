@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
     Table,
     TableBody,
@@ -23,23 +23,22 @@ import UserChip from "../../users/components/UserChip";
 import useTable from "@/app/hooks/table";
 import TableRowsAdapter from "../../components/table/TableRowsAdapter";
 import TablePagination from "../../components/table/TablePagination";
+import ProxyModal from "./ProxyModal";
+import { Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 
 export type ProxyTableRow = ProxyExtended;
 
-export interface ProxyTableProps {
-    selectPublic?: boolean;
-}
-
-export default function ProxyTable({
-    selectPublic=false
-}: ProxyTableProps) {
+export default function ProxyTable() {
     const user = useUser();
     const { findOwn, findPublic, can } = useProxies();
     const [ tags, setTags ] = useState<string[]>([]);
+    const [ selectPublic, toggleSelectPublic ] = useState<boolean>(false);
 
     const { rows, isFetching, pagination } = useTable<ProxyExtended>({
-        fetch: async pageIndex => {
+        fetch: useCallback(async pageIndex => {
             const query = {
                 ...createTagsSearchBody(tags),
                 skip: pageIndex * MAX_ROWS_IN_PAGE,
@@ -52,12 +51,24 @@ export default function ProxyTable({
             );
 
             return response?.data || [];
-        }
+        }, [ tags, selectPublic ])
     });
 
     return (
         <div className="space-y-2">
-            <TagSelector onTagsChange={(tags) => setTags(tags)} />
+            <div className="w-full flex gap-2">
+                <TagSelector onTagsChange={(tags) =>
+                    setTags(tags)
+                }/>
+                <Tabs defaultValue="own" onValueChange={ value => {
+                    toggleSelectPublic(value === 'public');
+                }}>
+                    <TabsList>
+                        <TabsTrigger value="own">Личные</TabsTrigger>
+                        <TabsTrigger value="public">Общие</TabsTrigger>
+                    </TabsList>
+                </Tabs>
+            </div>
             <Table>
                 <TableHeader>
                     <TableHead>ID</TableHead>
@@ -65,6 +76,14 @@ export default function ProxyTable({
                     <TableHead>Теги</TableHead>
                     <TableHead>Владелец</TableHead>
                     <TableHead>Область</TableHead>
+                    <TableHead>
+                        <ProxyModal className="float-right">
+                            <Button variant="ghost" className="h-8 w-8 p-0">
+                                <span className="sr-only">Новый прокси</span>
+                                <Plus className="h-4 w-4" />
+                            </Button>
+                        </ProxyModal>
+                    </TableHead>
                 </TableHeader>
                 <TableBody>
                     <TableRowsAdapter

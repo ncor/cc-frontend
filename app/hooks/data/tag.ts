@@ -2,7 +2,7 @@
 
 import { useToast } from "@/components/ui/use-toast";
 import { ArgsType } from "@/lib/types";
-import { createTag, findTag, deleteTag, updateTag } from "@/lib/tag/endpoints";
+import { createTag, findTag, deleteTag, updateTag, countTags } from "@/lib/tag/endpoints";
 import { tagPolicy } from "@/lib/tag/policy";
 import { Tag } from "@/lib/tag/types";
 import { User } from "@/lib/user/types";
@@ -19,7 +19,7 @@ export default function useTags() {
 
     const find = async (args: ArgsType<typeof findTag>[1]) =>
         cook(toast, await findTag(user, {
-            ...args, orderBy: { is_public: 'desc' }
+            ...args, orderBy: { is_public: 'desc' }, include: { user: true }
         }));
 
     const findOwn = (args: ArgsType<typeof findTag>[1]) =>
@@ -27,6 +27,15 @@ export default function useTags() {
 
     const findPublic = (args: ArgsType<typeof findTag>[1]) =>
         find({ ...args, where: { ...args.where, is_public: true } });
+
+    const count = async (args: ArgsType<typeof countTags>[1]) =>
+        cook(toast, await countTags(user, args))
+
+    const countOwn = async (args: ArgsType<typeof countTags>[1]) =>
+        count({ ...args, where: { ...args.where, owner_id: user.id } })
+
+    const countPublic = async (args: ArgsType<typeof countTags>[1]) =>
+        count({ ...args, where: { ...args.where, is_public: true } })
 
     const update = async (args: ArgsType<typeof updateTag>[1]) =>
         cook(toast, await updateTag(user, args));
@@ -38,6 +47,6 @@ export default function useTags() {
         tagPolicy.isAllowed(action, tag, user)
 
     return {
-        create, find, findOwn, findPublic, update, remove, can
+        create, find, findOwn, findPublic, count, countOwn, countPublic, update, remove, can
     };
 }

@@ -1,17 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Proxy } from "@/lib/proxy/types";
+import { ProxyExtended } from "@/lib/proxy/types";
 import { Edit2, MoreHorizontal, Trash } from "lucide-react";
 import ProxyModal from "./ProxyModal";
 import ProxyDeleteModal from "./ProxyDeleteModal";
 import useProxies from "../../../hooks/data/proxy";
 import { ResourceActions } from "@/lib/resource/types";
-import { User } from "@/lib/user/types";
 import useUser from "../../users/hooks/user";
 
 
 export type ProxyDropdownMenuProps = {
-    data: Proxy & { user: User }
+    data: ProxyExtended
 };
 
 export default function ProxyDropDownMenu({
@@ -23,7 +22,6 @@ export default function ProxyDropDownMenu({
     return <DropdownMenu>
         <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Действия</span>
                 <MoreHorizontal className="h-4 w-4" />
             </Button>
         </DropdownMenuTrigger>

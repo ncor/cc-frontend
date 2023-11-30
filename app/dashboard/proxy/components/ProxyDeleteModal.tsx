@@ -17,7 +17,6 @@ import {
 import useProxies from "../../../hooks/data/proxy";
 import { RevalidationContext } from "../../../contexts/revalidation";
 import useSuspense from "@/app/hooks/suspense";
-import { Icons } from "@/components/ui/icons";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 

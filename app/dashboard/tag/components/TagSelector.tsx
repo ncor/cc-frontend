@@ -88,121 +88,108 @@ export default function TagSelector({
 
     const selectables = collection.filter((tag) => !tags.includes(tag.name));
 
-    return (
-        <div className="flex gap-1">
-            <div className="my-auto flex-1">
-                <Command
-                    onKeyDown={handleKeyDown}
-                    className="overflow-visible bg-transparent"
-                >
-                    <div className="group border border-input px-3 py-2 text-sm ring-offset-background rounded-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
-                        <div className="flex gap-1 flex-wrap">
-                            {tags.map((tag) => {
-                                return (
-                                    <Badge key={tag} variant="secondary">
-                                        {tag}
-                                        <button
-                                            className="ml-1 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                                            onKeyDown={(e) => {
-                                                if (e.key === "Enter") {
-                                                    handleUnselect(tag);
-                                                }
-                                            }}
-                                            onMouseDown={(e) => {
-                                                e.preventDefault();
-                                                e.stopPropagation();
-                                            }}
-                                            onClick={() => handleUnselect(tag)}
-                                        >
-                                            <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
-                                        </button>
-                                    </Badge>
-                                );
-                            })}
-                            <CommandPrimitive.Input
-                                ref={inputRef}
-                                value={inputValue}
-                                onValueChange={setInputValue}
-                                onBlur={() => setOpen(false)}
-                                onFocus={() => {
-                                    setOpen(true);
-                                    if (shouldUpdate) {
-                                        updateCollection();
-                                        setShouldUpdate(false);
-                                    }
-                                }}
-                                placeholder="Теги"
-                                className="ml-2 bg-transparent outline-none placeholder:text-muted-foreground flex-1"
-                                disabled={disabled}
-                            />
-                        </div>
-                    </div>
-                    <div className="relative">
-                        {open && (
-                            <div className="absolute w-full z-10 top-0 rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in">
-                                <CommandGroup className="h-full overflow-auto">
-                                    {
-                                        !isLoading && selectables.length > 0 &&
-                                        selectables.map((tag, i) => {
-                                            return (
-                                                <div key={tag.name}>
-                                                    {selectables[i - 1]
-                                                        ?.is_public && (
-                                                        <CommandSeparator className="my-1" />
-                                                    )}
-                                                    <CommandItem
-                                                        key={tag.id}
-                                                        onMouseDown={(e) => {
-                                                            e.preventDefault();
-                                                            e.stopPropagation();
-                                                        }}
-                                                        onSelect={() => {
-                                                            setInputValue("");
-                                                            setAndPropagate([
-                                                                ...tags,
-                                                                tag.name,
-                                                            ]);
-                                                        }}
-                                                        className="cursor-pointer"
-                                                    >
-                                                        {tag.name}
-                                                        <div className="ml-auto">
-                                                            <ScopeBadge
-                                                                isPublic={
-                                                                    tag.is_public
-                                                                }
-                                                            />
-                                                        </div>
-                                                    </CommandItem>
-                                                </div>
-                                            );
-                                        })
-                                    }
-                                    {
-                                        isLoading &&
-                                        <Skeleton className="h-8 w-full rounded-sm" />
-                                    }
-                                    {
-                                        !isLoading && !collection.length &&
-                                        <div className="w-full text-center p-2 text-sm">
-                                            Теги не найдены.
-                                        </div>                             
-                                    }
-                                </CommandGroup>
-                            </div>
-                        )}
-                    </div>
-                </Command>
+    return <div className="my-auto w-full flex-1">
+        <Command
+            onKeyDown={handleKeyDown}
+            className="overflow-visible bg-transparent"
+        >
+            <div className="group border border-input px-3 py-2 text-sm ring-offset-background rounded-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+                <div className="flex gap-1 flex-wrap">
+                    {tags.map((tag) => {
+                        return (
+                            <Badge key={tag} variant="secondary">
+                                {tag}
+                                <button
+                                    className="ml-1 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter") {
+                                            handleUnselect(tag);
+                                        }
+                                    }}
+                                    onMouseDown={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                    }}
+                                    onClick={() => handleUnselect(tag)}
+                                >
+                                    <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
+                                </button>
+                            </Badge>
+                        );
+                    })}
+                    <CommandPrimitive.Input
+                        ref={inputRef}
+                        value={inputValue}
+                        onValueChange={setInputValue}
+                        onBlur={() => setOpen(false)}
+                        onFocus={() => {
+                            setOpen(true);
+                            if (shouldUpdate) {
+                                updateCollection();
+                                setShouldUpdate(false);
+                            }
+                        }}
+                        placeholder="Теги"
+                        className="ml-2 bg-transparent outline-none placeholder:text-muted-foreground flex-1"
+                        disabled={disabled}
+                    />
+                </div>
             </div>
-            <CreateTagModal
-                onSubmit={async (form: z.infer<CreateTagSchemaType>) =>
-                    setAndPropagate([...tags, form.name])
-                }
-            >
-                <Button variant="ghost" size="icon" type="button">
-                    <Plus className="h-4 w-4" />
-                </Button>
-            </CreateTagModal>
-        </div>
-    );
+            <div className="relative">
+                {open && (
+                    <div className="absolute w-full z-10 top-0 rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in">
+                        <CommandGroup className="h-full overflow-auto">
+                            {
+                                !isLoading && selectables.length > 0 &&
+                                selectables.map((tag, i) => {
+                                    return (
+                                        <div key={tag.name}>
+                                            {selectables[i - 1]
+                                                ?.is_public && (
+                                                <CommandSeparator className="my-1" />
+                                            )}
+                                            <CommandItem
+                                                key={tag.id}
+                                                onMouseDown={(e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                }}
+                                                onSelect={() => {
+                                                    setInputValue("");
+                                                    setAndPropagate([
+                                                        ...tags,
+                                                        tag.name,
+                                                    ]);
+                                                }}
+                                                className="cursor-pointer"
+                                            >
+                                                {tag.name}
+                                                <div className="ml-auto">
+                                                    <ScopeBadge
+                                                        isPublic={
+                                                            tag.is_public
+                                                        }
+                                                    />
+                                                </div>
+                                            </CommandItem>
+                                        </div>
+                                    );
+                                })
+                            }
+                            {
+                                isLoading &&
+                                <Skeleton className="h-8 w-full rounded-sm" />
+                            }
+                            {
+                                !isLoading && !collection.length &&
+                                <div className="w-full text-center p-2 text-sm">
+                                    Теги не найдены.
+                                </div>                             
+                            }
+                        </CommandGroup>
+                    </div>
+                )}
+            </div>
+        </Command>
+    </div>
 }

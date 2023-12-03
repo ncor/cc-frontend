@@ -6,7 +6,7 @@ import { createTag, findTag, deleteTag, updateTag, countTags } from "@/lib/tag/e
 import { tagPolicy } from "@/lib/tag/policy";
 import { Tag } from "@/lib/tag/types";
 import { User } from "@/lib/user/types";
-import cook from "../cook";
+import cook from "../../../../hooks/cook";
 import useUser from "@/app/dashboard/users/hooks/user";
 
 

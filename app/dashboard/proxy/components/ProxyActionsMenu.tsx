@@ -28,7 +28,7 @@ export default function ProxyActionsMenu({
         onOpenChange={ open => visibility.toggle(open) }
     >
         <DropdownMenuTrigger/>
-        <DropdownMenuContent>
+        <DropdownMenuContent align="end">
             {
                 can(RowActions.UPDATE, reference, user) &&
                 <DropdownMenuItem

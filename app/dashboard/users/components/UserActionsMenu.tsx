@@ -26,7 +26,7 @@ export default function UserActionsMenu({
         onOpenChange={ open => visibility.toggle(open) }
     >
         <DropdownMenuTrigger/>
-        <DropdownMenuContent className="flex flex-col">
+        <DropdownMenuContent align="end">
             {
                user.is_admin &&
                <DropdownMenuItem

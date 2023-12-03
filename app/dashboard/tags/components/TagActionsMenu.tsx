@@ -33,7 +33,7 @@ export default function TagActionsMenu({
         onOpenChange={ open => visibility.toggle(open) }
     >
         <DropdownMenuTrigger/>
-        <DropdownMenuContent className="flex flex-col">
+        <DropdownMenuContent align="end">
             {
                 can(RowActions.UPDATE, reference, user) &&
                 <DropdownMenuItem

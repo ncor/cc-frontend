@@ -5,7 +5,7 @@ import useSuspense from "./suspense";
 
 
 export interface ITableHookParams<T> {
-    fetch: (pageIndex: number) => Promise<T[]>
+    fetch: (pagination: ReturnType<typeof usePagination>) => Promise<T[]>
 }
 
 export default function useTable<T>({ fetch }: ITableHookParams<T>) {
@@ -17,7 +17,7 @@ export default function useTable<T>({ fetch }: ITableHookParams<T>) {
 
     const update = useCallback(async () => {
         const data = await suspenseFor(
-            () => fetch(pagination.pageIndex)
+            () => fetch(pagination)
         );
         setRows(data);
     }, [ fetch, pagination.pageIndex ]); 

@@ -22,10 +22,10 @@ export default function IsPublicFormField({
                     <div>
                         <FormLabel className="text-base flex items-center mb-2">
                             <Users2 className="w-5 h-5 mr-2"/>
-                            Сделать публичным
+                            Сделать общим
                         </FormLabel>
                         <FormDescription className="pr-6">
-                            Публичные ресурсы доступны другим пользователям
+                            Общие ресурсы доступны другим<br/> пользователям
                             и следуют более открытой политики использования.
                         </FormDescription>
                     </div>

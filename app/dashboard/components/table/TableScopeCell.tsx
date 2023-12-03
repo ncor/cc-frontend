@@ -2,13 +2,13 @@ import { TableCell } from "@/components/ui/table";
 import ScopeBadge from "../resource/ScopeBadge";
 
 
-export interface TableScopeColumnProps {
+export interface TableScopeCellProps {
     isPublic: boolean
 }
 
-export default function TableScopeColumn({
+export default function TableScopeCell({
     isPublic
-}: TableScopeColumnProps) {
+}: TableScopeCellProps) {
     return <TableCell>
         <ScopeBadge isPublic={ isPublic }/>
     </TableCell>

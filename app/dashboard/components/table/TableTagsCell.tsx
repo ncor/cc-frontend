@@ -3,13 +3,13 @@ import { TableCell } from "@/components/ui/table";
 import { Minus } from "lucide-react";
 
 
-export interface TableTagsColumnProps {
+export interface TableTagsCellProps {
     tags: string[]
 }
 
-export default function TableTagsColumn({
+export default function TableTagsCell({
     tags
-}: TableTagsColumnProps) {
+}: TableTagsCellProps) {
     return <TableCell className="space-x-1">
         {
             tags.length

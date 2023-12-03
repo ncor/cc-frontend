@@ -1,7 +1,7 @@
 import { TableCell, TableRow } from "@/components/ui/table";
-import TableUuidColumn from "../../components/table/TableUuidColumn";
-import TableUserColumn from "../../components/table/TableUserColumn";
-import TableScopeColumn from "../../components/table/TableScopeColumn";
+import TableUuidCell from "../../components/table/TableUuidCell";
+import TableUserCell from "../../components/table/TableUserCell";
+import TableScopeCell from "../../components/table/TableScopeCell";
 import TableDateCell from '../../components/table/TableDateCell';
 import { TagExtended } from "@/lib/tag/types";
 import TableActionsCell from "../../components/table/TableActionsCell";
@@ -22,10 +22,10 @@ export default function TagTableRow({
         key={ reference.id }
         className="items-center h-[65px]"
     >
-        <TableUuidColumn uuid={ reference.id }/>
+        <TableUuidCell uuid={ reference.id }/>
         <TableCell>{ reference.name }</TableCell>
-        <TableUserColumn user={ reference.user }/>
-        <TableScopeColumn isPublic={ reference.is_public }/>
+        <TableUserCell user={ reference.user }/>
+        <TableScopeCell isPublic={ reference.is_public }/>
         <TableDateCell date={ reference.created_at }/>
         <TableActionsCell visibility={ actionsMenu }>
             <TagActionsMenu

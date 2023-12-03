@@ -3,13 +3,13 @@ import HealthCheckBadge from "../resource/HealthCheckBadge";
 import { HealthCheckStatus } from "@/lib/common/health-check/types";
 
 
-export interface TableHealthCheckStatusColumnProps {
+export interface TableHealthCheckStatusCellProps {
     status: string
 }
 
-export default function TableHealthCheckStatusColumn({
+export default function TableHealthCheckStatusCell({
     status
-}: TableHealthCheckStatusColumnProps) {
+}: TableHealthCheckStatusCellProps) {
     return <TableCell>
         <HealthCheckBadge status={
             status as HealthCheckStatus

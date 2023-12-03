@@ -22,10 +22,10 @@ import TagSearchField from "../../components/TagSearchField";
 import ScopeTabs from "../../components/ScopeTabs";
 import useScope from "@/app/hooks/scope";
 import TableCreateHead from "../../components/table/TableCreateHead";
-import TableUserColumn from "../../components/table/TableUserColumn";
-import TableTagsColumn from "../../components/table/TableTagsColumn";
-import TableScopeColumn from "../../components/table/TableScopeColumn";
-import TableHealthCheckStatusColumn from "../../components/table/TableHealthCheckStatusColumn";
+import TableUserCell from "../../components/table/TableUserCell";
+import TableTagsCell from "../../components/table/TableTagsCell";
+import TableScopeCell from "../../components/table/TableScopeCell";
+import TableHealthCheckStatusCell from "../../components/table/TableHealthCheckStatusCell";
 import useVisibility from "@/app/hooks/visibility";
 import MoreButton from "../../components/MoreButton";
 import ProxyActionsMenu from "./ProxyActionsMenu";
@@ -93,10 +93,10 @@ export default function ProxyTable() {
                                         { row.url.split('@')[1] }
                                     </div>
                                 </TableCell>
-                                <TableHealthCheckStatusColumn status={ row.health_check }/>
-                                <TableTagsColumn tags={ row.tags }/>
-                                <TableScopeColumn isPublic={ row.is_public }/>
-                                <TableUserColumn user={ row.user }/>
+                                <TableHealthCheckStatusCell status={ row.health_check }/>
+                                <TableTagsCell tags={ row.tags }/>
+                                <TableScopeCell isPublic={ row.is_public }/>
+                                <TableUserCell user={ row.user }/>
                                 <TableActionsCell visibility={ actionsMenu }>
                                     <ProxyActionsMenu
                                         reference={ row }

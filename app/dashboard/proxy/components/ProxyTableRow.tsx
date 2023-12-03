@@ -2,10 +2,10 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { ProxyExtended } from "@/lib/proxy/types";
 import TableActionsCell from "../../components/table/TableActionsCell";
 import ProxyActionsMenu from "./ProxyActionsMenu";
-import TableUserColumn from "../../components/table/TableUserColumn";
-import TableScopeColumn from "../../components/table/TableScopeColumn";
-import TableTagsColumn from "../../components/table/TableTagsColumn";
-import TableHealthCheckStatusColumn from "../../components/table/TableHealthCheckStatusColumn";
+import TableUserCell from "../../components/table/TableUserCell";
+import TableScopeCell from "../../components/table/TableScopeCell";
+import TableTagsCell from "../../components/table/TableTagsCell";
+import TableHealthCheckStatusCell from "../../components/table/TableHealthCheckStatusCell";
 import { Badge } from "@/components/ui/badge";
 import useVisibility from "@/app/hooks/visibility";
 
@@ -32,10 +32,10 @@ export default function ProxyTableRow({
                 { reference.url.split('@')[1] }
             </div>
         </TableCell>
-        <TableHealthCheckStatusColumn status={ reference.health_check }/>
-        <TableTagsColumn tags={ reference.tags }/>
-        <TableScopeColumn isPublic={ reference.is_public }/>
-        <TableUserColumn user={ reference.user }/>
+        <TableHealthCheckStatusCell status={ reference.health_check }/>
+        <TableTagsCell tags={ reference.tags }/>
+        <TableScopeCell isPublic={ reference.is_public }/>
+        <TableUserCell user={ reference.user }/>
         <TableActionsCell visibility={ actionsMenu }>
             <ProxyActionsMenu
                 reference={ reference }

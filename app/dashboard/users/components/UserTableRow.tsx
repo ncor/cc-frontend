@@ -1,7 +1,7 @@
 import { TableRow } from "@/components/ui/table";
 import { User } from "@/lib/user/types";
-import TableUuidColumn from "../../components/table/TableUuidColumn";
-import TableUserColumn from "../../components/table/TableUserColumn";
+import TableUuidCell from "../../components/table/TableUuidCell";
+import TableUserCell from "../../components/table/TableUserCell";
 import TableDateCell from "../../components/table/TableDateCell";
 import TableActionsCell from "../../components/table/TableActionsCell";
 import UserActionsMenu from "./UserActionsMenu";
@@ -18,8 +18,8 @@ export default function UserTableRow({
     const actionsMenu = useVisibility();
 
     return <TableRow key={ reference.id }>
-        <TableUuidColumn uuid={ reference.id }/>
-        <TableUserColumn user={ reference }/>
+        <TableUuidCell uuid={ reference.id }/>
+        <TableUserCell user={ reference }/>
         <TableDateCell date={ reference.created_at }/>
         <TableActionsCell visibility={ actionsMenu }>
             <UserActionsMenu

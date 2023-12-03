@@ -1,0 +1,23 @@
+export enum HealthCheckOkStatus {
+    OK='OK'
+}
+
+export enum HealthCheckSuspenseStatus {
+    PENDING='SUSPENSE/PENDING'
+}
+
+export enum HealthCheckErrorStatus {
+    FAILED='ERROR/FAILED',
+    IRRELEVANT='ERROR/IRRELEVANT',
+    BANNED='ERROR/BANNED',
+    NOT_FUNCTIONAL='ERROR/NOT_FUNCTIONAL',
+    NOT_AUTHORIZED='ERROR/NOT_AUTHORIZED',
+    INVALID_DATA='ERROR/INVALID_DATA'
+}
+
+export enum HealthCheckCascadeStatus {
+    PROXY_FAULT='CASCADE/PROXY',
+    ACCOUNT_FAULT='CASCADE/ACCOUNT',
+    PAGE_FAULT='CASCADE/PAGE',
+    POST_FAULT='CASCADE/POST'
+}

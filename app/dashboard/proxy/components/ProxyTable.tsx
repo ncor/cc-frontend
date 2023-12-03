@@ -30,6 +30,7 @@ import useVisibility from "@/app/hooks/visibility";
 import MoreButton from "../../components/MoreButton";
 import ProxyActionsMenu from "./ProxyActionsMenu";
 import TableActionsCell from "../../components/table/TableActionsCell";
+import ProxyTableRow from "./ProxyTableRow";
 
 
 export type ProxyTableRow = ProxyExtended;
@@ -79,32 +80,11 @@ export default function ProxyTable() {
                         rows={ rows }
                         isFetching={ isFetching }
                     >
-                        { rows?.map((row) => (
-                            <TableRow
-                                key={ row.id }
-                                className="items-center h-[65px]"
-                            >
-                                <TableCell>{ row.id }</TableCell>
-                                <TableCell>
-                                    <div className="flex items-center gap-2">
-                                        <Badge variant="outline">
-                                            { row.url.split('://')[0] }
-                                        </Badge>
-                                        { row.url.split('@')[1] }
-                                    </div>
-                                </TableCell>
-                                <TableHealthCheckStatusCell status={ row.health_check }/>
-                                <TableTagsCell tags={ row.tags }/>
-                                <TableScopeCell isPublic={ row.is_public }/>
-                                <TableUserCell user={ row.user }/>
-                                <TableActionsCell visibility={ actionsMenu }>
-                                    <ProxyActionsMenu
-                                        reference={ row }
-                                        visibility={ actionsMenu }
-                                    />
-                                </TableActionsCell>
-                            </TableRow>
-                        )) }
+                        {
+                            rows?.map(row =>
+                                <ProxyTableRow key={ row.id } reference={ row }/>
+                            )
+                        }
                     </TableRowsAdapter>
                 </TableBody>
             </Table>

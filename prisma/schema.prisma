@@ -1,130 +1,124 @@
 generator client {
-  provider = "prisma-client-js"
-  previewFeatures = ["fullTextSearch"]
+    provider        = "prisma-client-js"
+    previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model account {
-  id         Int        @id @default(autoincrement())
-  proxy_id   Int
-  name       String     @db.VarChar
-  token      String     @db.VarChar
-  created_at DateTime   @default(now()) @db.Timestamptz(6)
-  owner_id   String     @db.Uuid
-  is_public  Boolean
-  tags       String[]   @db.VarChar
-  cookies    Json
-  user       user       @relation(fields: [owner_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  proxy      proxy      @relation(fields: [proxy_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
-  comment    comment[]
-  page       page[]
-  post       post[]
-  reaction   reaction[]
+    id              Int           @id @default(autoincrement())
+    health_check    String        @default("pending")
+    proxy_id        Int
+    name            String        @db.VarChar
+    token           String        @db.VarChar
+    created_at      DateTime      @default(now()) @db.Timestamptz(6)
+    owner_id        String        @db.Uuid
+    is_public       Boolean
+    tags            String[]      @db.VarChar
+    cookies         Json
+    user            user          @relation(fields: [owner_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+    proxy           proxy         @relation(fields: [proxy_id], references: [id], onUpdate: NoAction)
+    comment         comment[]
+    page            page[]
+    post            post[]
+    reaction        reaction[]
 }
 
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model comment {
-  id         Int      @id @default(autoincrement())
-  pending    Boolean  @default(true)
-  source_id  String   @db.VarChar
-  post_id    Int
-  text       String
-  created_at DateTime @default(now()) @db.Timestamptz(6)
-  account_id Int?
-  creator_id String   @db.Uuid
-  account    account? @relation(fields: [account_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  user       user     @relation(fields: [creator_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  post       post     @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+    id              Int           @id @default(autoincrement())
+    health_check    String        @default("pending")
+    source_id       String        @db.VarChar
+    post_id         Int
+    text            String
+    created_at      DateTime      @default(now()) @db.Timestamptz(6)
+    account_id      Int?
+    creator_id      String        @db.Uuid
+    account         account?      @relation(fields: [account_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+    user            user          @relation(fields: [creator_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+    post            post          @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model page {
-  id         Int      @id @default(autoincrement())
-  pending    Boolean  @default(true)
-  source_id  String   @db.VarChar
-  tags       String[] @default([]) @db.VarChar
-  name       String   @db.VarChar
-  category   String   @db.VarChar
-  created_at DateTime @default(now()) @db.Timestamptz(6)
-  account_id Int
-  creator_id String   @db.Uuid
-  account    account  @relation(fields: [account_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  user       user     @relation(fields: [creator_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  post       post[]
+    id              Int           @id @default(autoincrement())
+    health_check    String        @default("pending")
+    source_id       String        @db.VarChar
+    tags            String[]      @default([]) @db.VarChar
+    name            String        @db.VarChar
+    category        String        @db.VarChar
+    created_at      DateTime      @default(now()) @db.Timestamptz(6)
+    account_id      Int
+    creator_id      String        @db.Uuid
+    account         account       @relation(fields: [account_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+    user            user          @relation(fields: [creator_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+    post            post[]
 }
 
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model post {
-  id         Int        @id @default(autoincrement())
-  pending    Boolean    @default(true)
-  source_id  String     @db.VarChar
-  page_id    Int
-  text       String     @default("")
-  image_urls String[]   @default([]) @db.VarChar
-  created_at DateTime   @default(now()) @db.Timestamptz(6)
-  account_id Int
-  creator_id String     @db.Uuid
-  comment    comment[]
-  account    account    @relation(fields: [account_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  user       user       @relation(fields: [creator_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  page       page       @relation(fields: [page_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  reaction   reaction[]
+    id              Int           @id @default(autoincrement())
+    health_check    String        @default("pending")
+    source_id       String        @db.VarChar
+    page_id         Int
+    text            String        @default("")
+    image_urls      String[]      @default([]) @db.VarChar
+    created_at      DateTime      @default(now()) @db.Timestamptz(6)
+    account_id      Int
+    creator_id      String        @db.Uuid
+    comment         comment[]
+    account         account       @relation(fields: [account_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+    user            user          @relation(fields: [creator_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+    page            page          @relation(fields: [page_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+    reaction        reaction[]
 }
 
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model proxy {
-  id         Int       @id @default(autoincrement())
-  url        String    @db.VarChar
-  created_at DateTime  @default(now()) @db.Timestamptz(6)
-  owner_id   String    @db.Uuid
-  is_public  Boolean
-  tags       String[]  @db.VarChar
-  account    account[]
-  user       user      @relation(fields: [owner_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+    id              Int           @id @default(autoincrement())
+    health_check    String        @default("pending")
+    url             String        @db.VarChar
+    created_at      DateTime      @default(now()) @db.Timestamptz(6)
+    owner_id        String        @db.Uuid
+    is_public       Boolean
+    tags            String[]      @db.VarChar
+    account         account[]
+    user            user          @relation(fields: [owner_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model reaction {
-  id            Int      @id @default(autoincrement())
-  pending       Boolean  @default(true)
-  source_id     String   @db.VarChar
-  post_id       Int
-  reaction_type String   @db.VarChar
-  created_at    DateTime @default(now()) @db.Timestamptz(6)
-  account_id    Int
-  creator_id    String   @db.Uuid
-  account       account  @relation(fields: [account_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  user          user     @relation(fields: [creator_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  post          post     @relation(fields: [post_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    id              Int           @id @default(autoincrement())
+    health_check    String        @default("pending")
+    source_id       String        @db.VarChar
+    post_id         Int
+    reaction_type   String        @db.VarChar
+    created_at      DateTime      @default(now()) @db.Timestamptz(6)
+    account_id      Int
+    creator_id      String        @db.Uuid
+    account         account       @relation(fields: [account_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+    user            user          @relation(fields: [creator_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+    post            post          @relation(fields: [post_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model tag {
-  name       String   @unique @db.VarChar
-  created_at DateTime @default(now()) @db.Timestamptz(6)
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  is_public  Boolean
-  owner_id   String   @db.Uuid
-  user       user     @relation(fields: [owner_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+    name       String   @unique @db.VarChar
+    created_at DateTime @default(now()) @db.Timestamptz(6)
+    id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    is_public  Boolean
+    owner_id   String   @db.Uuid
+    user       user     @relation(fields: [owner_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model user {
-  created_at DateTime   @default(now()) @db.Timestamptz(6)
-  is_admin   Boolean    @default(false)
-  id         String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name       String     @db.VarChar
-  password   String     @db.VarChar
-  account    account[]
-  comment    comment[]
-  page       page[]
-  post       post[]
-  proxy      proxy[]
-  reaction   reaction[]
-  tag        tag[]
+    created_at DateTime   @default(now()) @db.Timestamptz(6)
+    is_admin   Boolean    @default(false)
+    id         String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    name       String     @db.VarChar
+    password   String     @db.VarChar
+    account    account[]
+    comment    comment[]
+    page       page[]
+    post       post[]
+    proxy      proxy[]
+    reaction   reaction[]
+    tag        tag[]
 }

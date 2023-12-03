@@ -9,6 +9,7 @@ import { UserAuth } from "../user/types";
 import { RowActions } from "../common/types";
 import { PROXY_NOT_EXISTS_ERROR } from "./constants";
 import { proxyHealthCheck } from "./health-check";
+import { DefaultArgs } from "@prisma/client/runtime/library";
 
 
 export const createProxy = endpoint(async (
@@ -18,6 +19,8 @@ export const createProxy = endpoint(async (
     await proxyPolicy.validateInsert(args.data as Proxy, user);
 
     const proxy = await prisma.proxy.create({
+        // @todo: resolve next time
+        // @ts-ignore
         data: { ...args.data, owner_id: user.id }
     });
 

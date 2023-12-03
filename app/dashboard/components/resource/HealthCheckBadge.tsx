@@ -21,7 +21,7 @@ const statusTextMap = {
     [HealthCheckErrorStatus.BANNED]: 'Бан',
     [HealthCheckErrorStatus.NOT_FUNCTIONAL]: 'Не работает',
     [HealthCheckErrorStatus.NOT_AUTHORIZED]: 'Не авторизован',
-    [HealthCheckErrorStatus.INVALID_DATA]: 'Ошибка в данных',
+    [HealthCheckErrorStatus.INVALID_DATA]: 'Ошибка данных',
 
     [HealthCheckCascadeStatus.PROXY_FAULT]: 'Ошибка прокси',
     [HealthCheckCascadeStatus.ACCOUNT_FAULT]: 'Ошибка аккаунта',

@@ -11,9 +11,9 @@ export default function ScopeBadge({
     return isPublic
         ? <Badge>
             <Users2 className="h-4 w-4 mr-1"/>
-            Публичный
+            Общий
         </Badge>
         : <Badge variant="secondary">
-            Приватный
+            Личный
         </Badge>
 }

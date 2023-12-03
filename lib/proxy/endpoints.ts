@@ -55,7 +55,7 @@ export const updateProxy = endpoint(async (
 
     await proxyPolicy.verifyAction(RowActions.UPDATE, proxy, user);
 
-    proxyHealthCheck.test(args.where as Proxy);
+    proxyHealthCheck.test(proxy);
     
     return prisma.proxy.update(args);
 });

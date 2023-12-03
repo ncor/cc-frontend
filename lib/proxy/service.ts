@@ -10,7 +10,7 @@ import {
 } from "./constants";
 
 
-export const getProxyClient = (proxy: Proxy, baseURL?: string) => {
+export const getProxyClient = async (proxy: Proxy, baseURL?: string) => {
     let httpsAgent: SocksProxyAgent | HttpsProxyAgent<string>;
 
     if (proxy.url.startsWith("socks")) {

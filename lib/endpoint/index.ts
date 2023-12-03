@@ -1,5 +1,5 @@
 import { EndpointResponse } from '@/lib/endpoint/types';
-import { CustomError } from "../error";
+import { CustomError } from "../common/dto/CustomError";
 import { ArgsType } from "../types";
 import { UserAuth } from "../user/types";
 

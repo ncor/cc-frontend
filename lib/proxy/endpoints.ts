@@ -5,9 +5,10 @@ import { endpoint } from "../endpoint";
 import { Prisma } from "@prisma/client";
 import { proxyPolicy } from "./policy";
 import { Proxy, ProxyExtended } from "./types";
-import { checkProxyConnection, getProxyAdapter } from "./service";
-import { ResourceActions } from "../resource/types";
 import { UserAuth } from "../user/types";
+import { RowActions } from "../common/types";
+import { PROXY_NOT_EXISTS_ERROR } from "./constants";
+import { proxyHealthCheck } from "./health-check";
 
 
 export const createProxy = endpoint(async (
@@ -15,11 +16,12 @@ export const createProxy = endpoint(async (
     args: Prisma.proxyCreateArgs
 ) => {
     await proxyPolicy.validateInsert(args.data as Proxy, user);
-    await checkProxyConnection(args.data as Proxy);
 
-    return prisma.proxy.createMany({
+    const proxy = await prisma.proxy.create({
         data: { ...args.data, owner_id: user.id }
-    }); 
+    });
+
+    proxyHealthCheck.test(proxy);
 });
 
 
@@ -28,7 +30,7 @@ export const findProxy = endpoint(async (
     args: Prisma.proxyFindManyArgs
 ) => {
     return proxyPolicy.filterForbidden(
-        ResourceActions.GET, await prisma.proxy.findMany(args), user
+        RowActions.GET, await prisma.proxy.findMany(args), user
     ) as ProxyExtended[];
 });
 
@@ -45,8 +47,12 @@ export const updateProxy = endpoint(async (
     user: UserAuth,
     args: Prisma.proxyUpdateArgs
 ) => {
-    const proxy = await getProxyAdapter({ where: args.where });
-    await proxyPolicy.verifyAction(ResourceActions.UPDATE, proxy, user);
+    const proxy = await prisma.proxy.findFirst({ where: args.where });
+    if (!proxy) throw PROXY_NOT_EXISTS_ERROR;
+
+    await proxyPolicy.verifyAction(RowActions.UPDATE, proxy, user);
+
+    proxyHealthCheck.test(args.where as Proxy);
     
     return prisma.proxy.update(args);
 });
@@ -56,8 +62,10 @@ export const deleteProxy = endpoint(async (
     user: UserAuth,
     args: Prisma.proxyDeleteArgs
 ) => {
-    const proxy = await getProxyAdapter({ where: args.where });
-    await proxyPolicy.verifyAction(ResourceActions.DELETE, proxy, user);
+    const proxy = await prisma.proxy.findFirst({ where: args.where });
+    if (!proxy) throw PROXY_NOT_EXISTS_ERROR;
+
+    await proxyPolicy.verifyAction(RowActions.DELETE, proxy, user);
 
     return prisma.proxy.delete(args);
 });

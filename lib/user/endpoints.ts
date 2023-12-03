@@ -4,15 +4,16 @@ import { Prisma } from "@prisma/client";
 import { endpoint } from "../endpoint";
 import { User, UserAuth } from "./types";
 import { verifyUserDataUpsert, verifyUserUpdateAccess } from "./service";
-import { ERRORS } from "../error/constants";
 import { prisma } from "../prisma";
+import { NOT_PERMITTED_ERROR } from "../common/policy/constants";
+import { USER_NOT_EXISTS_ERROR } from "./constants";
 
 
 export const createUser = endpoint(async (
     user: UserAuth,
     args: Prisma.userCreateArgs
 ) => {
-    if (!user.is_admin) throw ERRORS.AUTH.NOT_PERMITTED;
+    if (!user.is_admin) throw NOT_PERMITTED_ERROR;
 
     args.data = await verifyUserDataUpsert(args.data as User);
 
@@ -41,7 +42,7 @@ export const updateUser = endpoint(async (
     args: Prisma.userUpdateArgs
 ) => {
     const targetUser = await prisma.user.findFirst({ where: args.where });
-    if (!targetUser) throw ERRORS.USER.NOT_EXISTS;
+    if (!targetUser) throw USER_NOT_EXISTS_ERROR;
     await verifyUserUpdateAccess(user, targetUser);
 
     args.data = await verifyUserDataUpsert(args.data as User, targetUser.name);
@@ -54,7 +55,7 @@ export const deleteUser = endpoint(async (
     user: UserAuth,
     args: Prisma.userDeleteArgs
 ) => {
-    if (!user.is_admin) throw ERRORS.AUTH.NOT_PERMITTED;
+    if (!user.is_admin) throw NOT_PERMITTED_ERROR;
 
     return prisma.user.delete(args);
 });

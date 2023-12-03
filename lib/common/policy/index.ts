@@ -1,11 +1,11 @@
-import { ERRORS } from "../error/constants";
-import { User } from "../user/types";
-import { ProtectedResource, ResourcePolicyRules } from "./types";
+import { User } from "../../user/types";
+import { NOT_PERMITTED_ERROR } from "./constants";
+import { PolicyRules, Protected } from "./types";
 
 
-export class ResourcePolicy<T extends ProtectedResource> {
+export class Policy<T extends Protected> {
     constructor(
-        public rules: ResourcePolicyRules<T>
+        public rules: PolicyRules<T>
     ) {}
 
     public isAllowed(action: string, resource: T, user: User) {
@@ -22,12 +22,12 @@ export class ResourcePolicy<T extends ProtectedResource> {
 
     public validateInsert(resource: T, user: User) {
         if (resource?.is_public && !user.is_admin)
-            throw ERRORS.AUTH.NOT_PERMITTED;
+            throw NOT_PERMITTED_ERROR;
     }
 
     public verifyAction(action: string, resource: T, user: User) {
         if (!this.isAllowed(action, resource, user))
-            throw ERRORS.AUTH.NOT_PERMITTED;
+            throw NOT_PERMITTED_ERROR;
     }
 
     public filterForbidden(action: string, resources: T[], user: User) {

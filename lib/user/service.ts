@@ -1,10 +1,10 @@
 'use server';
 
 import { User } from "./types";
-import { ERRORS } from "../error/constants";
 import bcrypt from 'bcrypt';
-import { PASSWORD_HASHING_ROUNDS } from "./constants";
+import { PASSWORD_HASHING_ROUNDS, USER_NAME_IS_BUSY_ERROR } from "./constants";
 import { prisma } from "../prisma";
+import { NOT_PERMITTED_ERROR } from "../common/policy/constants";
 
 
 export const verifyUserUpdateAccess = async (
@@ -12,7 +12,7 @@ export const verifyUserUpdateAccess = async (
     targetUser: User
 ) => {
     if (user.id != targetUser.id && !user.is_admin)
-        throw ERRORS.AUTH.NOT_PERMITTED;
+        throw NOT_PERMITTED_ERROR;
 }
 
 export const hashPassword = (password: string) =>
@@ -32,7 +32,7 @@ export const verifyUserNameAvailability = async (
 
     const possibleUser = await prisma.user.findFirst({ where: { name } });
 
-    if (possibleUser) throw ERRORS.USER.NAME_IS_BUSY;
+    if (possibleUser) throw USER_NAME_IS_BUSY_ERROR;
 }
 
 export const verifyUserDataUpsert = async(

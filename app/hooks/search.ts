@@ -5,5 +5,9 @@ export default function useSearch() {
     const [ text, setText ] = useState<string>('');
     const [ buffer, setBuffer ] = useState<string>('');
 
-    return { text, setText, buffer, setBuffer };
+    const composeQuery = () => {
+        return { where: { name: { contains: text } } };
+    }
+
+    return { text, setText, buffer, setBuffer, composeQuery };
 }

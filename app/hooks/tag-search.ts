@@ -4,5 +4,9 @@ import { useState } from "react";
 export default function useTagSearch(selected?: string[]) {
     const [ list, setList ] = useState<string[]>(selected || []);
 
-    return { list, setList };
+    const composeQuery = () => {
+        return list.length ? { where: { tags: { hasEvery: list } }} : null;
+    }
+
+    return { list, setList, composeQuery };
 }

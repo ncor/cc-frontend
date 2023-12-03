@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { MAX_ROWS_IN_PAGE } from "../dashboard/constants";
 
 
 export default function usePagination(
@@ -26,5 +27,12 @@ export default function usePagination(
     
     const prevPage = () => setPage(prevIndex => prevIndex - 1);
 
-    return { pageIndex, setPage, nextPage, prevPage };
+    const composeQuery = () => {
+        return {
+            skip: pageIndex * MAX_ROWS_IN_PAGE,
+            take: MAX_ROWS_IN_PAGE
+        }
+    }
+
+    return { pageIndex, setPage, nextPage, prevPage, composeQuery };
 }

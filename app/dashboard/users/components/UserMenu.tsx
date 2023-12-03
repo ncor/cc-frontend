@@ -24,7 +24,7 @@ export default function UserMenu() {
 
     return <DropdownMenu>
         <DropdownMenuTrigger>
-            <UserChip user={ user } card/>
+            <UserAvatar seed={ user.name }/>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56" align="end" forceMount>
             <DropdownMenuLabel className="font-normal">

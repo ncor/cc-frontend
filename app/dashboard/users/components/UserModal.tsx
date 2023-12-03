@@ -5,43 +5,42 @@ import { useState } from "react";
 import { ModalProps } from "@/lib/client/types";
 import UserForm, { UserFormProps } from "./UserForm";
 import UserChip from "./UserChip";
+import { User } from "@/lib/user/types";
+import { VisibilityInterface } from "@/app/hooks/visibility";
 
 
-export type UserModalProps = ModalProps & UserFormProps & {
-    className?: string
+export type UserModalProps = ModalProps & {
+    visibility: VisibilityInterface,
+    reference?: User
 };
 
 export default function UserModal({
-    className, children, update, onSubmit
+    visibility, reference, onSubmit
 }: UserModalProps) {
-    const [ open, setOpen ] = useState<boolean>(false);
-
-    return (
-        <Dialog open={ open } onOpenChange={ setOpen }>
-            <DialogTrigger className={ className }>
-                { children }
-            </DialogTrigger>
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle className="flex items-center gap-2">
-                        {
-                            update &&
-                            <UserChip user={ update } card/>
-                        }
-                        Пользователь
-                    </DialogTitle>
-                    <DialogDescription>
-                        Данные того, кто пользуется панелью.
-                    </DialogDescription>
-                </DialogHeader>
-                <UserForm
-                    update={ update }
-                    onSubmit={ form => {
-                        setOpen(false);
-                        onSubmit && onSubmit(form);
-                    } }
-                />
-            </DialogContent>
-        </Dialog>
-    );
+    return <Dialog
+        open={ visibility.isVisible }
+        onOpenChange={ open => visibility.toggle(open) }
+    >
+        <DialogContent>
+            <DialogHeader>
+                <DialogTitle className="flex items-center gap-2">
+                    {
+                        reference &&
+                        <UserChip user={ reference } card/>
+                    }
+                    Пользователь
+                </DialogTitle>
+                <DialogDescription>
+                    Данные того, кто пользуется панелью.
+                </DialogDescription>
+            </DialogHeader>
+            <UserForm
+                reference={ reference }
+                onSubmit={ form => {
+                    visibility.toggle(false);
+                    onSubmit && onSubmit(form);
+                } }
+            />
+        </DialogContent>
+    </Dialog>;
 }

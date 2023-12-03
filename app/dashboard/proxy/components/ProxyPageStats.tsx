@@ -5,7 +5,7 @@ import StatCard from "../../components/stats/StatCard";
 import useRevalidation from "@/app/hooks/revalidation";
 import useSuspense from "@/app/hooks/suspense";
 import { useEffect, useState } from "react";
-import useProxies from "@/app/hooks/data/proxy";
+import useProxies from "@/app/dashboard/proxy/hooks/data/proxy";
 import StatsSection from "../../components/stats/StatsSection";
 
 

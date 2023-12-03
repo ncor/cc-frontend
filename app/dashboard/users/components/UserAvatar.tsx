@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 
 export type UserAvatarProps = {
     seed: string | null,
-    size?: 'default' | 'sm'
+    size?: 'default' | 'md' | 'sm'
 };
 
 export default function UserAvatar({
@@ -31,7 +31,13 @@ export default function UserAvatar({
         loadAvatar();
     }, [ seed ]);
 
-    const sizeStyle = size == 'default' ? 'w-[22px] h-[22px]' : 'w-4 h-4';
+    const sizeVariants = {
+        default: 'w-[30px] h-[30px]',
+        md: 'w-6 h-6',
+        sm: 'w-5 h-5'
+    };
+
+    const sizeStyle = sizeVariants[size];
 
     if (isLoading)
         return <Skeleton className={ cn("relative rounded-full h-8 w-8", sizeStyle) }/>;

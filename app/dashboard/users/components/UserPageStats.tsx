@@ -2,7 +2,7 @@
 
 import { Shield, Sword, Users } from "lucide-react";
 import StatCard from "../../components/stats/StatCard";
-import useUsers from "@/app/hooks/data/user";
+import useUsers from "@/app/dashboard/users/hooks/data/user";
 import useRevalidation from "@/app/hooks/revalidation";
 import useSuspense from "@/app/hooks/suspense";
 import { useEffect, useState } from "react";

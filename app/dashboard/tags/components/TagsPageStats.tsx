@@ -6,7 +6,7 @@ import useRevalidation from "@/app/hooks/revalidation";
 import useSuspense from "@/app/hooks/suspense";
 import { useEffect, useState } from "react";
 import StatsSection from "../../components/stats/StatsSection";
-import useTags from "@/app/hooks/data/tag";
+import useTags from "@/app/dashboard/tags/hooks/data/tag";
 
 
 export default function TagsPageStats() {

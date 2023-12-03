@@ -4,16 +4,12 @@ import { useState, useCallback } from 'react';
 import {
     Table,
     TableBody,
-    TableCell,
     TableHead,
     TableHeader,
-    TableRow,
 } from "@/components/ui/table";
 import { User } from "@/lib/user/types";
 import useUser from "@/app/dashboard/users/hooks/user";
-import { MAX_ROWS_IN_PAGE } from "../../constants";
-import useUsers from "../../../hooks/data/user";
-import UserDropDownMenu from "./UserDropdownMenu";
+import useUsers from "../hooks/data/user";
 import useTable from "@/app/hooks/table";
 import TableRowsAdapter from "../../components/table/TableRowsAdapter";
 import TablePagination from "../../components/table/TablePagination";
@@ -22,27 +18,25 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import useSearch from '@/app/hooks/search';
 import SearchField from '../../components/SearchField';
 import TableCreateHead from '../../components/table/TableCreateHead';
-import TableUuidColumn from '../../components/table/TableUuidColumn';
-import TableUserColumn from '../../components/table/TableUserColumn';
+import useVisibility from '@/app/hooks/visibility';
+import UserTableRow from './UserTableRow';
 
 
 export type UserTableRow = User;
 
 export default function UserTable() {
-    const user = useUser();
     const { find } = useUsers();
     const search = useSearch();
     const [ selectAdmins, toggleSelectAdmins ] = useState<boolean>(false);
 
     const { rows, isFetching, pagination } = useTable<User>({
-        fetch: useCallback(async pageIndex => {
+        fetch: useCallback(async pagination => {
             const query = {
                 where: {
-                    ...(search.text && { name: { contains: search.text } }),
+                    ...search.composeQuery()?.where,
                     ...(selectAdmins && { is_admin: selectAdmins })
                 },
-                skip: pageIndex * MAX_ROWS_IN_PAGE,
-                take: MAX_ROWS_IN_PAGE
+                ...pagination?.composeQuery(),
             };
     
             const response = await find(query);
@@ -75,24 +69,11 @@ export default function UserTable() {
                     rows={ rows }
                     isFetching={ isFetching }
                 >
-                    { rows?.map((row) => (
-                            <TableRow
-                                key={row.id}
-                                className="items-center h-[65px]"
-                            >
-                                <TableUuidColumn uuid={ row.id }/>
-                                <TableUserColumn user={ row }/>
-                                <TableCell>
-                                    { row.created_at.toDateString() }
-                                </TableCell>
-                                <TableCell className="float-right">
-                                    {
-                                        user.is_admin && 
-                                        <UserDropDownMenu data={ row }/>
-                                    }
-                                </TableCell>
-                            </TableRow>
-                    )) }
+                    {
+                        rows?.map(row =>
+                            <UserTableRow key={ row.id } reference={ row }/>
+                        )
+                    }
                 </TableRowsAdapter>
             </TableBody>
         </Table>

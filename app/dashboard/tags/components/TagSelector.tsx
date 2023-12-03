@@ -10,13 +10,13 @@ import {
     CommandSeparator,
 } from "@/components/ui/command";
 import { Command as CommandPrimitive } from "cmdk";
-import useTags from "../../../hooks/data/tag";
+import useTags from "../hooks/data/tag";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Tag } from "@/lib/tag/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import ScopeBadge from "../../components/resource/ScopeBadge";
-import CreateTagModal from "./CreateTagModal";
-import { CreateTagSchemaType } from "./CreateTagForm";
+import CreateTagModal from "./TagModal";
+import { CreateTagSchemaType } from "./TagForm";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { RevalidationContext } from "@/app/contexts/revalidation";
@@ -93,7 +93,7 @@ export default function TagSelector({
             onKeyDown={handleKeyDown}
             className="overflow-visible bg-transparent"
         >
-            <div className="group border border-input px-3 py-2 text-sm ring-offset-background rounded-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 bg-accent dark:bg-accent/25">
+            <div className="group border border-input h-10 flex items-center pl-3 text-sm ring-offset-background rounded-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 bg-accent dark:bg-accent/25">
                 <div className="flex items-center gap-2 flex-wrap">
                     <TagIcon className="h-[16px] w-[16px] text-muted-foreground"/>
                     {tags.map((tag) => {

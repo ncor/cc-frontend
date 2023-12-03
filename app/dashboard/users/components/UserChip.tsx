@@ -23,7 +23,7 @@ export default function UserChip({
     }>
         {
             includeAvatar &&
-            <UserAvatar seed={ user.name } size="sm" />
+            <UserAvatar seed={ user.name } size="sm"/>
         }
         <div className="flex items-center gap-1">
             { user.name }

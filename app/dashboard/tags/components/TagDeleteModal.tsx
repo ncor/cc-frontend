@@ -1,9 +1,11 @@
 "use client";
 
 import LoadingSpinner from "@/app/components/LoadingSpinner";
-import useTags from "@/app/hooks/data/tag";
+import useTags from "@/app/dashboard/tags/hooks/data/tag";
+import useRemoval from "@/app/hooks/removal";
 import useRevalidation from "@/app/hooks/revalidation";
 import useSuspense from "@/app/hooks/suspense";
+import { VisibilityInterface } from "@/app/hooks/visibility";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -17,26 +19,28 @@ import {
 } from "@/components/ui/alert-dialog";
 import { ModalProps } from "@/lib/client/types";
 import { Tag } from "@/lib/tag/types";
-import { useState } from "react";
 
 
 export type TagDeleteModalProps = ModalProps & {
-    data: Tag;
+    visibility: VisibilityInterface,
+    reference: Tag
 };
 
 export default function TagDeleteModal({
-    children,
-    data,
-    onSubmit,
+    visibility, reference, onSubmit
 }: TagDeleteModalProps) {
     const { remove } = useTags();
-    const { revalidate } = useRevalidation();
-    const { isLoading, suspenseFor } = useSuspense();
-    const [ open, setOpen ] = useState<boolean>(false);
+    const { handleRemove, isLoading } = useRemoval({
+        removeCallback: remove,
+        removeReference: reference,
+        onSubmit
+    });
 
     return (
-        <AlertDialog open={open} onOpenChange={setOpen}>
-            <AlertDialogTrigger>{children}</AlertDialogTrigger>
+        <AlertDialog
+            open={ visibility.isVisible }
+            onOpenChange={ open => visibility.toggle(open) }
+        >
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>Вы уверены?</AlertDialogTitle>
@@ -53,13 +57,7 @@ export default function TagDeleteModal({
                     <AlertDialogAction
                         disabled={ isLoading }
                         className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                        onClick={async () => {
-                            await suspenseFor(() =>
-                                remove({ where: { id: data.id } })
-                            );
-                            onSubmit && onSubmit();
-                            revalidate();
-                        }}
+                        onClick={ () => handleRemove() }
                     >
                         <LoadingSpinner isLoading={ isLoading }/>
                         Да, удалить

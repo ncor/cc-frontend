@@ -1,6 +1,5 @@
 "use client";
 
-import { useContext, useState } from "react";
 import { ModalProps } from "@/lib/client/types";
 import { Proxy } from "@/lib/proxy/types";
 import {
@@ -12,31 +11,33 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-    AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import useProxies from "../../../hooks/data/proxy";
-import { RevalidationContext } from "../../../contexts/revalidation";
-import useSuspense from "@/app/hooks/suspense";
+import useProxies from "../hooks/data/proxy";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
+import { VisibilityInterface } from '@/app/hooks/visibility';
+import useRemoval from "@/app/hooks/removal";
 
 
 export type ProxyDeleteModalProps = ModalProps & {
-    data: Proxy;
+    visibility: VisibilityInterface,
+    reference: Proxy
 };
 
 export default function ProxyDeleteModal({
-    children,
-    data,
-    onSubmit,
+    visibility, reference, onSubmit
 }: ProxyDeleteModalProps) {
     const { remove } = useProxies();
-    const { revalidate } = useContext(RevalidationContext);
-    const { isLoading, suspenseFor } = useSuspense();
-    const [ open, setOpen ] = useState<boolean>(false);
+    const { handleRemove, isLoading } = useRemoval({
+        removeCallback: remove,
+        removeReference: reference,
+        onSubmit
+    });
 
     return (
-        <AlertDialog open={open} onOpenChange={setOpen}>
-            <AlertDialogTrigger>{children}</AlertDialogTrigger>
+        <AlertDialog
+            open={ visibility.isVisible }
+            onOpenChange={ open => visibility.toggle(open) }
+        >
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>Вы уверены?</AlertDialogTitle>
@@ -46,19 +47,13 @@ export default function ProxyDeleteModal({
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel disabled={isLoading}>
+                    <AlertDialogCancel disabled={ isLoading }>
                         Отмена
                     </AlertDialogCancel>
                     <AlertDialogAction
-                        disabled={isLoading}
+                        disabled={ isLoading }
                         className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                        onClick={async () => {
-                            await suspenseFor(() =>
-                                remove({ where: { id: data.id } })
-                            );
-                            onSubmit && onSubmit();
-                            revalidate();
-                        }}
+                        onClick={ () => handleRemove() }
                     >
                         <LoadingSpinner isLoading={ isLoading }/>
                         Да, удалить

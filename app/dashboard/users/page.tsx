@@ -1,16 +1,12 @@
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import UserModal from "./components/UserModal";
 import UserPageStats from "./components/UserPageStats";
 import PageContent from "../components/PageContent";
 import Banner from "../components/heading/Banner";
-import BannerControls from "../components/heading/BannerControls";
 import BannerTitle from "../components/heading/BannerTitle";
 import BannerHeader from "../components/heading/BannerHeader";
 import BannerDescription from "../components/heading/BannerDescription";
-import RevalidationButton from "../components/RevalidationButton";
 import UserTable from "./components/UserTable";
 import TableSection from "../components/table/TableSection";
+import UserBannerControls from "./components/UserBannerControls";
 
 
 export default async function UsersPage() {
@@ -24,15 +20,7 @@ export default async function UsersPage() {
                     Управление пользователями.
                 </BannerDescription>
             </BannerHeader>
-            <BannerControls>
-                <RevalidationButton/>
-                <UserModal>
-                    <Button>
-                        <Plus className="w-4 h-4 mr-2"/>
-                        Зарегистрировать
-                    </Button>
-                </UserModal>
-            </BannerControls>
+            <UserBannerControls/>
         </Banner>
         <UserPageStats/>
         <TableSection>

@@ -1,20 +1,14 @@
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { ZodType, z } from "zod";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/ui/icons";
-import { useToast } from "@/components/ui/use-toast";
-import useSuspense from "@/app/hooks/suspense";
 import { User } from "@/lib/user/types";
-import { useContext } from "react";
-import { RevalidationContext } from "@/app/contexts/revalidation";
 import { Shield } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import useUser from "../hooks/user";
-import useUsers from "@/app/hooks/data/user";
-import { excludeEmptyRecords } from "@/lib/helpers";
+import useUsers from "@/app/dashboard/users/hooks/data/user";
+import useUpsertForm from "@/app/hooks/upsert-form";
 
 
 const userSchema = z.object({
@@ -23,54 +17,32 @@ const userSchema = z.object({
     is_admin: z.boolean()
 });
 
-export type UserSchemaType = typeof userSchema;
+export type UserSchemaType = z.infer<typeof userSchema>;
 
 export interface UserFormProps {
-    update?: User,
+    reference?: User,
     onSubmit?: <T extends ZodType<any, any, any>>(form: z.infer<T>) => void
 }
 
 export default function UserForm({
-    update, onSubmit
+    reference, onSubmit
 }: UserFormProps) {
-    const toast = useToast();
     const user = useUser();
     const { create: createUser, update: updateUser } = useUsers();
-    const { isLoading, suspenseFor } = useSuspense();
-    const { revalidate } = useContext(RevalidationContext);
 
-    const form = useForm<z.infer<UserSchemaType>>({
-        resolver: zodResolver(userSchema),
-        defaultValues: Object.assign(
-            {
-                name: '',
-                password: '',
-                is_admin: false
-            },
-            update || {},
-            { password: '' }
-        )
+    const { form, submit, isLoading } = useUpsertForm({
+        schema: userSchema,
+        defaults: {
+            name: '',
+            password: '',
+            is_admin: false
+        },
+        updateCallback: updateUser,
+        insertCallback: createUser,
+        updateReference: reference,
+        mask: { password: '' },
+        onSubmit
     });
-
-    const submit = async (form: z.infer<UserSchemaType>) => {
-        const response = await suspenseFor(async () => {
-            return update
-                ? updateUser({
-                    where: { id: update.id },
-                    data: excludeEmptyRecords(form)
-                })
-                : createUser({ data: form });
-        });
-
-        if (!response.error) {
-            onSubmit && onSubmit<UserSchemaType>(form);
-            toast.toast({
-                title: 'Успешно',
-                description: 'Пользователь сохранен.'
-            });
-            revalidate();
-        }
-    }
 
     return (
         <Form { ...form }>
@@ -96,7 +68,7 @@ export default function UserForm({
                     disabled={ isLoading }
                 />
                 {
-                    (user.id == update?.id || !update?.is_admin) &&
+                    (user.id == reference?.id || !reference?.is_admin) &&
                     <FormField
                         control={ form.control }
                         name="password"
@@ -121,7 +93,7 @@ export default function UserForm({
                     />
                 }
                 {
-                    user.id != update?.id && !update?.is_admin &&
+                    user.id != reference?.id && !reference?.is_admin &&
                     <FormField
                         control={ form.control }
                         name="is_admin"

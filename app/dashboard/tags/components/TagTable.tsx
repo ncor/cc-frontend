@@ -4,57 +4,43 @@ import { useCallback } from "react";
 import {
     Table,
     TableBody,
-    TableCell,
     TableHead,
     TableHeader,
-    TableRow,
 } from "@/components/ui/table";
-import { ProxyExtended } from "@/lib/proxy/types";
-import { MAX_ROWS_IN_PAGE } from "../../constants";
-import { ResourceActions } from "@/lib/resource/types";
 import useUser from "../../users/hooks/user";
 import useTable from "@/app/hooks/table";
 import TableRowsAdapter from "../../components/table/TableRowsAdapter";
 import TablePagination from "../../components/table/TablePagination";
 import { TagExtended } from "@/lib/tag/types";
-import useTags from "@/app/hooks/data/tag";
-import CreateTagModal from "./CreateTagModal";
+import useTags from "@/app/dashboard/tags/hooks/data/tag";
+import CreateTagModal from "./TagModal";
 import ScopeTabs from "../../components/ScopeTabs";
 import useScope from "@/app/hooks/scope";
 import SearchField from "../../components/SearchField";
 import useSearch from "@/app/hooks/search";
 import TableCreateHead from "../../components/table/TableCreateHead";
-import TableUuidColumn from '../../components/table/TableUuidColumn';
-import TableUserColumn from "../../components/table/TableUserColumn";
-import TagDropdownMenu from "./TagDropdownMenu";
-import TableScopeColumn from "../../components/table/TableScopeColumn";
+import TagTableRow from "./TagTableRow";
 
 
 export type TagTableRow = TagExtended;
 
 export default function TagTable() {
     const user = useUser();
-    const { find, findOwn, findPublic, can } = useTags();
+    const { find, can } = useTags();
     const search = useSearch();
     const scope = useScope();
 
     const { rows, isFetching, pagination } = useTable<TagExtended>({
-        fetch: useCallback(async pageIndex => {
+        fetch: useCallback(async pagination => {
             const query = {
                 where: {
-                    ...(search.text && { name: { contains: search.text } }),
+                    ...search.composeQuery()?.where,
+                    ...scope.composeQuery(user)?.where,
                 },
-                skip: pageIndex * MAX_ROWS_IN_PAGE,
-                take: MAX_ROWS_IN_PAGE
+                ...pagination?.composeQuery(),
             };
 
-            const response = await (scope.value == 'all'
-                ? find(query)
-                : (scope.value == 'own'
-                    ? findOwn(query)
-                    : findPublic(query)
-                )
-            );
+            const response = await find(query);
 
             return response?.data || [];
         }, [ search.text, scope.value ])
@@ -80,26 +66,11 @@ export default function TagTable() {
                         rows={ rows }
                         isFetching={ isFetching }
                     >
-                        { rows?.map((row) => (
-                            <TableRow
-                                key={row.id}
-                                className="items-center h-[65px]"
-                            >
-                                <TableUuidColumn uuid={ row.id }/>
-                                <TableCell>{ row.name }</TableCell>
-                                <TableUserColumn user={ row.user }/>
-                                <TableScopeColumn isPublic={ row.is_public }/>
-                                <TableCell>
-                                    { row.created_at.toDateString() }
-                                </TableCell>
-                                <TableCell className="float-right">
-                                    {
-                                        can(ResourceActions.DELETE, row, user) &&
-                                        <TagDropdownMenu data={row} />
-                                    }
-                                </TableCell>
-                            </TableRow>
-                        )) }
+                        {
+                            rows?.map(row => 
+                                <TagTableRow key={ row.id } reference={ row }/>
+                            )
+                        }
                     </TableRowsAdapter>
                 </TableBody>
             </Table>

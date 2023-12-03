@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import {
     Table,
     TableBody,
@@ -10,23 +10,13 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { ProxyExtended } from "@/lib/proxy/types";
-import { MAX_ROWS_IN_PAGE } from "../../constants";
-import useProxies from "../../../hooks/data/proxy";
-import ProxyDropDownMenu from "./ProxyDropdownMenu";
+import useProxies from "../hooks/data/proxy";
 import { Badge } from "@/components/ui/badge";
-import { createTagsSearchBody } from "@/app/hooks/helpers";
-import { ResourceActions } from "@/lib/resource/types";
-import ScopeBadge from "../../components/resource/ScopeBadge";
 import useUser from "../../users/hooks/user";
-import TagSelector from "../../tags/components/TagSelector";
-import UserChip from "../../users/components/UserChip";
 import useTable from "@/app/hooks/table";
 import TableRowsAdapter from "../../components/table/TableRowsAdapter";
 import TablePagination from "../../components/table/TablePagination";
 import ProxyModal from "./ProxyModal";
-import { Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useTagSearch from "@/app/hooks/tag-search";
 import TagSearchField from "../../components/TagSearchField";
 import ScopeTabs from "../../components/ScopeTabs";
@@ -35,31 +25,34 @@ import TableCreateHead from "../../components/table/TableCreateHead";
 import TableUserColumn from "../../components/table/TableUserColumn";
 import TableTagsColumn from "../../components/table/TableTagsColumn";
 import TableScopeColumn from "../../components/table/TableScopeColumn";
+import TableHealthCheckStatusColumn from "../../components/table/TableHealthCheckStatusColumn";
+import useVisibility from "@/app/hooks/visibility";
+import MoreButton from "../../components/MoreButton";
+import ProxyActionsMenu from "./ProxyActionsMenu";
+import TableActionsCell from "../../components/table/TableActionsCell";
 
 
 export type ProxyTableRow = ProxyExtended;
 
 export default function ProxyTable() {
     const user = useUser();
-    const { find, findOwn, findPublic, can } = useProxies();
-    const tagSearch = useTagSearch();
     const scope = useScope();
+    const tagSearch = useTagSearch();
+    const { find, can } = useProxies();
+
+    const actionsMenu = useVisibility();
 
     const { rows, isFetching, pagination } = useTable<ProxyExtended>({
-        fetch: useCallback(async pageIndex => {
+        fetch: useCallback(async pagination => {
             const query = {
-                ...createTagsSearchBody(tagSearch.list),
-                skip: pageIndex * MAX_ROWS_IN_PAGE,
-                take: MAX_ROWS_IN_PAGE
+                where: {
+                    ...tagSearch.composeQuery()?.where,
+                    ...scope.composeQuery(user)?.where,
+                },
+                ...pagination?.composeQuery(),
             };
     
-            const response = await (scope.value == 'all'
-                ? find(query)
-                : (scope.value == 'own'
-                    ? findOwn(query)
-                    : findPublic(query)
-                )
-            );
+            const response = await find(query);
 
             return response?.data || [];
         }, [ tagSearch.list, scope.value ])
@@ -75,9 +68,10 @@ export default function ProxyTable() {
                 <TableHeader>
                     <TableHead>ID</TableHead>
                     <TableHead>URL</TableHead>
+                    <TableHead>Статус</TableHead>
                     <TableHead>Теги</TableHead>
-                    <TableHead>Владелец</TableHead>
                     <TableHead>Область</TableHead>
+                    <TableHead>Владелец</TableHead>
                     <TableCreateHead modal={ ProxyModal }/>
                 </TableHeader>
                 <TableBody>
@@ -99,23 +93,16 @@ export default function ProxyTable() {
                                         { row.url.split('@')[1] }
                                     </div>
                                 </TableCell>
+                                <TableHealthCheckStatusColumn status={ row.health_check }/>
                                 <TableTagsColumn tags={ row.tags }/>
-                                <TableUserColumn user={ row.user }/>
                                 <TableScopeColumn isPublic={ row.is_public }/>
-                                <TableCell className="float-right">
-                                    {(can(
-                                        ResourceActions.UPDATE,
-                                        row,
-                                        user
-                                    ) ||
-                                        can(
-                                            ResourceActions.DELETE,
-                                            row,
-                                            user
-                                        )) && (
-                                        <ProxyDropDownMenu data={row} />
-                                    )}
-                                </TableCell>
+                                <TableUserColumn user={ row.user }/>
+                                <TableActionsCell visibility={ actionsMenu }>
+                                    <ProxyActionsMenu
+                                        reference={ row }
+                                        visibility={ actionsMenu }
+                                    />
+                                </TableActionsCell>
                             </TableRow>
                         )) }
                     </TableRowsAdapter>

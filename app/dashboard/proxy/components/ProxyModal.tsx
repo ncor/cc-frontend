@@ -1,35 +1,32 @@
 "use client";
 
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { useState } from "react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ModalProps } from "@/lib/client/types";
-import ProxyForm, { ProxyFormProps } from "./ProxyForm";
-import { User } from "@/lib/user/types";
-import { Proxy } from "@/lib/proxy/types";
+import ProxyForm from "./ProxyForm";
+import { ProxyExtended } from "@/lib/proxy/types";
 import UserChip from "../../users/components/UserChip";
+import { VisibilityInterface } from "@/app/hooks/visibility";
 
 
 export type ProxyModalProps = ModalProps & {
-    update?: Proxy & { user: User },
-    className?: string
+    visibility: VisibilityInterface,
+    reference?: ProxyExtended
 };
 
 export default function ProxyModal({
-    children, update, className, onSubmit
+    visibility, reference, onSubmit
 }: ProxyModalProps) {
-    const [ open, setOpen ] = useState<boolean>(false);
-
     return (
-        <Dialog open={ open } onOpenChange={ setOpen }>
-            <DialogTrigger className={ className }>
-                { children }
-            </DialogTrigger>
+        <Dialog
+            open={ visibility.isVisible }
+            onOpenChange={ open => visibility.toggle(open) }
+        >
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">
                         {
-                            update &&
-                            <UserChip user={ update.user } card/>
+                            reference &&
+                            <UserChip user={ reference.user } card/>
                         }
                         Прокси
                     </DialogTitle>
@@ -38,9 +35,9 @@ export default function ProxyModal({
                     </DialogDescription>
                 </DialogHeader>
                 <ProxyForm
-                    update={ update }
+                    reference={ reference }
                     onSubmit={ form => {
-                        setOpen(false);
+                        visibility.toggle(false);
                         onSubmit && onSubmit(form);
                     } }
                 />

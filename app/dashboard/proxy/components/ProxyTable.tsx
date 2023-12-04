@@ -31,6 +31,8 @@ import MoreButton from "../../components/MoreButton";
 import ProxyActionsMenu from "./ProxyActionsMenu";
 import TableActionsCell from "../../components/table/TableActionsCell";
 import ProxyTableRow from "./ProxyTableRow";
+import DetailsMarker from "../../components/DetailsMarker";
+import TableStatusHead from "../../components/table/TableStatusHead";
 
 
 export type ProxyTableRow = ProxyExtended;
@@ -69,9 +71,10 @@ export default function ProxyTable() {
                 <TableHeader>
                     <TableHead>ID</TableHead>
                     <TableHead>URL</TableHead>
-                    <TableHead>Статус</TableHead>
+                    <TableStatusHead/>
                     <TableHead>Теги</TableHead>
                     <TableHead>Область</TableHead>
+                    <TableHead>Дата создания</TableHead>
                     <TableHead>Владелец</TableHead>
                     <TableCreateHead modal={ ProxyModal }/>
                 </TableHeader>

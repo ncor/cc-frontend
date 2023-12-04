@@ -1,6 +1,6 @@
 'use client';
 
-import { User } from "@/lib/user/types";
+import { User } from "@/lib/models/user/types";
 import { ReactNode, useState } from "react";
 import { UserContext } from "../../contexts/user";
 

@@ -3,7 +3,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import PermissionsFormFields from "../../components/resource/permissions/PermissionsFormFields";
-import { Proxy } from "@/lib/proxy/types";
+import { Proxy } from "@/lib/models/proxy/types";
 import useProxies from "../hooks/data/proxy";
 import useUser from "../../users/hooks/user";
 import TagSelectFormField from "../../tags/components/TagSelectFormField";

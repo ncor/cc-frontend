@@ -1,8 +1,6 @@
 import { Shield } from "lucide-react";
 import UserAvatar from "./UserAvatar";
-import { User } from "@/lib/user/types";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import { User } from "@/lib/models/user/types";
 
 
 export interface UserChipProps {

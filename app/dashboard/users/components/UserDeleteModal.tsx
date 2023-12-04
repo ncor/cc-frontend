@@ -1,7 +1,7 @@
 "use client";
 
 import { ModalProps } from "@/lib/client/types";
-import { User } from "@/lib/user/types";
+import { User } from "@/lib/models/user/types";
 import {
     AlertDialog,
     AlertDialogAction,

@@ -7,7 +7,7 @@ import {
     TableHead,
     TableHeader,
 } from "@/components/ui/table";
-import { User } from "@/lib/user/types";
+import { User } from "@/lib/models/user/types";
 import useUser from "@/app/dashboard/users/hooks/user";
 import useUsers from "../hooks/data/user";
 import useTable from "@/app/hooks/table";

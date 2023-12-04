@@ -1,8 +1,8 @@
 import { AxiosInstance } from 'axios';
-import HealthCheck from '../common/health-check';
-import { HealthCheckErrorStatus, HealthCheckOkStatus } from '../common/health-check/constants';
-import { HealthCheckStatus } from '../common/health-check/types';
-import { prisma } from '../prisma';
+import HealthCheck from '../../common/health-check';
+import { HealthCheckErrorStatus, HealthCheckOkStatus } from '../../common/health-check/constants';
+import { HealthCheckStatus } from '../../common/health-check/types';
+import { prisma } from '../../prisma';
 import { PROXY_INVALID_PROTOCOL_ERROR, PROXY_INVALID_URL_ERROR, PROXY_NOT_WORKING_ERROR } from './constants';
 import { getProxyClient } from './service';
 import { Proxy } from './types';

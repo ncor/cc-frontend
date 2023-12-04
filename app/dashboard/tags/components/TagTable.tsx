@@ -11,7 +11,7 @@ import useUser from "../../users/hooks/user";
 import useTable from "@/app/hooks/table";
 import TableRowsAdapter from "../../components/table/TableRowsAdapter";
 import TablePagination from "../../components/table/TablePagination";
-import { TagExtended } from "@/lib/tag/types";
+import { TagExtended } from "@/lib/models/tag/types";
 import useTags from "@/app/dashboard/tags/hooks/data/tag";
 import CreateTagModal from "./TagModal";
 import ScopeTabs from "../../components/ScopeTabs";

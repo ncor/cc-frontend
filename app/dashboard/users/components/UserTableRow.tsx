@@ -1,5 +1,5 @@
 import { TableRow } from "@/components/ui/table";
-import { User } from "@/lib/user/types";
+import { User } from "@/lib/models/user/types";
 import TableUuidCell from "../../components/table/TableUuidCell";
 import TableUserCell from "../../components/table/TableUserCell";
 import TableDateCell from "../../components/table/TableDateCell";

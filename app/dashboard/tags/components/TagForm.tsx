@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import useTags from "../hooks/data/tag";
 import PermissionsFormFields from "../../components/resource/permissions/PermissionsFormFields";
 import useUser from "../../users/hooks/user";
-import { Tag } from "@/lib/tag/types";
+import { Tag } from "@/lib/models/tag/types";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 import { useToast } from "@/components/ui/use-toast";
 import useUpsertForm from "@/app/hooks/upsert-form";

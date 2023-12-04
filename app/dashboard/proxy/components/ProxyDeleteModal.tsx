@@ -1,7 +1,7 @@
 "use client";
 
 import { ModalProps } from "@/lib/client/types";
-import { Proxy } from "@/lib/proxy/types";
+import { Proxy } from "@/lib/models/proxy/types";
 import {
     AlertDialog,
     AlertDialogAction,

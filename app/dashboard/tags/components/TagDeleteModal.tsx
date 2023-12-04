@@ -18,7 +18,7 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { ModalProps } from "@/lib/client/types";
-import { Tag } from "@/lib/tag/types";
+import { Tag } from "@/lib/models/tag/types";
 
 
 export type TagDeleteModalProps = ModalProps & {

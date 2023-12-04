@@ -1,10 +1,10 @@
 'use client';
 
-import { countProxies, createProxy, deleteProxy, findProxy, updateProxy } from "@/lib/proxy/endpoints";
+import { countProxies, createProxy, deleteProxy, findProxy, updateProxy } from "@/lib/models/proxy/endpoints";
 import { ArgsType } from "@/lib/types";
-import { proxyPolicy } from "@/lib/proxy/policy";
-import { Proxy } from "@/lib/proxy/types";
-import { User } from "@/lib/user/types";
+import { proxyPolicy } from "@/lib/models/proxy/policy";
+import { Proxy } from "@/lib/models/proxy/types";
+import { User } from "@/lib/models/user/types";
 import { useToast } from "@/components/ui/use-toast";
 import cook from "../../../../hooks/cook";
 import useUser from "@/app/dashboard/users/hooks/user";

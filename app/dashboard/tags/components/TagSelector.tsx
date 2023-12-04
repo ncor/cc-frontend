@@ -12,7 +12,7 @@ import {
 import { Command as CommandPrimitive } from "cmdk";
 import useTags from "../hooks/data/tag";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { Tag } from "@/lib/tag/types";
+import { Tag } from "@/lib/models/tag/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import ScopeBadge from "../../components/resource/ScopeBadge";
 import { RevalidationContext } from "@/app/contexts/revalidation";

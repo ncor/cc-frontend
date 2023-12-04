@@ -3,7 +3,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/ui/icons";
-import { User } from "@/lib/user/types";
+import { User } from "@/lib/models/user/types";
 import { Shield } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import useUser from "../hooks/user";

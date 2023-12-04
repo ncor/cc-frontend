@@ -50,7 +50,7 @@ export default function UserMenu({
                     }
                 </div>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
+            <DropdownMenuSeparator/>
             <DropdownMenuItem
                 onClick={ () => editModal.toggle(true) }
                 className="cursor-pointer"

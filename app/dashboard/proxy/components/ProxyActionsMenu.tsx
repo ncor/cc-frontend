@@ -1,5 +1,5 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { ProxyExtended } from "@/lib/proxy/types";
+import { ProxyExtended } from "@/lib/models/proxy/types";
 import { Edit2, Trash } from "lucide-react";
 import ProxyModal from "./ProxyModal";
 import ProxyDeleteModal from "./ProxyDeleteModal";

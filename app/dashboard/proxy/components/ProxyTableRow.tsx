@@ -1,5 +1,5 @@
 import { TableCell, TableRow } from "@/components/ui/table";
-import { ProxyExtended } from "@/lib/proxy/types";
+import { ProxyExtended } from "@/lib/models/proxy/types";
 import TableActionsCell from "../../components/table/TableActionsCell";
 import ProxyActionsMenu from "./ProxyActionsMenu";
 import TableUserCell from "../../components/table/TableUserCell";

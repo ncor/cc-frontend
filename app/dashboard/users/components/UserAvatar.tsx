@@ -14,6 +14,12 @@ export type UserAvatarProps = {
     size?: 'default' | 'md' | 'sm'
 };
 
+const sizeVariants = {
+    default: 'w-[30px] h-[30px]',
+    md: 'w-6 h-6',
+    sm: 'w-5 h-5'
+};
+
 export default function UserAvatar({
     seed, size='default'
 }: UserAvatarProps) {
@@ -31,22 +37,13 @@ export default function UserAvatar({
         loadAvatar();
     }, [ seed ]);
 
-    const sizeVariants = {
-        default: 'w-[30px] h-[30px]',
-        md: 'w-6 h-6',
-        sm: 'w-5 h-5'
-    };
-
     const sizeStyle = sizeVariants[size];
 
     if (isLoading)
         return <Skeleton className={ cn("relative rounded-full h-8 w-8", sizeStyle) }/>;
 
     return <Avatar className={ cn("relative rounded-full bg-white", sizeStyle) }>
-        <AvatarImage
-            src={ avatarUri }
-            alt="@shadcn"
-        />
+        <AvatarImage src={ avatarUri } alt={ seed || '' }/>
         <AvatarFallback>?</AvatarFallback>
     </Avatar>;
 }

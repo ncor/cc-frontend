@@ -3,7 +3,7 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ModalProps } from "@/lib/client/types";
 import ProxyForm from "./ProxyForm";
-import { ProxyExtended } from "@/lib/proxy/types";
+import { ProxyExtended } from "@/lib/models/proxy/types";
 import UserChip from "../../users/components/UserChip";
 import { VisibilityInterface } from "@/app/hooks/visibility";
 

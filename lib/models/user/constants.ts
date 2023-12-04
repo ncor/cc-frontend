@@ -1,4 +1,4 @@
-import { CustomError } from "../common/dto/CustomError";
+import { CustomError } from "../../common/dto/CustomError";
 
 
 export const PASSWORD_HASHING_ROUNDS = 10;

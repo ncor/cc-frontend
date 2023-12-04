@@ -1,4 +1,4 @@
-import { UserAuth } from "@/lib/user/types";
+import { UserAuth } from "@/lib/models/user/types";
 import { JWT } from "next-auth/jwt";
 
 

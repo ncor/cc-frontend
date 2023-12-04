@@ -3,8 +3,8 @@
 import { User } from "./types";
 import bcrypt from 'bcrypt';
 import { PASSWORD_HASHING_ROUNDS, USER_NAME_IS_BUSY_ERROR } from "./constants";
-import { prisma } from "../prisma";
-import { NOT_PERMITTED_ERROR } from "../common/policy/constants";
+import { prisma } from "../../prisma";
+import { NOT_PERMITTED_ERROR } from "../../common/policy/constants";
 
 
 export const verifyUserUpdateAccess = async (

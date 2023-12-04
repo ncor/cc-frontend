@@ -1,11 +1,11 @@
 'use server';
 
 import { Prisma } from "@prisma/client";
-import { endpoint } from "../endpoint";
+import { endpoint } from "../../endpoint";
 import { User, UserAuth } from "./types";
 import { verifyUserDataUpsert, verifyUserUpdateAccess } from "./service";
-import { prisma } from "../prisma";
-import { NOT_PERMITTED_ERROR } from "../common/policy/constants";
+import { prisma } from "../../prisma";
+import { NOT_PERMITTED_ERROR } from "../../common/policy/constants";
 import { USER_NOT_EXISTS_ERROR } from "./constants";
 
 

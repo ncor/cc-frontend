@@ -2,10 +2,10 @@
 
 import { useToast } from "@/components/ui/use-toast";
 import { ArgsType } from "@/lib/types";
-import { createTag, findTag, deleteTag, updateTag, countTags } from "@/lib/tag/endpoints";
-import { tagPolicy } from "@/lib/tag/policy";
-import { Tag } from "@/lib/tag/types";
-import { User } from "@/lib/user/types";
+import { createTag, findTag, deleteTag, updateTag, countTags } from "@/lib/models/tag/endpoints";
+import { tagPolicy } from "@/lib/models/tag/policy";
+import { Tag } from "@/lib/models/tag/types";
+import { User } from "@/lib/models/user/types";
 import cook from "../../../../hooks/cook";
 import useUser from "@/app/dashboard/users/hooks/user";
 

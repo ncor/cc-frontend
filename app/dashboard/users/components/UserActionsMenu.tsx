@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { User } from "@/lib/user/types";
+import { User } from "@/lib/models/user/types";
 import { Edit2, MoreHorizontal, Sword, Trash } from "lucide-react";
 import UserModal from "./UserModal";
 import UserDeleteModal from "./UserDeleteModal";

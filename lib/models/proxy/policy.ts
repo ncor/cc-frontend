@@ -1,5 +1,5 @@
-import { Policy } from "../common/policy";
-import { RowActions } from "../common/types";
+import { Policy } from "../../common/policy";
+import { RowActions } from "../../common/types";
 import { Proxy } from "./types";
 
 

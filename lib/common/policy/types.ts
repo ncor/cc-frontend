@@ -1,4 +1,4 @@
-import { User } from "@/lib/user/types";
+import { User } from "@/lib/models/user/types";
 
 
 export type Protected = {

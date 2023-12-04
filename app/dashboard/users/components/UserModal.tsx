@@ -5,7 +5,7 @@ import { useState } from "react";
 import { ModalProps } from "@/lib/client/types";
 import UserForm, { UserFormProps } from "./UserForm";
 import UserChip from "./UserChip";
-import { User } from "@/lib/user/types";
+import { User } from "@/lib/models/user/types";
 import { VisibilityInterface } from "@/app/hooks/visibility";
 
 

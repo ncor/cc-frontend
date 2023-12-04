@@ -1,4 +1,4 @@
-import { CustomError } from "../common/dto/CustomError";
+import { CustomError } from "../../common/dto/CustomError";
 
 
 export const PROXY_INVALID_PROTOCOL_ERROR = new CustomError(

@@ -1,4 +1,4 @@
-import { User } from "../../user/types";
+import { User } from "../../models/user/types";
 import { NOT_PERMITTED_ERROR } from "./constants";
 import { PolicyRules, Protected } from "./types";
 

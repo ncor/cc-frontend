@@ -1,7 +1,7 @@
 import { EndpointResponse } from '@/lib/endpoint/types';
 import { CustomError } from "../common/dto/CustomError";
 import { ArgsType } from "../types";
-import { UserAuth } from "../user/types";
+import { UserAuth } from "../models/user/types";
 
 
 export const endpoint = <A extends Array<any>, R>(

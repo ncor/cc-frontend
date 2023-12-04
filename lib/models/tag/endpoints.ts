@@ -1,12 +1,12 @@
 'use server';
 
-import { prisma } from "../prisma";
-import { endpoint } from "../endpoint";
+import { prisma } from "../../prisma";
+import { endpoint } from "../../endpoint";
 import { Prisma } from "@prisma/client";
 import { tagPolicy } from "./policy";
 import { Tag, TagExtended } from "./types";
 import { UserAuth } from "../user/types";
-import { RowActions } from "../common/types";
+import { RowActions } from "../../common/types";
 import { TAG_NOT_EXISTS_ERROR } from "./constants";
 
 

@@ -9,7 +9,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { ProxyExtended } from "@/lib/proxy/types";
+import { ProxyExtended } from "@/lib/models/proxy/types";
 import useProxies from "../hooks/data/proxy";
 import { Badge } from "@/components/ui/badge";
 import useUser from "../../users/hooks/user";

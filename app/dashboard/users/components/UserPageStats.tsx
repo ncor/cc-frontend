@@ -6,8 +6,6 @@ import useUsers from "@/app/dashboard/users/hooks/data/user";
 import useRevalidation from "@/app/hooks/revalidation";
 import useSuspense from "@/app/hooks/suspense";
 import { useEffect, useState } from "react";
-import Section from "../../components/section/Section";
-import SectionContent from "../../components/section/SectionContent";
 import StatsSection from "../../components/stats/StatsSection";
 
 
@@ -55,7 +53,7 @@ export default function UserPageStats() {
                 isLoading={ isLoading }
             >
                 { usersCount }
-                <p className="text-xs font-normal text-muted-foreground">
+                <p className="text-sm font-normal text-muted-foreground">
                     +{ newUsersCount } за прошлый месяц
                 </p>
             </StatCard>

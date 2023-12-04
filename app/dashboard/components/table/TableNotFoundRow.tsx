@@ -1,3 +1,5 @@
+'use client';
+
 import { TableCell, TableRow } from "@/components/ui/table";
 
 

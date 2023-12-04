@@ -1,3 +1,5 @@
+'use client';
+
 import useSearch from "@/app/hooks/search";
 import { Search } from "@/components/ui/input";
 

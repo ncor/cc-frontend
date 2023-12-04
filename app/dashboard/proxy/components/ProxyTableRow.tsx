@@ -1,3 +1,5 @@
+'use client';
+
 import { TableCell, TableRow } from "@/components/ui/table";
 import { ProxyExtended } from "@/lib/models/proxy/types";
 import TableActionsCell from "../../components/table/TableActionsCell";
@@ -8,6 +10,7 @@ import TableTagsCell from "../../components/table/TableTagsCell";
 import TableHealthCheckStatusCell from "../../components/table/TableHealthCheckStatusCell";
 import { Badge } from "@/components/ui/badge";
 import useVisibility from "@/app/hooks/visibility";
+import TableDateCell from '../../components/table/TableDateCell';
 
 
 export interface ProxyTableRowProps {
@@ -35,6 +38,7 @@ export default function ProxyTableRow({
         <TableHealthCheckStatusCell status={ reference.health_check }/>
         <TableTagsCell tags={ reference.tags }/>
         <TableScopeCell isPublic={ reference.is_public }/>
+        <TableDateCell date={ reference.created_at }/>
         <TableUserCell user={ reference.user }/>
         <TableActionsCell visibility={ actionsMenu }>
             <ProxyActionsMenu

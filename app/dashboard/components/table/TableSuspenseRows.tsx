@@ -1,3 +1,5 @@
+'use client';
+
 import { TableCell, TableRow } from "@/components/ui/table"
 import { MAX_ROWS_IN_PAGE } from "../../constants"
 import { Skeleton } from "@/components/ui/skeleton"

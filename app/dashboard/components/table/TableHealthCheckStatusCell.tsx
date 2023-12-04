@@ -1,3 +1,5 @@
+'use client';
+
 import { TableCell } from "@/components/ui/table";
 import HealthCheckBadge from "../resource/HealthCheckBadge";
 import { HealthCheckStatus } from "@/lib/common/health-check/types";

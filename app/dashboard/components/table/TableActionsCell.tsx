@@ -1,3 +1,5 @@
+'use client';
+
 import { TableCell } from "@/components/ui/table";
 import MoreButton from "../MoreButton";
 import { VisibilityInterface } from "@/app/hooks/visibility";

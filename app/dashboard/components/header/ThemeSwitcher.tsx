@@ -1,3 +1,5 @@
+'use client';
+
 import useTheme from "@/app/hooks/theme";
 import { Button } from "@/components/ui/button";
 import { Moon, SunDim } from "lucide-react";

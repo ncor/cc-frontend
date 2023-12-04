@@ -1,3 +1,5 @@
+'use client';
+
 import useVisibility from "@/app/hooks/visibility";
 import { Button } from "@/components/ui/button";
 import { TableHead } from "@/components/ui/table";

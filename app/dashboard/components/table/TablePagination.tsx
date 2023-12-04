@@ -1,3 +1,5 @@
+'use client';
+
 import usePagination from "@/app/hooks/pagination";
 import { Button } from "@/components/ui/button";
 import { MAX_ROWS_IN_PAGE } from "../../constants";

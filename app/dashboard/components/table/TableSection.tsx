@@ -1,3 +1,5 @@
+'use client';
+
 import { ReactNode } from "react"
 import Section from "../section/Section"
 import SectionContent from "../section/SectionContent"

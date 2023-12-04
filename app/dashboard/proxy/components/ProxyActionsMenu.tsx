@@ -1,3 +1,5 @@
+'use client';
+
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ProxyExtended } from "@/lib/models/proxy/types";
 import { Edit2, Trash } from "lucide-react";

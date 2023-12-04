@@ -1,3 +1,5 @@
+'use client';
+
 import { FormControl, FormDescription, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
 import { Users2 } from "lucide-react";
@@ -17,7 +19,7 @@ export default function IsPublicFormField({
             name="is_public"
             render={({ field }) => (
                 <FormItem
-                    className="flex flex-row items-center justify-between rounded-lg bg-accent dark:bg-accent/25 p-6"
+                    className="flex flex-row items-center justify-between rounded-lg bg-muted p-6"
                 >
                     <div>
                         <FormLabel className="text-base flex items-center mb-2">

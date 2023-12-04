@@ -1,3 +1,5 @@
+'use client';
+
 import { cn } from "@/lib/client/utils";
 import HealthCheck from "@/lib/common/health-check";
 import { HealthCheckCascadeStatus, HealthCheckErrorStatus, HealthCheckOkStatus, HealthCheckSuspenseStatus } from "@/lib/common/health-check/constants";

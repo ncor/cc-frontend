@@ -1,3 +1,5 @@
+'use client';
+
 import { Shield } from "lucide-react";
 import UserAvatar from "./UserAvatar";
 import { User } from "@/lib/models/user/types";

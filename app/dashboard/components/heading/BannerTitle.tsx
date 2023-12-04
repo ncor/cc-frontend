@@ -1,5 +1,6 @@
+'use client';
+
 import { ReactNode } from "react";
-import RevalidationButton from "../RevalidationButton";
 
 
 export interface HeadingTitleProps {

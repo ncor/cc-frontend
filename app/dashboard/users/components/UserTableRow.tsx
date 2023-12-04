@@ -1,3 +1,5 @@
+'use client';
+
 import { TableRow } from "@/components/ui/table";
 import { User } from "@/lib/models/user/types";
 import TableUuidCell from "../../components/table/TableUuidCell";

@@ -1,3 +1,5 @@
+'use client';
+
 import useTagSearch from "@/app/hooks/tag-search";
 import TagSelector from "../tags/components/TagSelector";
 

@@ -1,3 +1,5 @@
+'use client';
+
 import { TableCell } from "@/components/ui/table";
 import ScopeBadge from "../resource/ScopeBadge";
 

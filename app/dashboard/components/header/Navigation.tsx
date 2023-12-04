@@ -1,3 +1,5 @@
+'use client';
+
 import { ListItem } from "@/components/ui/list-item";
 import {
     NavigationMenu,

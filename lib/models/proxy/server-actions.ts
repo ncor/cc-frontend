@@ -1,7 +1,7 @@
 'use server';
 
 import { prisma } from "../../prisma";
-import { endpoint } from "../../endpoint";
+import { createServerAction } from "../../common/middlewares/server-action";
 import { Prisma } from "@prisma/client";
 import { proxyPolicy } from "./policy";
 import { Proxy, ProxyExtended } from "./types";
@@ -9,10 +9,9 @@ import { UserAuth } from "../user/types";
 import { RowActions } from "../../common/types";
 import { PROXY_NOT_EXISTS_ERROR } from "./constants";
 import { proxyHealthCheck } from "./health-check";
-import { DefaultArgs } from "@prisma/client/runtime/library";
 
 
-export const createProxy = endpoint(async (
+export const createProxy = createServerAction(async (
     user: UserAuth,
     args: Prisma.proxyCreateArgs
 ) => {
@@ -28,7 +27,7 @@ export const createProxy = endpoint(async (
 });
 
 
-export const findProxy = endpoint(async (
+export const findProxy = createServerAction(async (
     user: UserAuth,
     args: Prisma.proxyFindManyArgs
 ) => {
@@ -38,7 +37,7 @@ export const findProxy = endpoint(async (
 });
 
 
-export const countProxies = endpoint(async (
+export const countProxies = createServerAction(async (
     user: UserAuth,
     args: Prisma.proxyCountArgs
 ) => {
@@ -46,7 +45,7 @@ export const countProxies = endpoint(async (
 });
 
 
-export const updateProxy = endpoint(async (
+export const updateProxy = createServerAction(async (
     user: UserAuth,
     args: Prisma.proxyUpdateArgs
 ) => {
@@ -61,7 +60,7 @@ export const updateProxy = endpoint(async (
 });
 
 
-export const deleteProxy = endpoint(async (
+export const deleteProxy = createServerAction(async (
     user: UserAuth,
     args: Prisma.proxyDeleteArgs
 ) => {

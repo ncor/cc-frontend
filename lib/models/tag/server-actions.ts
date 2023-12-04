@@ -1,7 +1,7 @@
 'use server';
 
 import { prisma } from "../../prisma";
-import { endpoint } from "../../endpoint";
+import { createServerAction } from "../../common/middlewares/server-action";
 import { Prisma } from "@prisma/client";
 import { tagPolicy } from "./policy";
 import { Tag, TagExtended } from "./types";
@@ -10,7 +10,7 @@ import { RowActions } from "../../common/types";
 import { TAG_NOT_EXISTS_ERROR } from "./constants";
 
 
-export const createTag = endpoint(async (
+export const createTag = createServerAction(async (
     user: UserAuth,
     args: Prisma.tagCreateArgs
 ) => {
@@ -22,7 +22,7 @@ export const createTag = endpoint(async (
 });
 
 
-export const findTag = endpoint(async (
+export const findTag = createServerAction(async (
     user: UserAuth,
     args: Prisma.tagFindManyArgs
 ) => {
@@ -32,7 +32,7 @@ export const findTag = endpoint(async (
 });
 
 
-export const countTags = endpoint(async (
+export const countTags = createServerAction(async (
     user: UserAuth,
     args: Prisma.tagCountArgs
 ) => {
@@ -40,7 +40,7 @@ export const countTags = endpoint(async (
 });
 
 
-export const updateTag = endpoint(async (
+export const updateTag = createServerAction(async (
     user: UserAuth,
     args: Prisma.tagUpdateArgs
 ) => {
@@ -53,7 +53,7 @@ export const updateTag = endpoint(async (
 });
 
 
-export const deleteTag = endpoint(async (
+export const deleteTag = createServerAction(async (
     user: UserAuth,
     args: Prisma.tagDeleteArgs
 ) => {

@@ -1,7 +1,7 @@
 'use server';
 
 import { Prisma } from "@prisma/client";
-import { endpoint } from "../../endpoint";
+import { createServerAction } from "../../common/middlewares/server-action";
 import { User, UserAuth } from "./types";
 import { verifyUserDataUpsert, verifyUserUpdateAccess } from "./service";
 import { prisma } from "../../prisma";
@@ -9,7 +9,7 @@ import { NOT_PERMITTED_ERROR } from "../../common/policy/constants";
 import { USER_NOT_EXISTS_ERROR } from "./constants";
 
 
-export const createUser = endpoint(async (
+export const createUser = createServerAction(async (
     user: UserAuth,
     args: Prisma.userCreateArgs
 ) => {
@@ -21,7 +21,7 @@ export const createUser = endpoint(async (
 });
 
 
-export const findUser = endpoint(async (
+export const findUser = createServerAction(async (
     user: UserAuth,
     args: Prisma.userFindManyArgs
 ) => {
@@ -29,7 +29,7 @@ export const findUser = endpoint(async (
 });
 
 
-export const countUsers = endpoint(async (
+export const countUsers = createServerAction(async (
     user: UserAuth,
     args: Prisma.userCountArgs
 ) => {
@@ -37,7 +37,7 @@ export const countUsers = endpoint(async (
 });
 
 
-export const updateUser = endpoint(async (
+export const updateUser = createServerAction(async (
     user: UserAuth,
     args: Prisma.userUpdateArgs
 ) => {
@@ -51,7 +51,7 @@ export const updateUser = endpoint(async (
 });
 
 
-export const deleteUser = endpoint(async (
+export const deleteUser = createServerAction(async (
     user: UserAuth,
     args: Prisma.userDeleteArgs
 ) => {

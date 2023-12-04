@@ -1,6 +1,6 @@
 'use client';
 
-import { countProxies, createProxy, deleteProxy, findProxy, updateProxy } from "@/lib/models/proxy/endpoints";
+import { countProxies, createProxy, deleteProxy, findProxy, updateProxy } from "@/lib/models/proxy/server-actions";
 import { ArgsType } from "@/lib/types";
 import { proxyPolicy } from "@/lib/models/proxy/policy";
 import { Proxy } from "@/lib/models/proxy/types";

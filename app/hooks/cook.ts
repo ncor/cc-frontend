@@ -1,6 +1,6 @@
 'use client';
 
-import { EndpointResponse } from "@/lib/endpoint/types";
+import { ServerActionResponse } from "@/lib/common/middlewares/server-action/types";
 
 
 export type CookPayload = {
@@ -18,7 +18,7 @@ export function burnt(
 }
 
 export default function cook<T>(
-    toast: any, response: EndpointResponse<T>
+    toast: any, response: ServerActionResponse<T>
 ) {
     if (response?.error)
         burnt(toast, response.error.message);

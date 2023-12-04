@@ -1,6 +1,6 @@
 'use client';
 
-import { EndpointResponse } from "@/lib/endpoint/types";
+import { ServerActionResponse } from "@/lib/common/middlewares/server-action/types";
 import useSuspense from "./suspense";
 import { useToast } from "@/components/ui/use-toast";
 import useRevalidation from "./revalidation";
@@ -10,11 +10,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { excludeEmptyRecords } from "@/lib/helpers";
 
 
-export interface UseUpsertFormParams<T, F> {
+export interface UseUpsertFormOptions<T, F> {
     schema: ZodObject<any, any, any>,
     defaults: DefaultValues<F>,
-    updateCallback: (query: any) => Promise<EndpointResponse<any>>,
-    insertCallback: (query: any) => Promise<EndpointResponse<any>>,
+    updateCallback: (query: any) => Promise<ServerActionResponse<any>>,
+    insertCallback: (query: any) => Promise<ServerActionResponse<any>>,
     onSubmit?: <F>(form: F) => void,
     updateReference?: T,
     mask?: Partial<T>
@@ -24,33 +24,33 @@ export default function useUpsertForm<
     T extends { id: any },
     F extends FieldValues
 >(
-    params: UseUpsertFormParams<T, F>
+    options: UseUpsertFormOptions<T, F>
 ) {
     const toast = useToast();
     const suspense = useSuspense();
     const { revalidate } = useRevalidation();
 
     const form = useForm<F>({
-        resolver: zodResolver(params.schema),
+        resolver: zodResolver(options.schema),
         defaultValues: Object.assign(
-            params.defaults, 
-            params.updateReference || {},
-            params.mask || {}
+            options.defaults, 
+            options.updateReference || {},
+            options.mask || {}
         ),
     });
 
     const submit = async (form: F) => {
         const response = await suspense.suspenseFor(async () => {
-            return params.updateReference
-                ? params.updateCallback({
-                    where: {id: params.updateReference.id },
+            return options.updateReference
+                ? options.updateCallback({
+                    where: { id: options.updateReference.id },
                     data: excludeEmptyRecords(form)
                 })
-                : params.insertCallback({ data: form })
+                : options.insertCallback({ data: form })
         });
 
         if (!response.error) {
-            params.onSubmit && params.onSubmit(form);
+            options.onSubmit && options.onSubmit(form);
             toast.toast({
                 title: 'Успешно',
                 description: 'Данные сохранены.'

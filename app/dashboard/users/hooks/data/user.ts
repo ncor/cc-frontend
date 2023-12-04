@@ -3,7 +3,7 @@
 import cook from "../../../../hooks/cook";
 import { ArgsType } from "@/lib/types";
 import { useToast } from "@/components/ui/use-toast";
-import { countUsers, createUser, deleteUser, findUser, updateUser } from "@/lib/models/user/endpoints";
+import { countUsers, createUser, deleteUser, findUser, updateUser } from "@/lib/models/user/server-actions";
 import useUser from "@/app/dashboard/users/hooks/user";
 
 

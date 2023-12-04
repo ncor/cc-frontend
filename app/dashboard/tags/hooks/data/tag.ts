@@ -2,7 +2,7 @@
 
 import { useToast } from "@/components/ui/use-toast";
 import { ArgsType } from "@/lib/types";
-import { createTag, findTag, deleteTag, updateTag, countTags } from "@/lib/models/tag/endpoints";
+import { createTag, findTag, deleteTag, updateTag, countTags } from "@/lib/models/tag/server-actions";
 import { tagPolicy } from "@/lib/models/tag/policy";
 import { Tag } from "@/lib/models/tag/types";
 import { User } from "@/lib/models/user/types";

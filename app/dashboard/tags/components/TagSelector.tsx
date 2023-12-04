@@ -90,7 +90,7 @@ export default function TagSelector({
             className="overflow-visible bg-transparent"
         >
             <div className="group border border-input h-10 flex items-center pl-3 text-sm ring-offset-background rounded-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 bg-accent dark:bg-accent/25">
-                <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-2 flex-wrap w-full">
                     <TagIcon className="h-[16px] w-[16px] text-muted-foreground"/>
                     {tags.map((tag) => {
                         return (

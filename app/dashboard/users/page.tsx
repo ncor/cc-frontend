@@ -7,6 +7,8 @@ import BannerDescription from "../components/heading/BannerDescription";
 import UserTable from "./components/UserTable";
 import TableSection from "../components/table/TableSection";
 import UserBannerControls from "./components/UserBannerControls";
+import SectionHeading from "../components/section/SectionHeading";
+import DetailsMarker from "../components/DetailsMarker";
 
 
 export default async function UsersPage() {
@@ -24,6 +26,12 @@ export default async function UsersPage() {
         </Banner>
         <UserPageStats/>
         <TableSection>
+            <SectionHeading>
+                Список
+                <DetailsMarker>
+                    После редактирования имени пользователю придется перелогиниться.
+                </DetailsMarker>
+            </SectionHeading>
             <UserTable/>
         </TableSection>
     </PageContent>

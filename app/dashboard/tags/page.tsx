@@ -8,6 +8,9 @@ import TagsPageStats from "./components/TagsPageStats";
 import TableSection from "../components/table/TableSection";
 import TagTable from "./components/TagTable";
 import TagBannerControls from "./components/TagBannerControls";
+import { AlertCircleIcon } from "lucide-react";
+import DetailsMarker from "../components/DetailsMarker";
+import SectionHeading from "../components/section/SectionHeading";
 
 
 export default async function TagsPage() {
@@ -25,6 +28,14 @@ export default async function TagsPage() {
         </Banner>
         <TagsPageStats/>
         <TableSection>
+            <SectionHeading>
+                Коллекция
+                <DetailsMarker>
+                    Теги из коллекции будут отображаться в быстрых списках при
+                    поиске у каждого, кто имеет к ним доступ. При редактировании тега,
+                    название тега у соответствующих ресурсов меняться не будет.
+                </DetailsMarker>
+            </SectionHeading>
             <TagTable/>
         </TableSection>
     </PageContent>;

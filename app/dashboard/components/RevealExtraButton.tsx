@@ -12,7 +12,7 @@ export default function RevealExtraButton({
     children
 }: RevealExtraButtonProps) {
     return <TooltipProvider>
-        <Tooltip>
+        <Tooltip delayDuration={ 0 }>
             <TooltipTrigger>
                 <Button
                     variant="ghost"

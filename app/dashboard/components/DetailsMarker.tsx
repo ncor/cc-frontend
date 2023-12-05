@@ -1,5 +1,6 @@
 'use client';
 
+import useVisibility from "@/app/hooks/visibility";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { InfoIcon } from "lucide-react";
 import { ReactNode } from "react";
@@ -13,7 +14,7 @@ export default function DetailsMarker({
     children
 }: DetailsMarkerProps) {
     return <TooltipProvider>
-        <Tooltip>
+        <Tooltip delayDuration={ 0 }>
             <TooltipTrigger>
                 <InfoIcon className="w-4 h-4 text-muted-foreground"/>
             </TooltipTrigger>

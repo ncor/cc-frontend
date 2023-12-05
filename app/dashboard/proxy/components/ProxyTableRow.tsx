@@ -27,6 +27,7 @@ export default function ProxyTableRow({
         className="items-center h-[65px]"
     >
         <TableCell>{ reference.id }</TableCell>
+        <TableCell>{ reference.name }</TableCell>
         <TableCell>
             <div className="flex items-center gap-2">
                 <Badge variant="outline">

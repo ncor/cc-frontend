@@ -34,17 +34,17 @@ export default function ProxyPageStats() {
                 isLoading={ isLoading }
             >
                 { ownProxiesCount }
-                <p className="text-xs font-normal text-muted-foreground">
+                <p className="text-sm font-normal text-muted-foreground">
                     { ownRequestsCount } запросов
                 </p>
             </StatCard>
             <StatCard
-                title="Публичные прокси"
+                title="Общие прокси"
                 icon={ <Users className="w-full h-full"/> }
                 isLoading={ isLoading }
             >
                 { publicProxiesCount }
-                <p className="text-xs font-normal text-muted-foreground">
+                <p className="text-sm font-normal text-muted-foreground">
                     { publicRequestsCount } запросов
                 </p>
             </StatCard>

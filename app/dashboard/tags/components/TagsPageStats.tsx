@@ -34,7 +34,7 @@ export default function TagsPageStats() {
                 isLoading={ isLoading }
             >
                 { ownTagsCount }
-                <p className="text-xs font-normal text-muted-foreground">
+                <p className="text-sm font-normal text-muted-foreground">
                     { ownLinkedCount } ресурсов
                 </p>
             </StatCard>
@@ -44,7 +44,7 @@ export default function TagsPageStats() {
                 isLoading={ isLoading }
             >
                 { publicTagsCount }
-                <p className="text-xs font-normal text-muted-foreground">
+                <p className="text-sm font-normal text-muted-foreground">
                     { publicLinkedCount } ресурсов
                 </p>
             </StatCard>

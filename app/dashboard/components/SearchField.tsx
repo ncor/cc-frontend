@@ -16,8 +16,11 @@ export default function SearchField({
             if (e.key == 'Enter')
                 provider.setText(provider.buffer);
         } }
-        onChange={ e => provider.setBuffer(e.target.value) }
+        onChange={ e => {
+            provider.setBuffer(e.target.value)
+            if (e.target.value == '')
+                provider.setText(e.target.value)
+        } }
         placeholder="Найти по имени..."
-        className="w-full"
     />
 }

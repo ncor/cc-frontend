@@ -18,7 +18,7 @@ export default function UserPageStats() {
     const [ adminsCount, setAdminsCount ] = useState<number>(0);
     const [ newAdminsCount, setNewAdminsCount ] = useState<number>(0);
     const [ bansCount, setBansCount ] = useState<number>(0);
-    const [ newBansCount, setNewBansCount ] = useState<number>();
+    const [ newBansCount, setNewBansCount ] = useState<number>(0);
 
     useEffect(() => {
         suspenseFor(async () => {
@@ -63,7 +63,7 @@ export default function UserPageStats() {
                 isLoading={ isLoading }
             >
                 { adminsCount }
-                <p className="text-xs font-normal text-muted-foreground">
+                <p className="text-sm font-normal text-muted-foreground">
                     +{ newAdminsCount } за прошлый месяц
                 </p>
             </StatCard>
@@ -73,7 +73,7 @@ export default function UserPageStats() {
                 isLoading={ isLoading }
             >
                 { bansCount }
-                <p className="text-xs font-normal text-muted-foreground">
+                <p className="text-sm font-normal text-muted-foreground">
                     +{ newBansCount } за прошлый месяц
                 </p>
             </StatCard>

@@ -6,6 +6,7 @@ import ProxyForm from "./ProxyForm";
 import { ProxyExtended } from "@/lib/models/proxy/types";
 import UserChip from "../../users/components/UserChip";
 import { VisibilityInterface } from "@/app/hooks/visibility";
+import ProxySelect from "./ProxySelect";
 
 
 export type ProxyModalProps = ModalProps & {

@@ -59,13 +59,22 @@ export default function Navigation({
         }>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <Link href="/dashboard/proxy" legacyBehavior passHref>
-                        <NavigationMenuLink
-                            className={navigationMenuTriggerStyle()}
-                        >
-                            Прокси
-                        </NavigationMenuLink>
-                    </Link>
+                    <NavigationMenuTrigger className="flex items-center gap-1">
+                        Аккаунты
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                        <ul className="grid p-3 w-[300px] lg:grid-cols-1">
+                            <ListItem
+                                href="/dashboard/accounts"
+                                title="Аккаунты"
+                            >
+                                Точки входа в рекламную систему Facebook.
+                            </ListItem>
+                            <ListItem href="/dashboard/proxy" title="Прокси">
+                                Сервера удаленного обслуживания для стабильной работы.
+                            </ListItem>
+                        </ul>
+                    </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                     <Link href="/dashboard/tags" legacyBehavior passHref>

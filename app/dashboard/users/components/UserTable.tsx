@@ -20,6 +20,7 @@ import SearchField from '../../components/SearchField';
 import TableCreateHead from '../../components/table/TableCreateHead';
 import useVisibility from '@/app/hooks/visibility';
 import UserTableRow from './UserTableRow';
+import FiltersWrapper from '../../components/FiltersWrapper';
 
 
 export type UserTableRow = User;
@@ -46,17 +47,21 @@ export default function UserTable() {
     });
 
     return <div className="space-y-2">
-        <div className="w-full flex gap-2">
+        <FiltersWrapper>
             <SearchField provider={ search }/>
-            <Tabs defaultValue="users" onValueChange={ value => {
-                toggleSelectAdmins(value === 'admins');
-            }}>
-                <TabsList>
+            <Tabs
+                defaultValue="users"
+                onValueChange={ value => {
+                    toggleSelectAdmins(value === 'admins');
+                }}
+                className="sm:ml-auto"
+            >
+                <TabsList className="w-full sm:w-auto">
                     <TabsTrigger value="users">Все пользователи</TabsTrigger>
                     <TabsTrigger value="admins">Администраторы</TabsTrigger>
                 </TabsList>
             </Tabs>
-        </div>
+        </FiltersWrapper>
         <Table>
             <TableHeader>
                 <TableHead>ID</TableHead>

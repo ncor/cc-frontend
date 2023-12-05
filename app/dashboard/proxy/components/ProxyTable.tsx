@@ -4,14 +4,11 @@ import { useCallback } from "react";
 import {
     Table,
     TableBody,
-    TableCell,
     TableHead,
     TableHeader,
-    TableRow,
 } from "@/components/ui/table";
 import { ProxyExtended } from "@/lib/models/proxy/types";
 import useProxies from "../hooks/data/proxy";
-import { Badge } from "@/components/ui/badge";
 import useUser from "../../users/hooks/user";
 import useTable from "@/app/hooks/table";
 import TableRowsAdapter from "../../components/table/TableRowsAdapter";
@@ -22,17 +19,11 @@ import TagSearchField from "../../components/TagSearchField";
 import ScopeTabs from "../../components/ScopeTabs";
 import useScope from "@/app/hooks/scope";
 import TableCreateHead from "../../components/table/TableCreateHead";
-import TableUserCell from "../../components/table/TableUserCell";
-import TableTagsCell from "../../components/table/TableTagsCell";
-import TableScopeCell from "../../components/table/TableScopeCell";
-import TableHealthCheckStatusCell from "../../components/table/TableHealthCheckStatusCell";
-import useVisibility from "@/app/hooks/visibility";
-import MoreButton from "../../components/MoreButton";
-import ProxyActionsMenu from "./ProxyActionsMenu";
-import TableActionsCell from "../../components/table/TableActionsCell";
 import ProxyTableRow from "./ProxyTableRow";
-import DetailsMarker from "../../components/DetailsMarker";
 import TableStatusHead from "../../components/table/TableStatusHead";
+import FiltersWrapper from '../../components/FiltersWrapper';
+import useSearch from "@/app/hooks/search";
+import SearchField from "../../components/SearchField";
 
 
 export type ProxyTableRow = ProxyExtended;
@@ -40,15 +31,15 @@ export type ProxyTableRow = ProxyExtended;
 export default function ProxyTable() {
     const user = useUser();
     const scope = useScope();
+    const search = useSearch();
+    const { find } = useProxies();
     const tagSearch = useTagSearch();
-    const { find, can } = useProxies();
-
-    const actionsMenu = useVisibility();
 
     const { rows, isFetching, pagination } = useTable<ProxyExtended>({
         fetch: useCallback(async pagination => {
             const query = {
                 where: {
+                    ...search.composeQuery()?.where,
                     ...tagSearch.composeQuery()?.where,
                     ...scope.composeQuery(user)?.where,
                 },
@@ -58,18 +49,20 @@ export default function ProxyTable() {
             const response = await find(query);
 
             return response?.data || [];
-        }, [ tagSearch.list, scope.value ])
+        }, [ search.text, tagSearch.list, scope.value ])
     });
 
     return (
         <div className="space-y-2">
-            <div className="w-full flex gap-2">
+            <FiltersWrapper>
+                <SearchField provider={ search }/>
                 <TagSearchField provider={ tagSearch }/>
                 <ScopeTabs provider={ scope }/>
-            </div>
+            </FiltersWrapper>
             <Table>
                 <TableHeader>
                     <TableHead>ID</TableHead>
+                    <TableHead>Имя</TableHead>
                     <TableHead>URL</TableHead>
                     <TableStatusHead/>
                     <TableHead>Теги</TableHead>

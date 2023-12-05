@@ -20,6 +20,7 @@ import SearchField from "../../components/SearchField";
 import useSearch from "@/app/hooks/search";
 import TableCreateHead from "../../components/table/TableCreateHead";
 import TagTableRow from "./TagTableRow";
+import FiltersWrapper from '../../components/FiltersWrapper';
 
 
 export type TagTableRow = TagExtended;
@@ -48,10 +49,10 @@ export default function TagTable() {
 
     return (
         <div className="space-y-2">
-            <div className="w-full flex gap-2">
+            <FiltersWrapper>
                 <SearchField provider={ search }/>
                 <ScopeTabs provider={ scope }/>
-            </div>
+            </FiltersWrapper>
             <Table>
                 <TableHeader>
                     <TableHead>ID</TableHead>

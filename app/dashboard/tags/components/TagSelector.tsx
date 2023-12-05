@@ -84,7 +84,7 @@ export default function TagSelector({
 
     const selectables = collection.filter((tag) => !tags.includes(tag.name));
 
-    return <div className="my-auto w-full flex-1">
+    return <div className="flex-1">
         <Command
             onKeyDown={handleKeyDown}
             className="overflow-visible bg-transparent"
@@ -134,7 +134,7 @@ export default function TagSelector({
             </div>
             <div className="relative">
                 {open && (
-                    <div className="absolute w-full z-10 top-0 rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in">
+                    <div className="absolute w-full z-10 top-0 rounded-md border bg-muted text-popover-foreground shadow-md outline-none animate-in">
                         <CommandGroup className="h-full overflow-auto">
                             {
                                 !isLoading && selectables.length > 0 &&

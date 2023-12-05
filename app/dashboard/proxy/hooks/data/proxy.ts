@@ -43,7 +43,7 @@ export default function useProxies() {
     const remove = async (args: ArgsType<typeof deleteProxy>[1]) =>
         cook(toast, await deleteProxy(user, args));
 
-    const can = (action: string,proxy: Proxy,user: User) =>
+    const can = (action: string, proxy: Proxy,user: User) =>
         proxyPolicy.isAllowed(action, proxy, user)
 
     return {

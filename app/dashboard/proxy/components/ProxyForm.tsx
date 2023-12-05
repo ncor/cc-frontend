@@ -14,6 +14,7 @@ import useUpsertForm from "@/app/hooks/upsert-form";
 
 
 const proxySchema = z.object({
+    name: z.string().min(2),
     url: z.string().min(2),
     tags: z.array(z.string().min(2).max(50)),
     owner_id: z.string(),
@@ -36,6 +37,7 @@ export default function ProxyForm({
     const { form, submit, isLoading } = useUpsertForm({
         schema: proxySchema,
         defaults: {
+            name: '',
             url: '',
             tags: [],
             is_public: false,
@@ -50,6 +52,23 @@ export default function ProxyForm({
     return (
         <Form { ...form }>
             <form onSubmit={ form.handleSubmit(submit) } className="space-y-8">
+                <FormField
+                    control={ form.control }
+                    name="name"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Имя</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Имя" { ...field } />
+                            </FormControl>
+                            <FormDescription>
+                                Техническое название.
+                            </FormDescription>
+                            <FormMessage/>
+                        </FormItem>
+                    )}
+                    disabled={ isLoading }
+                />
                 <FormField
                     control={ form.control }
                     name="url"

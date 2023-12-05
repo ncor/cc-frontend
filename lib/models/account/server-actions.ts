@@ -30,10 +30,11 @@ export const createAccount = createServerAction(async (
     const account = await prisma.account.create({
         // @todo: resolve next time
         // @ts-ignore
-        data: { ...args.data, owner_id: user.id }
+        data: { ...args.data, owner_id: user.id },
+        include: { proxy: true }
     });
 
-    accountHealthCheck.test(account);
+    accountHealthCheck.test(account as AccountExtended);
 });
 
 
@@ -42,16 +43,21 @@ export const updateAccount = createServerAction(async (
     args: Prisma.accountUpdateArgs
 ) => {
     const account = await prisma.account.findFirstOrThrow({
-        where: args.where
+        where: args.where,
+        include: { proxy: true }
     });
 
     await accountPolicy.verifyAction(RowActions.UPDATE, account, user);
     
     await resolveProxy(args.data.proxy_id as number, user);
 
-    accountHealthCheck.test(account);
+    const updateResponse = await prisma.account.update({
+        ...args, include: { proxy: true }
+    });
 
-    return prisma.account.update(args);
+    accountHealthCheck.test(updateResponse as AccountExtended);
+
+    return updateResponse;
 });
 
 

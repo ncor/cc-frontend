@@ -36,9 +36,11 @@ export const updateProxy = createServerAction(async (
 
     await proxyPolicy.verifyAction(RowActions.UPDATE, proxy, user);
 
-    proxyHealthCheck.test(proxy);
+    const updateResponse = await prisma.proxy.update(args);
+
+    proxyHealthCheck.test(updateResponse as Proxy);
     
-    return prisma.proxy.update(args);
+    return updateResponse;
 });
 
 

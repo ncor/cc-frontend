@@ -52,7 +52,7 @@ export default function ProxySelect({
             <TagSearchField provider={ tagSearch }/>
         </FiltersWrapper>
         <Select
-            value={ selected?.id.toString() || "" }
+            value={ selected?.id.toString() || undefined }
             defaultValue={ selected?.id.toString() }
             onValueChange={ value => onProxyChange?.(parseInt(value)) }
             disabled={ disabled }

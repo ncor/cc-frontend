@@ -30,7 +30,8 @@ export default function ProxySelectFormField({
     }
 
     useEffect(() => {
-        getSelectedReference(form?.getValues('proxy_id') as number);
+        const proxyId = form?.getValues('proxy_id');
+        if (proxyId) getSelectedReference(proxyId as number);
     }, []);
 
     return <>

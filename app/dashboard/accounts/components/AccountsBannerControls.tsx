@@ -1,0 +1,22 @@
+'use client';
+
+import { Button } from "@/components/ui/button";
+import RevalidationButton from "../../components/RevalidationButton";
+import BannerControls from "../../components/heading/BannerControls";
+import { Plus } from "lucide-react";
+import useVisibility from "@/app/hooks/visibility";
+import AccountModal from "./AccountModal";
+
+
+export default function AccountsBannerControls() {
+    const createModal = useVisibility();
+
+    return <BannerControls>
+        <RevalidationButton/>
+        <Button onClick={ () => createModal.toggle(true) }>
+            <Plus className="w-4 h-4 mr-2" />
+            Новый аккаунт
+        </Button>
+        <AccountModal visibility={ createModal }/>     
+    </BannerControls>
+}

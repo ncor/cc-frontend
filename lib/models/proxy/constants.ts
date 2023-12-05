@@ -15,8 +15,3 @@ export const PROXY_NOT_WORKING_ERROR = createCustomError(
     'PROXY_NOT_WORKING',
     'Не пройден тестовый запрос, проверьте прокси на работоспособность.'
 );
-
-export const PROXY_NOT_EXISTS_ERROR = createCustomError(
-    'PROXY_NOT_EXISTS',
-    'Прокси не найден.'
-);

@@ -1,3 +1,4 @@
+import 'server-only';
 import HealthCheck from '../../common/health-check';
 import { HealthCheckErrorStatus, HealthCheckOkStatus } from '../../common/health-check/constants';
 import { HealthCheckStatus } from '../../common/health-check/types';

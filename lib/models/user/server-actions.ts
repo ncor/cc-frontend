@@ -41,8 +41,10 @@ export const updateUser = createServerAction(async (
     user: UserAuth,
     args: Prisma.userUpdateArgs
 ) => {
-    const targetUser = await prisma.user.findFirst({ where: args.where });
-    if (!targetUser) throw USER_NOT_EXISTS_ERROR;
+    const targetUser = await prisma.user.findFirstOrThrow({
+        where: args.where
+    });
+
     await verifyUserUpdateAccess(user, targetUser);
 
     args.data = await verifyUserDataUpsert(args.data as User, targetUser.name);

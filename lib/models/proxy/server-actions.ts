@@ -7,7 +7,6 @@ import { proxyPolicy } from "./policy";
 import { Proxy, ProxyExtended } from "./types";
 import { UserAuth } from "../user/types";
 import { RowActions } from "../../common/types";
-import { PROXY_NOT_EXISTS_ERROR } from "./constants";
 import { proxyHealthCheck } from "./health-check";
 
 
@@ -24,6 +23,22 @@ export const createProxy = createServerAction(async (
     });
 
     proxyHealthCheck.test(proxy);
+});
+
+
+export const updateProxy = createServerAction(async (
+    user: UserAuth,
+    args: Prisma.proxyUpdateArgs
+) => {
+    const proxy = await prisma.proxy.findFirstOrThrow({
+        where: args.where
+    });
+
+    await proxyPolicy.verifyAction(RowActions.UPDATE, proxy, user);
+
+    proxyHealthCheck.test(proxy);
+    
+    return prisma.proxy.update(args);
 });
 
 
@@ -45,27 +60,13 @@ export const countProxies = createServerAction(async (
 });
 
 
-export const updateProxy = createServerAction(async (
-    user: UserAuth,
-    args: Prisma.proxyUpdateArgs
-) => {
-    const proxy = await prisma.proxy.findFirst({ where: args.where });
-    if (!proxy) throw PROXY_NOT_EXISTS_ERROR;
-
-    await proxyPolicy.verifyAction(RowActions.UPDATE, proxy, user);
-
-    proxyHealthCheck.test(proxy);
-    
-    return prisma.proxy.update(args);
-});
-
-
 export const deleteProxy = createServerAction(async (
     user: UserAuth,
     args: Prisma.proxyDeleteArgs
 ) => {
-    const proxy = await prisma.proxy.findFirst({ where: args.where });
-    if (!proxy) throw PROXY_NOT_EXISTS_ERROR;
+    const proxy = await prisma.proxy.findFirstOrThrow({
+        where: args.where
+    });
 
     await proxyPolicy.verifyAction(RowActions.DELETE, proxy, user);
 

@@ -7,7 +7,6 @@ import { tagPolicy } from "./policy";
 import { Tag, TagExtended } from "./types";
 import { UserAuth } from "../user/types";
 import { RowActions } from "../../common/types";
-import { TAG_NOT_EXISTS_ERROR } from "./constants";
 
 
 export const createTag = createServerAction(async (
@@ -44,8 +43,7 @@ export const updateTag = createServerAction(async (
     user: UserAuth,
     args: Prisma.tagUpdateArgs
 ) => {
-    const tag = await prisma.tag.findFirst({ where: args.where });
-    if (!tag) throw TAG_NOT_EXISTS_ERROR;
+    const tag = await prisma.tag.findFirstOrThrow({ where: args.where });
 
     await tagPolicy.verifyAction(RowActions.UPDATE, tag, user);
     
@@ -57,8 +55,7 @@ export const deleteTag = createServerAction(async (
     user: UserAuth,
     args: Prisma.tagDeleteArgs
 ) => {
-    const tag = await prisma.tag.findFirst({ where: args.where });
-    if (!tag) throw TAG_NOT_EXISTS_ERROR;
+    const tag = await prisma.tag.findFirstOrThrow({ where: args.where });
 
     await tagPolicy.verifyAction(RowActions.DELETE, tag, user);
 

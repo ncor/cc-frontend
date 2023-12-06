@@ -11,12 +11,13 @@ import useUser from "../../users/hooks/user";
 import TagSelectFormField from "../../tags/components/TagSelectFormField";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 import useUpsertForm from "@/app/hooks/upsert-form";
+import { relationsSetForm } from "../../constants";
 
 
 const proxySchema = z.object({
     name: z.string().min(2),
     url: z.string().min(2),
-    tags: z.array(z.string().min(2).max(50)),
+    tags: relationsSetForm(z.string()),
     owner_id: z.string(),
     is_public: z.boolean(),
 });
@@ -24,7 +25,7 @@ const proxySchema = z.object({
 export type ProxySchemaType = z.infer<typeof proxySchema>;
 
 export interface ProxyFormProps {
-    reference?: Proxy,
+    reference?: Proxy<{ user: true, tags: true }>,
     onSubmit?: <T>(form: T) => void
 }
 
@@ -39,7 +40,7 @@ export default function ProxyForm({
         defaults: {
             name: '',
             url: '',
-            tags: [],
+            tags: { set: [], connect: [] },
             is_public: false,
             owner_id: user.id
         },
@@ -90,6 +91,7 @@ export default function ProxyForm({
                 <TagSelectFormField
                     form={ form }
                     disabled={ isLoading }
+                    defaultValues={ reference?.tags }
                 />
                 {
                     user.is_admin &&

@@ -19,7 +19,7 @@ export default function useAccounts() {
 
     const find = async (args: ArgsType<typeof findAccount>[1]) =>
         cook(toast, await findAccount(user, {
-            ...args, include: { user: true, proxy: true }
+            ...args, include: { user: true, proxy: true, tags: true }
         }));
 
     const findOwn = (args: ArgsType<typeof findAccount>[1]) =>

@@ -3,14 +3,14 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import TagForm from "./TagForm";
 import { ModalProps } from "@/lib/client/types";
-import { TagExtended } from "@/lib/models/tag/types";
+import { Tag } from "@/lib/models/tag/types";
 import { VisibilityInterface } from "@/app/hooks/visibility";
 import UserChip from "../../users/components/UserChip";
 
 
 export type TagModalProps = ModalProps & {
     visibility: VisibilityInterface,
-    reference?: TagExtended
+    reference?: Tag<{ user: true }>
 };
 
 export default function TagModal({

@@ -9,7 +9,7 @@ import {
 import { Edit2, Trash } from "lucide-react";
 import useUser from "../../users/hooks/user";
 import useTags from "@/app/dashboard/tags/hooks/data/tag";
-import { TagExtended } from "@/lib/models/tag/types";
+import { Tag } from "@/lib/models/tag/types";
 import TagDeleteModal from "./TagDeleteModal";
 import { RowActions } from "@/lib/common/types";
 import useVisibility, { VisibilityInterface } from "@/app/hooks/visibility";
@@ -18,7 +18,7 @@ import TagModal from "./TagModal";
 
 export type TagActionsMenuProps = {
     visibility: VisibilityInterface;
-    reference: TagExtended;
+    reference: Tag<{ user: true }>;
 };
 
 export default function TagActionsMenu({

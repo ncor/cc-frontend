@@ -8,12 +8,12 @@ import TableTagsCell from "../../components/table/TableTagsCell";
 import TableHealthCheckStatusCell from "../../components/table/TableHealthCheckStatusCell";
 import useVisibility from "@/app/hooks/visibility";
 import TableDateCell from '../../components/table/TableDateCell';
-import { AccountExtended } from "@/lib/models/account/types";
+import { Account } from "@/lib/models/account/types";
 import AccountActionsMenu from "./AccountActionsMenu";
 
 
 export interface AccountsTableRowProps {
-    reference: AccountExtended
+    reference: Account<{ user: true, proxy: true, tags: true }>
 }
 
 export default function AccountsTableRow({

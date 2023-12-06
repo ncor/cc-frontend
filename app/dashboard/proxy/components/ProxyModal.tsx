@@ -3,7 +3,7 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ModalProps } from "@/lib/client/types";
 import ProxyForm from "./ProxyForm";
-import { ProxyExtended } from "@/lib/models/proxy/types";
+import { Proxy } from "@/lib/models/proxy/types";
 import UserChip from "../../users/components/UserChip";
 import { VisibilityInterface } from "@/app/hooks/visibility";
 import ProxySelect from "./ProxySelect";
@@ -11,7 +11,7 @@ import ProxySelect from "./ProxySelect";
 
 export type ProxyModalProps = ModalProps & {
     visibility: VisibilityInterface,
-    reference?: ProxyExtended
+    reference?: Proxy<{ user: true, tags: true }>
 };
 
 export default function ProxyModal({

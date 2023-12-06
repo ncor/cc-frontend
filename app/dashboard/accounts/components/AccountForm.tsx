@@ -12,6 +12,7 @@ import LoadingSpinner from "@/app/components/LoadingSpinner";
 import useUpsertForm from "@/app/hooks/upsert-form";
 import useAccounts from "../hooks/data/accounts";
 import ProxySelectFormField from "../../proxy/components/ProxySelectFormField";
+import { relationsSetForm } from "../../constants";
 
 
 const accountSchema = z.object({
@@ -19,7 +20,7 @@ const accountSchema = z.object({
     name: z.string().min(2),
     token: z.string(),
     cookies: z.string(),
-    tags: z.array(z.string().min(2).max(50)),
+    tags: relationsSetForm(z.string()),
     owner_id: z.string(),
     is_public: z.boolean(),
 });
@@ -27,7 +28,7 @@ const accountSchema = z.object({
 export type AccountSchemaType = z.infer<typeof accountSchema>;
 
 export interface AccountFormProps {
-    reference?: Account,
+    reference?: Account<{ user: true, proxy: true, tags: true }>,
     onSubmit?: <T>(form: T) => void
 }
 
@@ -44,7 +45,7 @@ export default function AccountForm({
             name: '',
             token: '',
             cookies: '',
-            tags: [],
+            tags: { set: [], connect: [] },
             is_public: false,
             owner_id: user.id
         },
@@ -54,12 +55,15 @@ export default function AccountForm({
         onSubmit
     });
 
+    console.log(form.getValues('tags'));
+
     return (
         <Form { ...form }>
             <form onSubmit={ form.handleSubmit(submit) } className="space-y-8">
                 <ProxySelectFormField
                     form={ form }
                     disabled={ isLoading }
+                    defaultValue={ reference?.proxy }
                 />
                 <FormField
                     control={ form.control }
@@ -115,6 +119,7 @@ export default function AccountForm({
                 <TagSelectFormField
                     form={ form }
                     disabled={ isLoading }
+                    defaultValues={ reference?.tags }
                 />
                 {
                     user.is_admin &&

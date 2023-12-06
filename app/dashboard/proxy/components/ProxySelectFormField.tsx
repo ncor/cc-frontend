@@ -2,38 +2,18 @@
 
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import ProxySelect from "./ProxySelect";
-import useProxies from "../hooks/data/proxy";
-import { useEffect, useState } from "react";
 import { Proxy } from "@/lib/models/proxy/types";
-import useSuspense from "@/app/hooks/suspense";
 
 
 export interface ProxySelectFormFieldProps {
     form: any,
-    disabled: boolean
+    disabled: boolean,
+    defaultValue?: Proxy
 }
 
 export default function ProxySelectFormField({
-    form, disabled
+    form, disabled, defaultValue
 }: ProxySelectFormFieldProps) {
-    const { find } = useProxies();
-    const [
-        selectedReference,
-        setSelectedReference
-    ] = useState<Proxy | undefined>();
-
-    const { suspenseFor, isLoading } = useSuspense();
-
-    const getSelectedReference = async (id: number) => {
-        const { data: proxy } = await suspenseFor(() => find({ where: { id } }));
-        setSelectedReference(proxy?.[0]);
-    }
-
-    useEffect(() => {
-        const proxyId = form?.getValues('proxy_id');
-        if (proxyId) getSelectedReference(proxyId as number);
-    }, []);
-
     return <>
         <FormField
             control={ form.control }
@@ -43,11 +23,12 @@ export default function ProxySelectFormField({
                     <FormLabel>Прокси</FormLabel>
                     <FormControl>
                         <ProxySelect
-                            selected={ selectedReference }
-                            onProxyChange={ (id: number) =>
-                                form?.setValue('proxy_id', id)
-                            }
-                            disabled={ disabled || isLoading }
+                            defaultValue={ defaultValue }
+                            onProxyChange={ (proxy?: Proxy) => {
+                                console.log(proxy);
+                                form?.setValue('proxy_id', proxy?.id)
+                            } }
+                            disabled={ disabled }
                         />
                     </FormControl>
                     <FormMessage/>

@@ -3,6 +3,7 @@ import Header from "./components/header/Header";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import UserProvider from "./users/components/providers/UserProvider";
+import { signOut } from "next-auth/react";
 
 
 export default async function DashboardLayout({
@@ -16,7 +17,7 @@ export default async function DashboardLayout({
         where: { name: session.user.name }
     });
 
-    return <UserProvider defaultUser={ user! }>
+    return <UserProvider defaultUser={ user }>
         <div className="w-screen min-h-screen flex flex-col">
             <Header/>
             { children }

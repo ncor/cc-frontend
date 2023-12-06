@@ -21,6 +21,8 @@ import TableCreateHead from '../../components/table/TableCreateHead';
 import useVisibility from '@/app/hooks/visibility';
 import UserTableRow from './UserTableRow';
 import FiltersWrapper from '../../components/FiltersWrapper';
+import useMode from '@/app/hooks/mode';
+import RoleFilter from '../../components/RoleFilter';
 
 
 export type UserTableRow = User;
@@ -28,14 +30,14 @@ export type UserTableRow = User;
 export default function UserTable() {
     const { find } = useUsers();
     const search = useSearch();
-    const [ selectAdmins, toggleSelectAdmins ] = useState<boolean>(false);
+    const selectAdmins = useMode<boolean>(false, [ false, true ]); 
 
     const { rows, isFetching, pagination } = useTable<User>({
         fetch: useCallback(async pagination => {
             const query = {
                 where: {
                     ...search.composeQuery()?.where,
-                    ...(selectAdmins && { is_admin: selectAdmins })
+                    ...(selectAdmins.value && { is_admin: selectAdmins.value })
                 },
                 ...pagination?.composeQuery(),
             };
@@ -43,24 +45,13 @@ export default function UserTable() {
             const response = await find(query);
 
             return response?.data || [];
-        }, [ search.text, selectAdmins ])
+        }, [ search.text, selectAdmins.value ])
     });
 
     return <div className="space-y-2">
         <FiltersWrapper>
             <SearchField provider={ search }/>
-            <Tabs
-                defaultValue="users"
-                onValueChange={ value => {
-                    toggleSelectAdmins(value === 'admins');
-                }}
-                className="sm:ml-auto"
-            >
-                <TabsList className="w-full sm:w-auto">
-                    <TabsTrigger value="users">Все пользователи</TabsTrigger>
-                    <TabsTrigger value="admins">Администраторы</TabsTrigger>
-                </TabsList>
-            </Tabs>
+            <RoleFilter provider={ selectAdmins }/>
         </FiltersWrapper>
         <Table>
             <TableHeader>

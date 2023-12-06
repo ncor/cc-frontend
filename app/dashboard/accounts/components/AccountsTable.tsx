@@ -15,7 +15,6 @@ import TablePagination from "../../components/table/TablePagination";
 import AccountModal from "./AccountModal";
 import useTagSearch from "@/app/hooks/tag-search";
 import TagSearchField from "../../components/TagSearchField";
-import ScopeTabs from "../../components/ScopeTabs";
 import useScope from "@/app/hooks/scope";
 import TableCreateHead from "../../components/table/TableCreateHead";
 import TableStatusHead from "../../components/table/TableStatusHead";
@@ -23,11 +22,12 @@ import FiltersWrapper from '../../components/FiltersWrapper';
 import useSearch from "@/app/hooks/search";
 import SearchField from "../../components/SearchField";
 import useAccounts from "../hooks/data/accounts";
-import { AccountExtended } from "@/lib/models/account/types";
+import { Account } from "@/lib/models/account/types";
 import AccountsTableRow from "./AccountsTableRow";
+import ScopeFilter from "../../components/ScopeFilter";
 
 
-export type AccountsTableRow = AccountExtended;
+export type AccountsTableRow = Account<{ user: true, proxy: true, tags: true }>;
 
 export default function AccountsTable() {
     const user = useUser();
@@ -36,7 +36,7 @@ export default function AccountsTable() {
     const { find } = useAccounts();
     const tagSearch = useTagSearch();
 
-    const { rows, isFetching, pagination } = useTable<AccountExtended>({
+    const { rows, isFetching, pagination } = useTable<AccountsTableRow>({
         fetch: useCallback(async pagination => {
             const query = {
                 where: {
@@ -58,7 +58,7 @@ export default function AccountsTable() {
             <FiltersWrapper>
                 <SearchField provider={ search }/>
                 <TagSearchField provider={ tagSearch }/>
-                <ScopeTabs provider={ scope }/>
+                <ScopeFilter provider={ scope }/>
             </FiltersWrapper>
             <Table>
                 <TableHeader>

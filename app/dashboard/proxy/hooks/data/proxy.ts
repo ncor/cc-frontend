@@ -19,7 +19,7 @@ export default function useProxies() {
 
     const find = async (args: ArgsType<typeof findProxy>[1]) =>
         cook(toast, await findProxy(user, {
-            ...args, include: { user: true }
+            ...args, include: { user: true, tags: true }
         }));
 
     const findOwn = (args: ArgsType<typeof findProxy>[1]) =>
@@ -44,7 +44,7 @@ export default function useProxies() {
         cook(toast, await deleteProxy(user, args));
 
     const can = (action: string, proxy: Proxy,user: User) =>
-        proxyPolicy.isAllowed(action, proxy, user)
+        proxyPolicy.isAllowed(action, proxy, user);
 
     return {
         create, find, findOwn, count, countOwn, countPublic, findPublic, update, remove, can

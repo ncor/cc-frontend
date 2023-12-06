@@ -16,14 +16,14 @@ import PermissionsFormFields from "../../components/resource/permissions/Permiss
 import useUser from "../../users/hooks/user";
 import { Tag } from "@/lib/models/tag/types";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
-import { useToast } from "@/components/ui/use-toast";
 import useUpsertForm from "@/app/hooks/upsert-form";
 
 
 export const tagSchema = z.object({
+    id: z.string().optional(),
     name: z.string().min(2).max(50),
     owner_id: z.string(),
-    is_public: z.boolean(),
+    is_public: z.boolean()
 });
 
 export type TagSchemaType = z.infer<typeof tagSchema>;

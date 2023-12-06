@@ -11,19 +11,19 @@ import useUser from "../../users/hooks/user";
 import useTable from "@/app/hooks/table";
 import TableRowsAdapter from "../../components/table/TableRowsAdapter";
 import TablePagination from "../../components/table/TablePagination";
-import { TagExtended } from "@/lib/models/tag/types";
+import { Tag } from "@/lib/models/tag/types";
 import useTags from "@/app/dashboard/tags/hooks/data/tag";
 import CreateTagModal from "./TagModal";
-import ScopeTabs from "../../components/ScopeTabs";
 import useScope from "@/app/hooks/scope";
 import SearchField from "../../components/SearchField";
 import useSearch from "@/app/hooks/search";
 import TableCreateHead from "../../components/table/TableCreateHead";
 import TagTableRow from "./TagTableRow";
 import FiltersWrapper from '../../components/FiltersWrapper';
+import ScopeFilter from "../../components/ScopeFilter";
 
 
-export type TagTableRow = TagExtended;
+export type TagTableRow = Tag<{ user: true }>;
 
 export default function TagTable() {
     const user = useUser();
@@ -31,7 +31,7 @@ export default function TagTable() {
     const search = useSearch();
     const scope = useScope();
 
-    const { rows, isFetching, pagination } = useTable<TagExtended>({
+    const { rows, isFetching, pagination } = useTable<Tag<{ user: true }>>({
         fetch: useCallback(async pagination => {
             const query = {
                 where: {
@@ -51,7 +51,9 @@ export default function TagTable() {
         <div className="space-y-2">
             <FiltersWrapper>
                 <SearchField provider={ search }/>
-                <ScopeTabs provider={ scope }/>
+                <div className="ml-auto">
+                    <ScopeFilter provider={ scope }/>
+                </div>
             </FiltersWrapper>
             <Table>
                 <TableHeader>

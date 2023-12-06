@@ -1,7 +1,7 @@
 'use client';
 
 import { TableCell, TableRow } from "@/components/ui/table";
-import { ProxyExtended } from "@/lib/models/proxy/types";
+import { Proxy } from "@/lib/models/proxy/types";
 import TableActionsCell from "../../components/table/TableActionsCell";
 import ProxyActionsMenu from "./ProxyActionsMenu";
 import TableUserCell from "../../components/table/TableUserCell";
@@ -14,7 +14,7 @@ import TableDateCell from '../../components/table/TableDateCell';
 
 
 export interface ProxyTableRowProps {
-    reference: ProxyExtended
+    reference: Proxy<{ user: true, tags: true }>
 }
 
 export default function ProxyTableRow({

@@ -8,12 +8,12 @@ import useUser from "../../users/hooks/user";
 import { RowActions } from "@/lib/common/types";
 import useVisibility, { VisibilityInterface } from "@/app/hooks/visibility";
 import useAccounts from "../hooks/data/accounts";
-import { AccountExtended } from "@/lib/models/account/types";
+import { Account } from "@/lib/models/account/types";
 
 
 export type AccountActionsMenuProps = {
     visibility: VisibilityInterface,
-    reference: AccountExtended
+    reference: Account<{ user: true, proxy: true, tags: true }>
 };
 
 export default function AccountActionsMenu({

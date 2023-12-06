@@ -1,16 +1,18 @@
 'use client';
 
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import TagSelector from "./TagSelector";
+import TagSelect from "./TagSelect";
+import { Tag } from "@/lib/models/tag/types";
 
 
 export interface PermissionsFormFieldsProps {
     form: any,
-    disabled: boolean
+    disabled: boolean,
+    defaultValues?: Tag[]
 }
 
 export default function TagSelectFormField({
-    form, disabled
+    form, disabled, defaultValues
 }: PermissionsFormFieldsProps) {
     return <>
         <FormField
@@ -20,12 +22,16 @@ export default function TagSelectFormField({
                 <FormItem>
                     <FormLabel>Теги</FormLabel>
                     <FormControl>
-                        <TagSelector
-                            selected={ form?.getValues('tags') }
-                            onTagsChange={ (items: string[]) =>
-                                form?.setValue('tags', items)
+                        <TagSelect
+                            defaultValues={ defaultValues }
+                            onValuesChange={ (tags: Tag[]) =>
+                                form?.setValue('tags', {
+                                    set: [],
+                                    connect: tags.map(({ id }) => ({ id }))
+                                })
                             }
                             disabled={ disabled }
+                            className="w-full"
                         />
                     </FormControl>
                     <FormMessage/>

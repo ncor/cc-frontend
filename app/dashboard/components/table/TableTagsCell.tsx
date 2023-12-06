@@ -4,24 +4,21 @@ import { Badge } from "@/components/ui/badge";
 import { TableCell } from "@/components/ui/table";
 import { Minus } from "lucide-react";
 import RevealExtraButton from "../RevealExtraButton";
+import { Tag } from "@/lib/models/tag/types";
+import TagBadge from "../../tags/components/TagBadge";
 
 
 export const MAX_VISIBLE_TAGS = 1;
 
 export interface TableTagsCellProps {
-    tags: string[]
+    tags: Tag[]
 }
 
 export default function TableTagsCell({
     tags
 }: TableTagsCellProps) {
-    const tagsList = (tags: string[]) => tags.map((tag, i) =>
-        <Badge
-            key={ i }
-            variant="secondary"
-        >
-            {tag}
-        </Badge>
+    const tagsList = (tags: Tag[]) => tags.map((tag, i) =>
+        <TagBadge key={ i } reference={ tag }/>
     );
 
     return <TableCell>

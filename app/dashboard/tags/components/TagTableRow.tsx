@@ -5,14 +5,14 @@ import TableUuidCell from "../../components/table/TableUuidCell";
 import TableUserCell from "../../components/table/TableUserCell";
 import TableScopeCell from "../../components/table/TableScopeCell";
 import TableDateCell from '../../components/table/TableDateCell';
-import { TagExtended } from "@/lib/models/tag/types";
 import TableActionsCell from "../../components/table/TableActionsCell";
 import TagActionsMenu from "./TagActionsMenu";
 import useVisibility from "@/app/hooks/visibility";
+import { Tag } from "@/lib/models/tag/types";
 
 
 export interface TagTableRowProps {
-    reference: TagExtended
+    reference: Tag<{ user: true }>
 }
 
 export default function TagTableRow({

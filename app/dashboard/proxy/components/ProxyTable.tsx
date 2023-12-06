@@ -7,7 +7,7 @@ import {
     TableHead,
     TableHeader,
 } from "@/components/ui/table";
-import { ProxyExtended } from "@/lib/models/proxy/types";
+import { Proxy } from "@/lib/models/proxy/types";
 import useProxies from "../hooks/data/proxy";
 import useUser from "../../users/hooks/user";
 import useTable from "@/app/hooks/table";
@@ -16,7 +16,6 @@ import TablePagination from "../../components/table/TablePagination";
 import ProxyModal from "./ProxyModal";
 import useTagSearch from "@/app/hooks/tag-search";
 import TagSearchField from "../../components/TagSearchField";
-import ScopeTabs from "../../components/ScopeTabs";
 import useScope from "@/app/hooks/scope";
 import TableCreateHead from "../../components/table/TableCreateHead";
 import ProxyTableRow from "./ProxyTableRow";
@@ -24,9 +23,10 @@ import TableStatusHead from "../../components/table/TableStatusHead";
 import FiltersWrapper from '../../components/FiltersWrapper';
 import useSearch from "@/app/hooks/search";
 import SearchField from "../../components/SearchField";
+import ScopeFilter from "../../components/ScopeFilter";
 
 
-export type ProxyTableRow = ProxyExtended;
+export type ProxyTableRow = Proxy<{ user: true, tags: true }>;
 
 export default function ProxyTable() {
     const user = useUser();
@@ -35,7 +35,7 @@ export default function ProxyTable() {
     const { find } = useProxies();
     const tagSearch = useTagSearch();
 
-    const { rows, isFetching, pagination } = useTable<ProxyExtended>({
+    const { rows, isFetching, pagination } = useTable<ProxyTableRow>({
         fetch: useCallback(async pagination => {
             const query = {
                 where: {
@@ -57,7 +57,7 @@ export default function ProxyTable() {
             <FiltersWrapper>
                 <SearchField provider={ search }/>
                 <TagSearchField provider={ tagSearch }/>
-                <ScopeTabs provider={ scope }/>
+                <ScopeFilter provider={ scope }/>
             </FiltersWrapper>
             <Table>
                 <TableHeader>

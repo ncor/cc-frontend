@@ -3,14 +3,14 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ModalProps } from "@/lib/client/types";
 import AccountForm from "./AccountForm";
-import { AccountExtended } from "@/lib/models/account/types";
+import { Account } from "@/lib/models/account/types";
 import UserChip from "../../users/components/UserChip";
 import { VisibilityInterface } from "@/app/hooks/visibility";
 
 
 export type AccountModalProps = ModalProps & {
     visibility: VisibilityInterface,
-    reference?: AccountExtended
+    reference?: Account<{ user: true, proxy: true, tags: true }>
 };
 
 export default function AccountModal({

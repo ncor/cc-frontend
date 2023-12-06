@@ -1,17 +1,18 @@
 'use client';
 
 import useTagSearch from "@/app/hooks/tag-search";
-import TagSelector from "../tags/components/TagSelector";
+import TagSelect, { TagSelectProps } from "../tags/components/TagSelect";
 
 
-export interface TagSearchFieldProps {
+export type TagSearchFieldProps = Omit<TagSelectProps, 'onValuesChange'> & {
     provider: ReturnType<typeof useTagSearch>
 }
 
 export default function TagSearchField({
-    provider
+    provider, ...props
 }: TagSearchFieldProps) {
-    return <TagSelector onTagsChange={(tags) =>
-        provider.setList(tags)
-    }/>;
+    return <TagSelect
+        onValuesChange={ tags => provider.setList(tags) }
+        { ...props }
+    />;
 }

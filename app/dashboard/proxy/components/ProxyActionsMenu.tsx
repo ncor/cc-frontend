@@ -1,7 +1,7 @@
 'use client';
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { ProxyExtended } from "@/lib/models/proxy/types";
+import { Proxy } from "@/lib/models/proxy/types";
 import { Edit2, Trash } from "lucide-react";
 import ProxyModal from "./ProxyModal";
 import ProxyDeleteModal from "./ProxyDeleteModal";
@@ -13,7 +13,7 @@ import useVisibility, { VisibilityInterface } from "@/app/hooks/visibility";
 
 export type ProxyActionsMenuProps = {
     visibility: VisibilityInterface,
-    reference: ProxyExtended
+    reference: Proxy<{ user: true, tags: true }>
 };
 
 export default function ProxyActionsMenu({

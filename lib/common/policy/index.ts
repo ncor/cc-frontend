@@ -20,7 +20,7 @@ export class Policy<T extends Protected> {
             : false;
     }
 
-    public validateInsert(resource: T, user: User) {
+    public validateInsert(resource: Omit<T, 'id'>, user: User) {
         if (resource?.is_public && !user.is_admin)
             throw NOT_PERMITTED_ERROR;
     }

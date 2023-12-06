@@ -4,7 +4,7 @@ import { createServerAction } from "@/lib/common/middlewares/server-action";
 import { UserAuth } from "../user/types";
 import { Prisma } from "@prisma/client";
 import { accountPolicy } from "./policy";
-import { Account, AccountExtended } from "./types";
+import { Account } from "./types";
 import { prisma } from "@/lib/prisma";
 import { verifyProxyUsagePermission } from "../proxy/policy";
 import { accountHealthCheck } from "./health-check";
@@ -34,7 +34,7 @@ export const createAccount = createServerAction(async (
         include: { proxy: true }
     });
 
-    accountHealthCheck.test(account as AccountExtended);
+    accountHealthCheck.test(account as Account<{ proxy: true }>);
 });
 
 
@@ -55,7 +55,7 @@ export const updateAccount = createServerAction(async (
         ...args, include: { proxy: true }
     });
 
-    accountHealthCheck.test(updateResponse as AccountExtended);
+    accountHealthCheck.test(updateResponse as Account<{ proxy: true }>);
 
     return updateResponse;
 });
@@ -67,7 +67,7 @@ export const findAccount = createServerAction(async (
 ) => {
     return accountPolicy.filterForbidden(
         RowActions.GET, await prisma.account.findMany(args), user
-    ) as AccountExtended[];
+    ) as Account<{ user: true, proxy: true, tags: true }>[];
 });
 
 

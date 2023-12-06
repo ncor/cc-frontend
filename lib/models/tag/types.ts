@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
+import { DefaultArgs } from "@prisma/client/runtime/library";
 
 
-export type Tag = Prisma.tagGetPayload<{}>;
-export type TagExtended =
-    Prisma.tagGetPayload<{ include: { user: true } }>;
+export type Tag<I extends Prisma.tagInclude<DefaultArgs>={}> =
+    Prisma.tagGetPayload<{ include: I }>;

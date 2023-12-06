@@ -14,7 +14,12 @@ export const createServerAction = <A extends Array<any>, R>(
         
             return { data: response };
         } catch(e) {
-            return { error: e as Error };
+            return {
+                error: {
+                    name: (e as Error).name,
+                    message: (e as Error).message
+                }
+            };
         }
     }
 }

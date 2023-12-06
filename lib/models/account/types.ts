@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
+import { DefaultArgs } from "@prisma/client/runtime/library";
 
 
-export type Account = Prisma.accountGetPayload<{}>;
-export type AccountExtended =
-    Prisma.accountGetPayload<{ include: { user: true, proxy: true } }>;
+export type Account<I extends Prisma.accountInclude<DefaultArgs>={}> =
+    Prisma.accountGetPayload<{ include: I }>;

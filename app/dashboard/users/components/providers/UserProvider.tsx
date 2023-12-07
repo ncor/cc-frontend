@@ -8,13 +8,13 @@ import { signOut } from "next-auth/react";
 
 export interface UserProviderProps {
     children: ReactNode,
-    defaultUser?: User
+    defaultUser: User | null
 }
 
 export default function UserProvider({
     defaultUser, children
 }: UserProviderProps) {
-    const [ user, setUser ] = useState<User | undefined>(defaultUser);
+    const [ user, setUser ] = useState<User | null>(defaultUser);
     
     if (!user) return signOut();
 

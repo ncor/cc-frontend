@@ -20,7 +20,7 @@ export default class HealthCheck<T extends Monitored> {
     ) {}
 
     private static _unpackStatusMap(map: Record<string, string>) {
-        return Object.values(map) as string[];
+        return Object.values(map);
     }
 
     public static isOkStatus(status: HealthCheckStatus) {

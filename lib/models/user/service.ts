@@ -18,12 +18,7 @@ export const verifyUserUpdateAccess = async (
 export const hashPassword = (password: string) =>
     bcrypt.hash(password, PASSWORD_HASHING_ROUNDS);
 
-export const refactorUserData = async (data: User) => {
-    if (data.name) data.name = data.name.trim();
-    if (data.password) data.password = await hashPassword(data.password);
-
-    return data;
-}
+export const formatUserName = (name: string) => name.trim();
 
 export const verifyUserNameAvailability = async (
     name: string, currentUserName?: string
@@ -33,13 +28,4 @@ export const verifyUserNameAvailability = async (
     const possibleUser = await prisma.user.findFirst({ where: { name } });
 
     if (possibleUser) throw USER_NAME_IS_BUSY_ERROR;
-}
-
-export const verifyUserDataUpsert = async(
-    data: User, currentUserName?: string
-) => {
-    data = await refactorUserData(data as User);
-    await verifyUserNameAvailability(data.name, currentUserName);
-
-    return data;
 }

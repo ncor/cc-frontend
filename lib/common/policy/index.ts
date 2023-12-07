@@ -20,8 +20,8 @@ export class Policy<T extends Protected> {
             : false;
     }
 
-    public validateInsert(resource: Omit<T, 'id'>, user: User) {
-        if (resource?.is_public && !user.is_admin)
+    public validateInsert(willBePublic: boolean, user: User) {
+        if (willBePublic && !user.is_admin)
             throw NOT_PERMITTED_ERROR;
     }
 
@@ -30,7 +30,9 @@ export class Policy<T extends Protected> {
             throw NOT_PERMITTED_ERROR;
     }
 
-    public filterForbidden(action: string, resources: T[], user: User) {
+    public filterForbidden<BatchItem extends T>(
+        action: string, resources: BatchItem[], user: User
+    ) {
         return resources.filter(resource =>
             this.isAllowed(action, resource, user)
         );

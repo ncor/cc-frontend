@@ -12,6 +12,9 @@ export default function useMode<T>(
         ]);
     }
 
+    /**
+     * "as" expression is needed for type inference.
+     */
     const reduceType = () => {
         return { value, set, rotate } as ReturnType<typeof useMode<unknown>>;
     }

@@ -2,11 +2,10 @@
 
 import { Prisma } from "@prisma/client";
 import { createServerAction } from "../../common/middlewares/server-action";
-import { User, UserAuth } from "./types";
-import { verifyUserDataUpsert, verifyUserUpdateAccess } from "./service";
+import { UserAuth } from "./types";
+import { formatUserName, hashPassword, verifyUserNameAvailability, verifyUserUpdateAccess } from "./service";
 import { prisma } from "../../prisma";
 import { NOT_PERMITTED_ERROR } from "../../common/policy/constants";
-import { USER_NOT_EXISTS_ERROR } from "./constants";
 
 
 export const createUser = createServerAction(async (
@@ -15,7 +14,10 @@ export const createUser = createServerAction(async (
 ) => {
     if (!user.is_admin) throw NOT_PERMITTED_ERROR;
 
-    args.data = await verifyUserDataUpsert(args.data as User);
+    await verifyUserNameAvailability(args.data.name);
+
+    args.data.name = formatUserName(args.data.name);
+    args.data.password = await hashPassword(args.data.password);
 
     return prisma.user.create(args);
 });
@@ -47,7 +49,16 @@ export const updateUser = createServerAction(async (
 
     await verifyUserUpdateAccess(user, targetUser);
 
-    args.data = await verifyUserDataUpsert(args.data as User, targetUser.name);
+    if (args.data.name)
+        await verifyUserNameAvailability(
+            args.data.name.toString(),
+            targetUser.name
+        );
+    
+    if (args.data.name && typeof args.data.name == 'string')
+        args.data.name = formatUserName(args.data.name);
+    if (args.data.password && typeof args.data.password == 'string')
+        args.data.password = await hashPassword(args.data.password);
 
     return prisma.user.update(args);
 });

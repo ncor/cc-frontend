@@ -4,7 +4,6 @@ import { prisma } from "../../prisma";
 import { createServerAction } from "../../common/middlewares/server-action";
 import { Prisma } from "@prisma/client";
 import { proxyPolicy } from "./policy";
-import { Proxy } from "./types";
 import { UserAuth } from "../user/types";
 import { RowActions } from "../../common/types";
 import { proxyHealthCheck } from "./health-check";
@@ -14,7 +13,7 @@ export const createProxy = createServerAction(async (
     user: UserAuth,
     args: Prisma.proxyCreateArgs
 ) => {
-    await proxyPolicy.validateInsert(args.data as Proxy, user);
+    await proxyPolicy.validateInsert(args.data.is_public, user);
 
     const proxy = await prisma.proxy.create({
         // @todo: resolve next time
@@ -22,7 +21,7 @@ export const createProxy = createServerAction(async (
         data: { ...args.data, owner_id: user.id }
     });
 
-    proxyHealthCheck.test(proxy as Proxy);
+    proxyHealthCheck.test(proxy);
 });
 
 
@@ -38,7 +37,7 @@ export const updateProxy = createServerAction(async (
 
     const updateResponse = await prisma.proxy.update(args);
 
-    proxyHealthCheck.test(updateResponse as Proxy);
+    proxyHealthCheck.test(updateResponse);
     
     return updateResponse;
 });
@@ -50,7 +49,7 @@ export const findProxy = createServerAction(async (
 ) => {
     return proxyPolicy.filterForbidden(
         RowActions.GET, await prisma.proxy.findMany(args), user
-    ) as Proxy<{ user: true, tags: true }>[];
+    );
 });
 
 

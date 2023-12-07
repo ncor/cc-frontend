@@ -4,7 +4,7 @@ import { prisma } from "../../prisma";
 import { createServerAction } from "../../common/middlewares/server-action";
 import { Prisma } from "@prisma/client";
 import { tagPolicy } from "./policy";
-import { Tag, TagExtended } from "./types";
+import { Tag } from "./types";
 import { UserAuth } from "../user/types";
 import { RowActions } from "../../common/types";
 
@@ -13,7 +13,7 @@ export const createTag = createServerAction(async (
     user: UserAuth,
     args: Prisma.tagCreateArgs
 ) => {
-    await tagPolicy.validateInsert(args.data as Tag, user);
+    await tagPolicy.validateInsert(args.data.is_public, user);
 
     return prisma.tag.createMany({
         data: { ...args.data, owner_id: user.id }
@@ -27,7 +27,7 @@ export const findTag = createServerAction(async (
 ) => {
     return tagPolicy.filterForbidden(
         RowActions.GET, await prisma.tag.findMany(args), user
-    ) as TagExtended[];
+    );
 });
 
 

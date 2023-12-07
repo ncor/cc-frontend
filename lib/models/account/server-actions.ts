@@ -7,7 +7,7 @@ import { accountPolicy } from "./policy";
 import { Account } from "./types";
 import { prisma } from "@/lib/prisma";
 import { verifyProxyUsagePermission } from "../proxy/policy";
-import { accountHealthCheck } from "./health-check";
+import { accountHealthCheck, queueAccountHealthCheck } from "./health-check";
 import { RowActions } from "@/lib/common/types";
 
 
@@ -17,24 +17,23 @@ const resolveProxy = async (id: number | undefined, user: UserAuth) => {
     });
 
     await verifyProxyUsagePermission(proxy, user);
+
+    return proxy;
 }
 
 export const createAccount = createServerAction(async (
     user: UserAuth,
     args: Prisma.accountCreateArgs
 ) => {
-    await accountPolicy.validateInsert(args.data as Account, user);
+    await accountPolicy.validateInsert(args.data.is_public, user);
 
     await resolveProxy(args.data.proxy_id, user);
 
-    const account = await prisma.account.create({
-        // @todo: resolve next time
-        // @ts-ignore
-        data: { ...args.data, owner_id: user.id },
-        include: { proxy: true }
-    });
+    const createResponse = await prisma.account.create(args);
 
-    accountHealthCheck.test(account as Account<{ proxy: true }>);
+    queueAccountHealthCheck(createResponse.id);
+
+    return createResponse;
 });
 
 
@@ -49,13 +48,14 @@ export const updateAccount = createServerAction(async (
 
     await accountPolicy.verifyAction(RowActions.UPDATE, account, user);
     
-    await resolveProxy(args.data.proxy_id as number, user);
+    if (args.data.proxy_id && typeof args.data.proxy_id == 'number')
+        await resolveProxy(args.data.proxy_id, user);
 
     const updateResponse = await prisma.account.update({
         ...args, include: { proxy: true }
     });
 
-    accountHealthCheck.test(updateResponse as Account<{ proxy: true }>);
+    accountHealthCheck.test(updateResponse);
 
     return updateResponse;
 });
@@ -67,7 +67,7 @@ export const findAccount = createServerAction(async (
 ) => {
     return accountPolicy.filterForbidden(
         RowActions.GET, await prisma.account.findMany(args), user
-    ) as Account<{ user: true, proxy: true, tags: true }>[];
+    );
 });
 
 
